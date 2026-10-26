@@ -45,7 +45,7 @@
   background-blend-mode: screen, soft-light, normal; }
 
 /* Holographic sheen over a cut-out photo: same box as the <img>, masked by the same PNG. */
-.y2k-holo-sheen { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; opacity: .75;
+.y2k-holo-sheen { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: color; opacity: .38;
   background: var(--y2k-holo);
   -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat; }
 

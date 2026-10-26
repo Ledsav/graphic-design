@@ -10,14 +10,15 @@
   .abs { position: absolute; }
 
   /* Halo: centre (740, 640), outer radius 470, bleeding off the right edge. */
-  .halo-svg { left: 0; top: 0; z-index: 2; overflow: visible; }
-  .window   { left: 340px; top: 240px; width: 800px; height: 800px; z-index: 3; }
-  .window img { position: absolute; left: -335px; top: -95px; width: 1350px; }
+  .halo-svg { left: 0; top: 0; z-index: 3; overflow: visible; }
+  .window   { left: 340px; top: 240px; width: 800px; height: 800px; z-index: 4; }
+  .window img { position: absolute; left: -215px; top: -95px; width: 1350px; transform: scaleX(-1); }  /* flipped: the cat looks up at the title */
 
-  .felin  { left: 60px; top: 1010px; width: 960px; z-index: 1; }
+  .felin  { left: 52px; top: 1006px; width: 978px; z-index: 2; }
+  .felin.front { z-index: 5; }   /* same box, only the i: it steps in front of the halo while l and n tuck behind */
   .salon  { left: 52px; top: 120px; width: 400px; z-index: 6; transform: rotate(-16deg); transform-origin: left bottom; }
-  .ring   { left: 0; top: 0; z-index: 4; overflow: visible; }
-  .stems  { left: 0; top: 0; z-index: 5; overflow: visible; }
+  .ring   { left: 0; top: 0; z-index: 5; overflow: visible; }
+  .stems  { left: 0; top: 0; z-index: 1; overflow: visible; }
 
   .when   { left: var(--margin); bottom: 52px; z-index: 6; }
   .when b { display: block; font: 400 52px/1 var(--display); letter-spacing: .01em; }
@@ -32,7 +33,7 @@
          ink the borders between tones and the silhouette in umber. Input: a greyscale cut-out with levels set
          (treat.py duotone ... --colors '#000000,#ffffff'). Each tableValues list has 10 steps of 0.1 luminance. -->
     <filter id="nv-tones" color-interpolation-filters="sRGB" x="-2%" y="-2%" width="104%" height="104%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="soft"/>                       <!-- 3-6: bigger = flatter shapes -->
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="soft"/>                       <!-- 4-9: bigger = flatter shapes -->
       <feColorMatrix in="soft" type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0" result="lum"/>
       <feComponentTransfer in="lum" result="lev"><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer>
       <feComponentTransfer in="lev" result="tones">                                              <!-- U U S S O O O O C C -->
@@ -68,6 +69,7 @@
 
   <!-- Display word behind the halo: its ascenders tuck under the ring. -->
   <img class="abs felin" src="assets/title-felin.svg" alt="Félin">
+  <img class="abs felin front" src="assets/title-felin-front.svg" alt="">
 
   <!-- Halo bands: ochre band with cream beads, rose inner band, umber keylines. -->
   <svg class="abs halo-svg" width="1080" height="1527" viewBox="0 0 1080 1527" aria-hidden="true">
@@ -83,16 +85,18 @@
   <svg class="abs ring" width="1080" height="1527" viewBox="0 0 1080 1527">
     <path id="ringpath" d="M235 640 a505 505 0 1 1 1010 0 a505 505 0 1 1 -1010 0" fill="none"/>
     <text class="nv-caps" font-family="Cormorant Garamond" font-weight="700" font-size="21" letter-spacing="3.4" fill="#3b2a20">
-      <textPath href="#ringpath" startOffset="560">Trente-deuxième exposition · Société féline de Valrose</textPath>
+      <textPath href="#ringpath" startOffset="515">Trente-deuxième exposition féline</textPath>
     </text>
   </svg>
 
-  <!-- Whiplash stems with catnip leaves, drawn here and leafed by the script below. -->
+  <!-- Whiplash stems: guide paths (not painted) that the script turns into tapered umber stems with catnip leaves and flower spikes. -->
   <svg class="abs stems" width="1080" height="1527" viewBox="0 0 1080 1527" aria-hidden="true">
-    <g fill="none" stroke="#3b2a20" stroke-linecap="round">
-      <path id="stem1" d="M150 1160 C 120 1060, 40 1000, 70 880 C 100 760, 230 740, 220 620 C 210 500, 90 500, 95 430 C 100 360, 175 350, 178 400 C 180 430, 150 440, 140 420" stroke-width="9"/>
-    </g>
+    <path id="stem1" d="M205 1130 C 140 1010, 90 960, 112 840 C 135 720, 258 700, 238 560 C 222 440, 70 450, 80 340 C 88 270, 160 255, 165 300 C 168 330, 140 340, 128 320" fill="none"/>
+    <path id="stem2" d="M238 560 C 300 520, 300 470, 268 420 C 250 392, 252 360, 270 340" fill="none"/>
+    <path id="stem3" d="M112 840 C 62 790, 76 720, 124 700" fill="none"/>
+    <g id="stalks" fill="#3b2a20"></g>
     <g id="leaves"></g>
+    <g id="florets"></g>
   </svg>
 
   <img class="abs salon" src="assets/title-salon.svg" alt="Salon">
@@ -102,6 +106,7 @@
     <span class="nv-caps">Palmarium de Valrose</span>
   </div>
   <div class="abs where nv-text">
+    <span class="nv-caps">Société féline de Valrose</span><br>
     Allée des Tilleuls · 10 h – 19 h<br>
     Entrée 6 € · salonfelin.example
   </div>
@@ -122,21 +127,54 @@
     if (!(i % 2)) { c.setAttribute('stroke', '#3b2a20'); c.setAttribute('stroke-width', 3); }
     beads.appendChild(c);
   }
-  const leaves = document.getElementById('leaves');
+  const at = (p, d) => { const a = p.getPointAtLength(d), b = p.getPointAtLength(d + 1); return [a.x, a.y, Math.atan2(b.y - a.y, b.x - a.x)]; };
+
+  // A stroke that thins from w0 to w1 along the path: the whiplash line of a lithograph.
+  function taper(id, w0, w1) {
+    const p = document.getElementById(id), L = p.getTotalLength(), left = [], right = [];
+    for (let i = 0; i <= 160; i++) {
+      const d = L * i / 160, [x, y, a] = at(p, Math.min(d, L - 1)), w = (w0 + (w1 - w0) * Math.pow(i / 160, .8)) / 2;
+      left.push(`${(x - Math.sin(a) * w).toFixed(1)},${(y + Math.cos(a) * w).toFixed(1)}`);
+      right.unshift(`${(x + Math.sin(a) * w).toFixed(1)},${(y - Math.cos(a) * w).toFixed(1)}`);
+    }
+    const e = document.createElementNS(NS, 'path');
+    e.setAttribute('d', `M${left.join('L')}L${right.join('L')}Z`);
+    e.setAttribute('stroke', '#3b2a20'); e.setAttribute('stroke-width', 1.5); e.setAttribute('stroke-linejoin', 'round');
+    document.getElementById('stalks').appendChild(e);
+  }
+  // Opposite leaf pairs (catnip), shrinking towards the tip.
   function leafPairs(id, stops) {
     const p = document.getElementById(id), L = p.getTotalLength();
-    for (const [t, size, flip] of stops) {
-      const a = p.getPointAtLength(L * t), b = p.getPointAtLength(L * t + 2);
-      const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
-      for (const side of flip ? [1] : [1, -1]) {
+    for (const [t, size, sides = [1, -1]] of stops) {
+      const [x, y, a] = at(p, L * t), ang = a * 180 / Math.PI;
+      for (const side of sides) {
         const u = document.createElementNS(NS, 'use');
         u.setAttribute('href', '#leaf'); u.setAttribute('width', 100); u.setAttribute('height', 80);
-        u.setAttribute('transform', `translate(${a.x} ${a.y}) rotate(${ang + side * 58}) scale(${size}) translate(6 -40)`);
-        leaves.appendChild(u);
+        u.setAttribute('transform', `translate(${x} ${y}) rotate(${ang + side * 55}) scale(${size}) translate(6 -40)`);
+        document.getElementById('leaves').appendChild(u);
       }
     }
   }
-  leafPairs('stem1', [[.1, 1.1], [.24, 1], [.4, .9], [.56, .8], [.7, .65], [.8, .5]]);
+  // A flower spike: florets in alternating pairs along the end of a stem.
+  function spike(id, from, n) {
+    const p = document.getElementById(id), L = p.getTotalLength();
+    for (let i = 0; i < n; i++) {
+      const t = from + (1 - from) * i / (n - 1), [x, y, a] = at(p, Math.min(L * t, L - 1)), s = 1 - i / n * .55;
+      for (const side of i === n - 1 ? [0] : [1, -1]) {
+        const e = document.createElementNS(NS, 'ellipse'), off = 13 * s * side;
+        e.setAttribute('cx', x - Math.sin(a) * off); e.setAttribute('cy', y + Math.cos(a) * off);
+        e.setAttribute('rx', 13 * s); e.setAttribute('ry', 8 * s);
+        e.setAttribute('transform', `rotate(${a * 180 / Math.PI + side * 40} ${x - Math.sin(a) * off} ${y + Math.cos(a) * off})`);
+        e.setAttribute('fill', i % 2 ? '#efe4cb' : '#cf968a'); e.setAttribute('stroke', '#3b2a20'); e.setAttribute('stroke-width', 3);
+        document.getElementById('florets').appendChild(e);
+      }
+    }
+  }
+  taper('stem1', 16, 4); taper('stem2', 7, 3); taper('stem3', 6, 3);
+  leafPairs('stem1', [[.05, 1.1], [.17, .95], [.3, .95], [.43, .85], [.56, .7], [.66, .55]]);
+  leafPairs('stem3', [[.55, .6, [-1]]]);
+  spike('stem2', .45, 9);
+  spike('stem3', .7, 4);
 </script>
 </body>
 </html>

@@ -12,7 +12,9 @@
   .field { position: absolute; inset: -80px; z-index: 1; --cx: 603px; --cy: 876px; }
 
   /* 2. Giant crop: the face bleeds off the top and left; the cut-out's chin edge hides under the grin. */
-  .cat { position: absolute; left: -410px; top: -40px; width: 1600px; z-index: 2; }
+  .face { position: absolute; inset: 0; z-index: 2;
+    clip-path: path('M0 0H1080V1527H205L205 942L180 930L155 917L130 903L105 888L80 871L55 853L30 834L5 813L0 808Z'); }
+  .cat { position: absolute; left: -410px; top: -40px; width: 1600px; }
 
   /* 3. Hypnotic iris drawn over the photo's eye: rays in the second pair, slit pupil. */
   .iris { position: absolute; z-index: 3; border-radius: 50%; --cx: 50%; --cy: 50%; border: 11px solid var(--ink); }
@@ -21,7 +23,7 @@
   .iris::after { content: ""; position: absolute; left: 50%; top: 50%; width: 16%; height: 66%; transform: translate(-50%, -50%);
     border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 6px var(--cream); }
 
-  /* 4. The grin: the title bent into a smile under the eye. */
+  /* 4. The grin: the title bent into a smile under the nose (lettering.cjs --warp arch --amount -.3). */
   .title { position: absolute; left: 7px; top: 930px; width: 1066px; z-index: 4; }
 
   /* 5. Date badge: a scalloped flower in the free corner of the field. */
@@ -48,6 +50,10 @@
   .band.left { left: 30px; transform: translate(-50%, -50%) rotate(-90deg); transform-origin: 50% 50%; }
   .band.right { right: 30px; transform: translate(50%, -50%) rotate(90deg); transform-origin: 50% 50%; }
   .band b { font-weight: 400; color: var(--orange); }
+  .stars { position: absolute; inset: 0; z-index: 7; width: 100%; height: 100%; }
+
+  /* 7. Print: paper under multiply, then grain. */
+  .paper { z-index: 80; background-image: url(assets/paper.png); mix-blend-mode: multiply; opacity: .7; }
 </style>
 </head>
 <body>
@@ -56,7 +62,7 @@
     <!-- Posterize to the palette: blur, take luminance, map 4 bands to 4 inks (dark to light:
          ink #2a0b3d, magenta #e8178a, orange #ff5e1a, cream #ffeec2), then cut a crisp, smoothed edge. -->
     <filter id="psy-poster" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="soft"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="soft"/>
       <feColorMatrix in="soft" type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 0 1" result="lum"/>
       <feComponentTransfer in="lum" result="flat">
         <feFuncR type="discrete" tableValues=".165 .910 1 1"/>
@@ -78,7 +84,7 @@
 
 <section class="artboard" data-name="poster">
   <div class="field psy-rings psy-melt"></div>
-  <img class="cat psy-poster" src="assets/cat-grey.png" alt="">
+  <div class="face"><img class="cat psy-poster" src="assets/cat-grey.png" alt=""></div>
   <div class="iris l psy-rays"></div>
   <div class="iris r psy-rays"></div>
   <img class="title" src="assets/nine-lives.svg" alt="Nine Lives">
@@ -97,10 +103,16 @@
   <p class="band left psy-label"><b>Fri 5</b> · The Apricot Tide · Lantern Moth · Saffron Freeway · Quiet Ocelot</p>
   <p class="band right psy-label"><b>Sat 6</b> · Mirror Pond · Honeycomb Kites · Gentle Riot · Velvet Compass · Owl &amp; Ember</p>
 
+  <svg class="stars" viewBox="0 0 1080 1527" aria-hidden="true">
+    <path id="star" fill="#ffeec2" d="M0.0 -15.0L2.1 -5.1L10.6 -10.6L5.1 -2.1L15.0 0.0L5.1 2.1L10.6 10.6L2.1 5.1L0.0 15.0L-2.1 5.1L-10.6 10.6L-5.1 2.1L-15.0 0.0L-5.1 -2.1L-10.6 -10.6L-2.1 -5.1Z" transform="translate(30 40)"/>
+    <use href="#star" x="1020"/><use href="#star" y="1440"/><use href="#star" x="1020" y="1440"/>
+  </svg>
+
+  <div class="overlay paper"></div>
   <div class="grain"></div>
 </section>
 <script>
-  // Scalloped flower for the badge: 18 round petals on a circle (deterministic).
+  // Scalloped flower for the badge: 16 round petals on a circle (deterministic).
   const n = 16, cx = 135, cy = 135, R = 114, r = R * Math.sin(Math.PI / n) * 1.25;
   let d = '';
   for (let k = 0; k <= n; k++) {

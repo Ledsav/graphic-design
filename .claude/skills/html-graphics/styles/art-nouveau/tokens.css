@@ -11,7 +11,7 @@
   --sienna: #9c5a3c;      /* subject shadow tone only */
   --display: "Federant", serif;
   --text: "Cormorant Garamond", serif;
-  --grain: .2;
+  --grain: .14;
   --grain-blend: multiply;
 
   --line: 6px;            /* contour weight on a 1080 px artboard (4-10 px) */
@@ -42,4 +42,4 @@
 .nv-tones   { filter: url(#nv-tones); }
 
 /* Litho paper: treat.py texture paper, multiplied over everything below the grain. */
-.nv-paper   { mix-blend-mode: multiply; opacity: .85; z-index: 80; }
+.nv-paper   { mix-blend-mode: multiply; opacity: .55; z-index: 80; }
