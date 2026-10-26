@@ -6,13 +6,14 @@
 <link rel="stylesheet" href="../../.claude/skills/html-graphics/styles/_base.css">
 <link rel="stylesheet" href="../../.claude/skills/html-graphics/styles/riso-two-ink/tokens.css">
 <style>
-  /* Riso two-ink on cream: red + slate; where both print you get the dark maroon.
-     Flat colours below are what each ink mix looks like on the paper, so treat.py riso can separate them. */
+  /* Riso two-ink on cream: red + midnight; where both print you get a near-black.
+     Flat colours below are what each ink mix looks like on the paper, so treat.py riso can separate them.
+     Text in --both is 6.2:1 on the grey and 3.2:1 on the red (large type only there). */
   :root {
     --paper: #ece6d8;
-    --slate-bg: #646670;   /* slate ink at ~92% */
-    --red: #bb432d;        /* red ink */
-    --both: #41140d;       /* red over slate */
+    --slate-bg: #919295;   /* midnight ink #24304f at 45% */
+    --red: #b7341e;        /* red ink #c63a24 */
+    --both: #1a0a09;       /* red over midnight */
     --display: "UnifrakturMaguntia", serif;
     --text: "Unbounded", sans-serif;
   }
@@ -20,24 +21,25 @@
 
   .blobs { position: absolute; inset: 0; filter: url(#wobble); }
   .blob { position: absolute; background: var(--red); }
-  .b1 { left: 90px; top: 780px; width: 920px; height: 840px; border-radius: 62% 38% 55% 45% / 38% 58% 42% 62%; transform: rotate(-8deg); }
+  .b1 { left: 90px; top: 740px; width: 920px; height: 840px; border-radius: 62% 38% 55% 45% / 38% 58% 42% 62%; transform: rotate(-8deg); }
   .b2 { right: -230px; top: 60px; width: 520px; height: 560px; border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%; }
   .b3 { left: -200px; top: 330px; width: 420px; height: 420px; border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%; }
 
   /* The engraving, inverted into ink: dark figure and flames, blood in red. Fades out above the details. */
   .fig { position: absolute; left: 0; top: 20px; width: 1080px;
-    -webkit-mask: linear-gradient(#000 64%, transparent 79%); mask: linear-gradient(#000 64%, transparent 79%); }
+    -webkit-mask: linear-gradient(#000 61%, rgb(0 0 0 / .3) 66%, transparent 71%); mask: linear-gradient(#000 61%, rgb(0 0 0 / .3) 66%, transparent 71%); }
   .title { position: absolute; left: 48px; top: 150px; width: 984px; filter: url(#rough); }
 
   .kicker { position: absolute; left: 64px; top: 70px; font: 700 26px/1 var(--text); letter-spacing: .04em; }
   .side { position: absolute; top: 760px; height: 640px; writing-mode: vertical-rl; text-align: center; font: 700 44px/1 var(--text); letter-spacing: .02em; }
   .side.l { left: 60px; transform: rotate(180deg); } .side.r { right: 60px; }
 
-  .details { position: absolute; left: 64px; right: 64px; bottom: 70px; }
+  .details { position: absolute; left: 64px; right: 64px; bottom: 62px; }
   .when { display: flex; align-items: flex-end; gap: 28px; padding-bottom: 22px; border-bottom: 5px solid var(--red); }
   .when .date { font: 900 168px/.8 var(--text); letter-spacing: -.04em; }
-  .when .meta { font: 700 30px/1.25 var(--text); padding-bottom: 6px; }
-  .notes { margin-top: 22px; font: 500 30px/1.4 var(--text); }
+  .when .meta { font: 700 34px/1.25 var(--text); padding-bottom: 4px; }
+  .where { margin-top: 22px; font: 800 44px/1 var(--text); letter-spacing: -.01em; }
+  .notes { margin-top: 18px; font: 500 30px/1.4 var(--text); }
 </style>
 </head>
 <body>
@@ -152,7 +154,8 @@
   <p class="kicker">YOU ARE INVITED</p>
   <p class="side l">PRIVATE PARTY</p><p class="side r">INVITATION ONLY</p>
   <div class="details">
-    <div class="when"><span class="date">31.10</span><span class="meta">SATURDAY<br>RUE ROBERT STUMPER</span></div>
+    <div class="when"><span class="date">31.10</span><span class="meta">SATURDAY<br>FROM 20:00</span></div>
+    <p class="where">RUE ROBERT STUMPER 16</p>
     <p class="notes">BRING SOMETHING TO DRINK &amp; SHARE<br>COSTUME NOT NEEDED, BUT APPRECIATED</p>
   </div>
 </section>

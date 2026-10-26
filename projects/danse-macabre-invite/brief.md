@@ -1,10 +1,11 @@
 # Danse Macabre: private party invite
 
-- Event: private party, Saturday 31 October 2026, Rue Robert Stumper
+- Event: private party, Saturday 31 October 2026, from 20:00, Rue Robert Stumper 16
 - Notes for guests: bring something to drink and share; costume not needed but appreciated
 - Must read as private and invitation-only; not obviously Halloween (no "Halloween" wording)
 - Format: 1080 x 1920 phone story (WhatsApp / Instagram)
-- Look: two-ink riso (red + slate on cream) after the user's reference; blackletter title chosen from thumbnails
+- Look: two-ink riso (red + midnight on cream) after the user's reference; blackletter title chosen from thumbnails
+- Contrast: midnight ink `#24304f` as a 45% tint for the grey; text prints in both inks (near-black), 6.2:1 on the grey, 3.2:1 on the red (large type only)
 - Image: the client's engraving (burning eyes), inverted into ink layers
 
 ## Files
@@ -14,4 +15,4 @@
 
 ## Rebuild
 node .claude/skills/html-graphics/scripts/render.cjs projects/danse-macabre-invite/invite.html
-python3 .claude/skills/html-graphics/scripts/treat.py riso projects/danse-macabre-invite/export/invite-invite.png -o projects/danse-macabre-invite/danse-macabre-invite.png --inks '#c63a24,#5b6070' --paper '#ece6d8' --grain .75 --offset 5,-4
+python3 .claude/skills/html-graphics/scripts/treat.py riso projects/danse-macabre-invite/export/invite-invite.png -o projects/danse-macabre-invite/danse-macabre-invite.png --inks '#c63a24,#24304f' --paper '#ece6d8' --grain .45 --offset 3,-2 --uneven .06

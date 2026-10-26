@@ -193,13 +193,26 @@ def cmd_riso(a):
         d = 1 - gray(img, a.levels, a.gamma)
         cov = [d, np.clip((d - 0.45) / 0.55, 0, 1)]
     else:
-        # Unmix each pixel into the two inks in optical density, where overprinting inks add
-        # (in reflectance they multiply), so the two-ink overprint separates into 100% + 100%.
+        # Unmix each pixel into ink coverages ca, cb that print it: paper * (1 - ca(1-A)) * (1 - cb(1-B)).
+        # Start in optical density, where overprinting inks add (100% + 100% separates exactly),
+        # convert to area coverage, then refine with a few Gauss-Newton steps so tints keep their tone.
         dens = lambda c: -np.log(np.clip(c, 1 / 255, 1))
+        target = src / np.maximum(paper, 1 / 255)
         m = np.stack([dens(ink_a), dens(ink_b)], axis=1)              # 3x2
         pinv = np.linalg.pinv(m)                                      # 2x3
-        cov_ab = np.einsum("ij,hwj->hwi", pinv, dens(src / np.maximum(paper, 1 / 255)))
-        cov = [np.clip(cov_ab[..., 0], 0, 1), np.clip(cov_ab[..., 1], 0, 1)]
+        d_ab = np.clip(np.einsum("ij,hwj->hwi", pinv, dens(target)), 0, 1)
+        ka, kb = 1 - ink_a, 1 - ink_b
+        ca = (1 - ink_a ** d_ab[..., :1]).sum(-1) / max(ka.sum(), 1e-3)
+        cb = (1 - ink_b ** d_ab[..., 1:]).sum(-1) / max(kb.sum(), 1e-3)
+        for _ in range(4):
+            ta, tb = 1 - ca[..., None] * ka, 1 - cb[..., None] * kb
+            r, ja, jb = ta * tb - target, -ka * tb, -kb * ta
+            a11, a12, a22 = (ja * ja).sum(-1) + 1e-4, (ja * jb).sum(-1), (jb * jb).sum(-1) + 1e-4
+            g1, g2 = (ja * r).sum(-1), (jb * r).sum(-1)
+            det = a11 * a22 - a12 * a12
+            ca = np.clip(ca - (a22 * g1 - a12 * g2) / det, 0, 1)
+            cb = np.clip(cb - (a11 * g2 - a12 * g1) / det, 0, 1)
+        cov = [ca, cb]
     # Misregister ink 2 before graining, repeating edge values (no wrap-around, no streaks at the edge).
     dx, dy = a.offset
     padded = np.pad(cov[1], ((max(dy, 0), max(-dy, 0)), (max(dx, 0), max(-dx, 0))), mode="edge")
