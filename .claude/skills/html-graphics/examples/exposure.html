@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Exposure</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&display=block" rel="stylesheet">
+<style>
+  :root {
+    --bg: #e7e2d6;
+    --ink: #141414;
+    --display: "Bodoni Moda", serif;
+    --text: "Crimson Pro", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+
+  .artboard {
+    position: relative; overflow: hidden; isolation: isolate;
+    width: 1080px; height: 1920px; --safe: 44px;
+    background: var(--bg); color: var(--ink); font-family: var(--text);
+  }
+
+  .corner { position: absolute; font: 600 30px/1 var(--text); letter-spacing: .06em; text-transform: uppercase; z-index: 5; }
+  .tl { left: 48px; top: 48px; } .tr { right: 48px; top: 48px; }
+  .bl { left: 48px; bottom: 48px; } .br { right: 48px; bottom: 48px; }
+
+  .rule { position: absolute; left: 44px; right: 44px; border-top: 7px double var(--ink); opacity: .85; z-index: 5; }
+  .title {
+    position: absolute; left: 44px; right: 44px; top: 112px; z-index: 5;
+    font: 500 260px/1 var(--display); font-variation-settings: "opsz" 96;
+    white-space: nowrap; text-align: center; letter-spacing: -.01em;
+  }
+
+  .subject { position: absolute; left: -150px; bottom: -30px; width: 1380px; z-index: 3; }
+  .orbit { position: absolute; left: -233px; top: 1172px; width: 1200px; height: 520px; overflow: visible; z-index: 2; }
+  .orbit.front { z-index: 4; clip-path: inset(50% -10% -10% -10%); }
+  .orbit ellipse { fill: none; stroke: var(--ink); stroke-width: 2.5; }
+  .orbit .halo ellipse { stroke: var(--bg); stroke-width: 9; }
+
+  .ring { position: absolute; left: 201px; top: 713px; width: 520px; height: 520px; z-index: 4; }
+
+  .box { position: absolute; border: 2px solid var(--ink); padding: 22px 24px; text-align: center; z-index: 5; }
+  .box h3 { font: 500 52px/1 var(--display); letter-spacing: -.01em; }
+  .box p { font: 600 19px/1.25 var(--text); text-transform: uppercase; margin: 14px 0; }
+  .box .big { font: 500 46px/1 var(--display); letter-spacing: .08em; }
+  .b1 { right: 44px; top: 400px; width: 330px; }
+  .b2 { right: 44px; bottom: 110px; width: 370px; text-align: left; padding: 26px 28px; }
+  .b2 q { font: 500 38px/1.2 var(--text); letter-spacing: .05em; text-transform: uppercase; quotes: "“" "”"; }
+
+  .folds { position: absolute; inset: 0; background: url(assets/folds-story.png) 0 0 / 100% 100%; mix-blend-mode: soft-light; z-index: 8; pointer-events: none; }
+  .dust { position: absolute; inset: 0; background: url(assets/dust-story.png) 0 0 / 100% 100%; opacity: .6; z-index: 9; pointer-events: none; }
+  .grain { position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: overlay; opacity: .45; z-index: 10; pointer-events: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- Rough edges: hand-cut, linocut, stamped. scale = wobble in px; baseFrequency = jaggedness. -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Wobbly drawn line: silhouettes and doodles that look hand-drawn. -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Worn print: clumps of ink knocked out. Last matrix number sets the wear: 8.4 = about 9% of the ink, 7.6 = 5%. -->
+    <filter id="distress" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="4" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -24 0 0 0 8.4" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Riso / screen-print speckle: fine grain inside flat ink. 9.8 = about 6% speckle, 11.4 = 13%. -->
+    <filter id="speckle" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 9.8" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Ink bleed: letterpress / photocopied type with swollen, rounded corners. -->
+    <filter id="ink-bleed" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b"/>
+      <feComponentTransfer in="b">
+        <feFuncA type="linear" slope="7" intercept="-2.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Sticker / die-cut border around anything with transparency (cut-out photos, type). -->
+    <filter id="sticker" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="b"/>          <!-- border width ~ 2 x stdDeviation -->
+      <feComponentTransfer in="b" result="grown"><feFuncA type="linear" slope="40" intercept="-1"/></feComponentTransfer>
+      <feFlood flood-color="#ffffff"/>
+      <feComposite in2="grown" operator="in" result="border"/>
+      <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Hard black and white (photocopy / threshold). Move the intercept to shift the cut point. -->
+    <filter id="threshold" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="12" intercept="-5.6"/>
+        <feFuncG type="linear" slope="12" intercept="-5.6"/>
+        <feFuncB type="linear" slope="12" intercept="-5.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Duotone: shadows -> first table value, highlights -> second (per channel, 0..1).
+         This one maps black to #121212 and white to #f2e600. -->
+    <filter id="duotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>                                                   <!-- contrast: raise slope for punchier -->
+        <feFuncR type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncG type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncB type="linear" slope="1.5" intercept="-0.25"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.07 0.95"/>
+        <feFuncG type="table" tableValues="0.07 0.90"/>
+        <feFuncB type="table" tableValues="0.07 0.00"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Posterize to 4 tones per channel (screen-print, pop art). -->
+    <filter id="posterize" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncG type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncB type="discrete" tableValues="0 .33 .66 1"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Misregistration: a second ink printed slightly off (riso, screen print). Set the flood colour. -->
+    <filter id="misregister" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feOffset in="SourceAlpha" dx="5" dy="-4" result="o"/>
+      <feFlood flood-color="#3d5a80"/>
+      <feComposite in2="o" operator="in" result="second"/>
+      <feBlend in="SourceGraphic" in2="second" mode="multiply"/>
+    </filter>
+
+    <!-- Neon glow: tight core plus wide bloom in the element's own colour. -->
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="g1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="g2"/>
+      <feMerge><feMergeNode in="g2"/><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Torn edge for a solid block (paper scrap, photo strip). Heavier than rough. -->
+    <filter id="torn" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="4" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+  </defs>
+</svg>
+<section class="artboard" data-name="story">
+  <span class="corner tl">Silver</span><span class="corner tr">Salts</span>
+  <div class="rule" style="top: 96px"></div>
+  <h1 class="title" data-fit>EXPOSURE</h1>
+  <div class="rule" style="top: 322px"></div>
+
+  <div class="box b1">
+    <h3>WE DEVELOP</h3>
+    <p>What the light touched, the paper keeps. A zine about cameras, chemistry and patience.</p>
+    <div class="big">IN THE<br>DARK</div>
+  </div>
+
+  <svg class="orbit back" viewBox="0 0 1200 520"><ellipse cx="600" cy="260" rx="560" ry="150" transform="rotate(-11 600 260)"/><ellipse cx="600" cy="260" rx="520" ry="210" transform="rotate(8 600 260)" opacity=".6"/></svg>
+  <img class="subject" src="assets/cameraman-cut-copy.png" alt="">
+  <svg class="orbit front" viewBox="0 0 1200 520"><g class="halo"><ellipse cx="600" cy="260" rx="560" ry="150" transform="rotate(-11 600 260)"/><ellipse cx="600" cy="260" rx="520" ry="210" transform="rotate(8 600 260)"/></g><ellipse cx="600" cy="260" rx="560" ry="150" transform="rotate(-11 600 260)"/><ellipse cx="600" cy="260" rx="520" ry="210" transform="rotate(8 600 260)" opacity=".6"/></svg>
+
+  <svg class="ring" viewBox="0 0 520 520">
+    <path id="ringpath" d="M260,260 m-215,0 a215,215 0 1,1 430,0 a215,215 0 1,1 -430,0" fill="none"/>
+    <text font-family="Crimson Pro" font-weight="600" font-size="30" letter-spacing="4" fill="#141414" stroke="#e7e2d6" stroke-width="7" stroke-linejoin="round" paint-order="stroke">
+      <textPath href="#ringpath" textLength="1330" startOffset="0">SHOOT · DEVELOP · STOP · FIX · WASH · DRY · PRINT ·</textPath>
+    </text>
+  </svg>
+
+  <div class="box b2"><q>Nothing is lost, only underdeveloped.</q></div>
+
+  <span class="corner bl">Vol. 03</span><span class="corner br">Nov 2026</span>
+  <div class="folds"></div><div class="dust"></div><div class="grain"></div>
+</section>
+<script>
+window.layout = async () => {
+  for (const el of document.querySelectorAll('[data-fit]')) {
+    const cs = getComputedStyle(el);
+    await document.fonts.load(`${cs.fontStyle} ${cs.fontWeight} 100px ${cs.fontFamily}`);
+    let lo = 4, hi = 1000;
+    while (hi - lo > 0.25) {
+      const mid = (lo + hi) / 2;
+      el.style.fontSize = `${mid}px`;
+      if (el.scrollWidth <= el.clientWidth) lo = mid; else hi = mid;
+    }
+    el.style.fontSize = `${lo}px`;
+  }
+};
+window.addEventListener('load', () => window.layout());
+</script>
+</body>
+</html>

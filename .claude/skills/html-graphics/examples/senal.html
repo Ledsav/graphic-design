@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Señal perdida</title>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=block" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f2e33a;
+    --ink: #121212;
+    --display: "Pirata One", serif;
+    --text: "Crimson Pro", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+
+  .artboard {
+    position: relative; overflow: hidden; isolation: isolate;
+    width: 1080px; height: 1527px; --safe: 60px;
+    background: var(--paper); color: var(--ink); font-family: var(--text);
+  }
+  .paper { position: absolute; inset: 0; background: url(assets/paper.png) 0 0 / 100% 100%; mix-blend-mode: multiply; z-index: 0; }
+  .grunge { position: absolute; inset: 0; background: url(assets/grunge-dark.png) 0 0 / 100% 100%; opacity: .35; z-index: 1; }
+
+  .title { position: absolute; left: 60px; right: 60px; top: 96px; z-index: 3; text-align: center; font: 400 250px/.8 var(--display); filter: url(#rough) url(#distress); }
+  .title span { display: block; }
+  .title .l2 { font-size: 1.12em; margin-top: -10px; }
+
+  .photo { position: absolute; left: 20px; top: 545px; width: 1040px; z-index: 2; transform: rotate(-1.4deg); filter: drop-shadow(0 6px 10px rgb(0 0 0 / .25)); }
+  .tape { position: absolute; width: 220px; height: 64px; z-index: 4; background: rgb(236 236 226 / .55); box-shadow: 0 1px 3px rgb(0 0 0 / .2); filter: url(#torn); }
+  .tape.a { left: 90px; top: 530px; transform: rotate(-9deg); }
+  .tape.b { right: 80px; top: 1150px; transform: rotate(6deg); }
+
+  .date { position: absolute; left: 60px; bottom: 60px; z-index: 3; font: 700 120px/.9 var(--text); }
+  .date small { display: block; font-size: 64px; }
+  .venue { position: absolute; right: 60px; bottom: 66px; z-index: 3; text-align: right; font: 400 28px/1.3 var(--text); }
+  .venue b { display: block; font: 700 50px/1.1 var(--text); margin-bottom: 8px; }
+
+  .dust { position: absolute; inset: 0; background: url(assets/dust-dark.png) 0 0 / 100% 100%; opacity: .7; z-index: 6; pointer-events: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- Rough edges: hand-cut, linocut, stamped. scale = wobble in px; baseFrequency = jaggedness. -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Wobbly drawn line: silhouettes and doodles that look hand-drawn. -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Worn print: clumps of ink knocked out. Last matrix number sets the wear: 8.4 = about 9% of the ink, 7.6 = 5%. -->
+    <filter id="distress" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="4" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -24 0 0 0 8.4" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Riso / screen-print speckle: fine grain inside flat ink. 9.8 = about 6% speckle, 11.4 = 13%. -->
+    <filter id="speckle" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 9.8" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Ink bleed: letterpress / photocopied type with swollen, rounded corners. -->
+    <filter id="ink-bleed" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b"/>
+      <feComponentTransfer in="b">
+        <feFuncA type="linear" slope="7" intercept="-2.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Sticker / die-cut border around anything with transparency (cut-out photos, type). -->
+    <filter id="sticker" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="b"/>          <!-- border width ~ 2 x stdDeviation -->
+      <feComponentTransfer in="b" result="grown"><feFuncA type="linear" slope="40" intercept="-1"/></feComponentTransfer>
+      <feFlood flood-color="#ffffff"/>
+      <feComposite in2="grown" operator="in" result="border"/>
+      <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Hard black and white (photocopy / threshold). Move the intercept to shift the cut point. -->
+    <filter id="threshold" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="12" intercept="-5.6"/>
+        <feFuncG type="linear" slope="12" intercept="-5.6"/>
+        <feFuncB type="linear" slope="12" intercept="-5.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Duotone: shadows -> first table value, highlights -> second (per channel, 0..1).
+         This one maps black to #121212 and white to #f2e600. -->
+    <filter id="duotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>                                                   <!-- contrast: raise slope for punchier -->
+        <feFuncR type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncG type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncB type="linear" slope="1.5" intercept="-0.25"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.07 0.95"/>
+        <feFuncG type="table" tableValues="0.07 0.90"/>
+        <feFuncB type="table" tableValues="0.07 0.00"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Posterize to 4 tones per channel (screen-print, pop art). -->
+    <filter id="posterize" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncG type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncB type="discrete" tableValues="0 .33 .66 1"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Misregistration: a second ink printed slightly off (riso, screen print). Set the flood colour. -->
+    <filter id="misregister" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feOffset in="SourceAlpha" dx="5" dy="-4" result="o"/>
+      <feFlood flood-color="#3d5a80"/>
+      <feComposite in2="o" operator="in" result="second"/>
+      <feBlend in="SourceGraphic" in2="second" mode="multiply"/>
+    </filter>
+
+    <!-- Neon glow: tight core plus wide bloom in the element's own colour. -->
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="g1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="g2"/>
+      <feMerge><feMergeNode in="g2"/><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Torn edge for a solid block (paper scrap, photo strip). Heavier than rough. -->
+    <filter id="torn" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="4" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+  </defs>
+</svg>
+<section class="artboard" data-name="poster">
+  <div class="paper"></div><div class="grunge"></div>
+  <h1 class="title"><span>Señal</span><span class="l2">Perdida</span></h1>
+  <img class="photo" src="assets/astro-torn.png" alt="">
+  <div class="tape a"></div><div class="tape b"></div>
+  <div class="date">14 Nov<small>2026</small></div>
+  <div class="venue"><b>Sala Órbita</b>Pasaje de la Antena 7,<br>Valencia 46001</div>
+  <div class="dust"></div>
+</section>
+</body>
+</html>

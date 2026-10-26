@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Untitled graphic</title>
+<!-- Bundled fonts, for previewing in a browser; render.cjs registers them itself.
+     The path assumes this file lives at projects/<project>/<file>.html. -->
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<style>
+  /* ---- Tokens: placeholders. Replace every value with this piece's own palette and type. ---- */
+  :root {
+    --bg: #ffffff;
+    --ink: #000000;
+    --accent: #ff0000;
+    --display: "Bricolage Grotesque", sans-serif;
+    --text: "Instrument Sans", sans-serif;
+  }
+
+  /* ---- Preview chrome: how the file looks in a browser. Not part of the export. ---- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #cfcfcf; padding: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+
+  /* ---- Artboard: one per exported image. Fixed size in px (screen) or mm (print). ---- */
+  .artboard {
+    position: relative;
+    flex: none;
+    overflow: hidden;
+    isolation: isolate;
+    width: 1080px;
+    height: 1350px;
+    --safe: 72px;                 /* 1-4 lengths, like margin; render.cjs warns about text inside it */
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--text);
+    font-kerning: normal;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Print artboards: size = trim + 2 x bleed, text kept inside bleed + safe margin.
+  .artboard.print {
+    --bleed: 3mm;
+    width: calc(148mm + 2 * var(--bleed));
+    height: calc(210mm + 2 * var(--bleed));
+    --safe: calc(var(--bleed) + 5mm);
+  }
+  */
+
+  /* ---- Guides: visible while previewing, hidden in exports (render.cjs --guides keeps them). ---- */
+  .guides { position: absolute; inset: 0; pointer-events: none; z-index: 2147483647; }
+  .guides .trim { position: absolute; inset: var(--bleed, 0); outline: 1px solid rgb(0 150 255 / .8); }
+  .guides .safe { position: absolute; inset: var(--safe, 0); outline: 1px dashed rgb(255 0 140 / .7); }
+  html.is-rendering:not(.show-guides) .guides { display: none; }
+
+  /* ---- Design ---- */
+</style>
+</head>
+<body>
+
+  <!-- One .artboard per exported image; data-name becomes the file name. -->
+  <section class="artboard" data-name="main">
+    <div class="guides"><div class="trim"></div><div class="safe"></div></div>
+
+  </section>
+
+</body>
+</html>

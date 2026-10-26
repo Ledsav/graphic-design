@@ -12,8 +12,10 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 | Brand identity system, guidelines, voice | `brand`, palette and type research in `ui-ux-pro-max` |
 | Stationery, business cards, letterhead, identity mockups | `design` (CIP section), then `print-production` |
 | Icons and icon sets | `design` (icon section) |
-| Poster, flyer, art print, cover art, editorial illustration | `canvas-design`, then `print-production` if printed |
-| Social posts, ads, covers, headers, thumbnails | `banner-design`, `design` (social photos section) |
+| Event or gig poster, flyer, magazine or album cover, invitation | `html-graphics` (read its `references/poster-styles.md`), then `print-production` if printed |
+| Social posts, carousels, stories, ads, banners, thumbnails | `html-graphics`; `banner-design` for extra art-direction options |
+| Image treatments: halftone, photocopy, riso, duotone, cut-outs, torn paper, textures | `html-graphics` (`scripts/treat.py`) |
+| Abstract art print or standalone visual piece | `canvas-design`, then `print-production` if printed |
 | Generative art, patterns, textures, backgrounds | `algorithmic-art` |
 | Colour palette, font pairing, style direction | `ui-ux-pro-max` search, `theme-factory` |
 | Consistent theme across a deck, doc or page | `theme-factory` |
@@ -28,7 +30,7 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 1. **Brief.** Pin down goal, audience, medium and exact size, the real copy, existing brand assets, constraints and how many options. Ask only for what is missing and matters; otherwise state your assumptions and go.
 2. **Direction.** For new work, propose 2-3 distinct concepts in a few lines each (idea, palette as hex, typefaces, composition) before producing finals, unless the user asked you to just make it.
 3. **Make.** Follow the routed skill. Use the real copy, never lorem ipsum. Design at the final output size.
-4. **Look.** Render the output and view it yourself (open the PNG with Read, or screenshot HTML with Playwright). Critique it against the checklist below and do at least one refinement pass. Never deliver something you have not seen.
+4. **Look.** Render the output and view it yourself (open the PNG with Read; HTML goes through `html-graphics/scripts/render.cjs`, which also flags type and image problems). Critique it against the checklist below and do at least one refinement pass. Never deliver something you have not seen.
 5. **Deliver.** Put files in `projects/<project-slug>/` (brief, sources, exports). Give the user the files plus a short rationale: concept, palette, type and what to watch for.
 
 ## Critique checklist
@@ -45,13 +47,14 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 
 - Formats: PNG for screen and social, press PDF (via `print-production`) for print, SVG and PNG for logos and icons. Logos also need a one-colour and a reversed version.
 - Fonts: `.claude/skills/canvas-design/canvas-fonts/` holds open-licence (OFL) fonts any skill can use. Google Fonts are fine for HTML work.
-- Rendering tools: Pillow and reportlab for raster and PDF; HTML/CSS screenshotted with Playwright for type-heavy layouts; hand-written SVG for vector marks.
+- Rendering tools: HTML/CSS through the `html-graphics` renderer for most graphics; Pillow and reportlab for raster and PDF work outside the browser; hand-written SVG for vector marks.
 
 ## Tool notes
 
 - `ui-ux-pro-max` writes its script path as `${CLAUDE_PLUGIN_ROOT}/.claude/skills/...`. In this repo run it from the repo root as `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain <domain>`.
 - AI image generation in `design` (logo, identity mockups, icons) needs `GEMINI_API_KEY` (or `MUAPI_API_KEY` / `ATLASCLOUD_API_KEY`). Without a key, build logos and icons as hand-crafted SVG and say that's how they were made. The style, colour and industry searches work offline.
-- Python dependencies are in `requirements.txt`.
+- Python dependencies are in `requirements.txt`; the HTML renderer needs Playwright (`npm install`, then `npx playwright install chromium`).
+- Images need a licence. Follow `html-graphics/references/imagery.md`: the user's assets, AI generation, or public-domain collections, credited in `projects/<project>/assets/CREDITS.md`.
 
 ## Ethics
 

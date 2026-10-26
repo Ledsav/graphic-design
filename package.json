@@ -1,0 +1,11 @@
+{
+  "name": "graphic-design",
+  "private": true,
+  "description": "Renderer dependencies for the html-graphics skill",
+  "scripts": {
+    "render": "node .claude/skills/html-graphics/scripts/render.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

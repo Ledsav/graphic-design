@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Low end</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&display=block" rel="stylesheet">
+<style>
+  /* Designed in two flat inks on paper, then printed with: treat.py riso --inks red,blue */
+  :root {
+    --paper: #f1ece2;
+    --red: #e8412c;
+    --blue: #2f4b7c;
+    --display: "Unbounded", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+
+  .artboard {
+    position: relative; overflow: hidden; isolation: isolate;
+    width: 1080px; height: 1350px; --safe: 56px;
+    background: var(--paper); color: var(--blue); font-family: var(--display);
+  }
+  .blobs { position: absolute; inset: 0; z-index: 0; filter: url(#wobble); }
+  .blob { position: absolute; background: var(--red); }
+  .b1 { left: -140px; top: 120px; width: 620px; height: 560px; border-radius: 58% 42% 63% 37% / 45% 55% 45% 55%; }
+  .b2 { right: -180px; top: 460px; width: 640px; height: 700px; border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%; }
+  .b3 { left: 160px; bottom: -220px; width: 520px; height: 420px; border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%; }
+
+  .cone { position: absolute; left: 190px; top: 250px; width: 700px; height: 700px; border-radius: 50%; z-index: 1; mix-blend-mode: multiply;
+    background: repeating-radial-gradient(circle, var(--blue) 0 14px, transparent 14px 38px); filter: url(#rough); }
+  .cap { position: absolute; left: 470px; top: 530px; width: 140px; height: 140px; border-radius: 50%; background: var(--blue); z-index: 2; }
+
+  .side { position: absolute; top: 56px; bottom: 56px; z-index: 3; writing-mode: vertical-rl; font: 700 58px/1 var(--display); color: var(--blue);
+    text-align: center; letter-spacing: .02em; mix-blend-mode: multiply; }
+  .side.l { left: 56px; transform: rotate(180deg); } .side.r { right: 56px; }
+
+  .date { position: absolute; right: 150px; top: 56px; z-index: 3; text-align: right; font: 900 76px/.95 var(--display); }
+  .title { position: absolute; left: 140px; right: 140px; top: 930px; z-index: 3; font: 900 150px/.9 var(--display); white-space: nowrap; text-align: center; letter-spacing: -.02em; mix-blend-mode: multiply; }
+  .lineup { position: absolute; left: 140px; right: 140px; bottom: 56px; z-index: 3; display: flex; justify-content: space-between; font: 500 30px/1.35 var(--display); }
+  .lineup div:last-child { text-align: right; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- Rough edges: hand-cut, linocut, stamped. scale = wobble in px; baseFrequency = jaggedness. -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Wobbly drawn line: silhouettes and doodles that look hand-drawn. -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Worn print: clumps of ink knocked out. Last matrix number sets the wear: 8.4 = about 9% of the ink, 7.6 = 5%. -->
+    <filter id="distress" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="4" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -24 0 0 0 8.4" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Riso / screen-print speckle: fine grain inside flat ink. 9.8 = about 6% speckle, 11.4 = 13%. -->
+    <filter id="speckle" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 9.8" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Ink bleed: letterpress / photocopied type with swollen, rounded corners. -->
+    <filter id="ink-bleed" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b"/>
+      <feComponentTransfer in="b">
+        <feFuncA type="linear" slope="7" intercept="-2.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Sticker / die-cut border around anything with transparency (cut-out photos, type). -->
+    <filter id="sticker" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="b"/>          <!-- border width ~ 2 x stdDeviation -->
+      <feComponentTransfer in="b" result="grown"><feFuncA type="linear" slope="40" intercept="-1"/></feComponentTransfer>
+      <feFlood flood-color="#ffffff"/>
+      <feComposite in2="grown" operator="in" result="border"/>
+      <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Hard black and white (photocopy / threshold). Move the intercept to shift the cut point. -->
+    <filter id="threshold" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="12" intercept="-5.6"/>
+        <feFuncG type="linear" slope="12" intercept="-5.6"/>
+        <feFuncB type="linear" slope="12" intercept="-5.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Duotone: shadows -> first table value, highlights -> second (per channel, 0..1).
+         This one maps black to #121212 and white to #f2e600. -->
+    <filter id="duotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>                                                   <!-- contrast: raise slope for punchier -->
+        <feFuncR type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncG type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncB type="linear" slope="1.5" intercept="-0.25"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.07 0.95"/>
+        <feFuncG type="table" tableValues="0.07 0.90"/>
+        <feFuncB type="table" tableValues="0.07 0.00"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Posterize to 4 tones per channel (screen-print, pop art). -->
+    <filter id="posterize" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncG type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncB type="discrete" tableValues="0 .33 .66 1"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Misregistration: a second ink printed slightly off (riso, screen print). Set the flood colour. -->
+    <filter id="misregister" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feOffset in="SourceAlpha" dx="5" dy="-4" result="o"/>
+      <feFlood flood-color="#3d5a80"/>
+      <feComposite in2="o" operator="in" result="second"/>
+      <feBlend in="SourceGraphic" in2="second" mode="multiply"/>
+    </filter>
+
+    <!-- Neon glow: tight core plus wide bloom in the element's own colour. -->
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="g1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="g2"/>
+      <feMerge><feMergeNode in="g2"/><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Torn edge for a solid block (paper scrap, photo strip). Heavier than rough. -->
+    <filter id="torn" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="4" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+  </defs>
+</svg>
+<section class="artboard" data-name="flat">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="cone"></div><div class="cap"></div>
+  <div class="side l">BASEMENT</div><div class="side r">FREQUENCIES</div>
+  <div class="date">21.11<br>2026</div>
+  <h1 class="title" data-fit>LOW END</h1>
+  <div class="lineup"><div>KAIROS<br>DUSTPAN<br>VJ HALO</div><div>MERIDIAN<br>LOWTIDE<br>OXBOW</div></div>
+</section>
+<script>
+window.layout = async () => {
+  for (const el of document.querySelectorAll('[data-fit]')) {
+    const cs = getComputedStyle(el);
+    await document.fonts.load(`${cs.fontStyle} ${cs.fontWeight} 100px ${cs.fontFamily}`);
+    let lo = 4, hi = 1000;
+    while (hi - lo > 0.25) {
+      const mid = (lo + hi) / 2;
+      el.style.fontSize = `${mid}px`;
+      if (el.scrollWidth <= el.clientWidth) lo = mid; else hi = mid;
+    }
+    el.style.fontSize = `${lo}px`;
+  }
+};
+window.addEventListener('load', () => window.layout());
+</script>
+</body>
+</html>
