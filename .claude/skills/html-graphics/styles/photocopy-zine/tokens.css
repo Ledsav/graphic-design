@@ -1,0 +1,12 @@
+/* Photocopy Zine: tokens. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&display=block");
+@import url("../../assets/fonts.css");                 /* bundled fonts for browser previews */
+
+:root {
+  --bg: #e7e2d6;
+  --ink: #141414;
+  --display: "Bodoni Moda", serif;
+  --text: "Crimson Pro", serif;
+  --grain: .45;
+  --grain-blend: overlay;
+}

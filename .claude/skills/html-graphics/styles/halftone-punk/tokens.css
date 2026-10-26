@@ -1,0 +1,13 @@
+/* Halftone Punk: tokens. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Sancreek&display=block");
+@import url("../../assets/fonts.css");                 /* bundled fonts for browser previews */
+
+:root {
+  --paper: #f2e33a;
+  --ink: #121212;
+  --scrap: #efe9d9;
+  --bg: var(--paper);
+  --display: "Sancreek", serif;
+  --text: "Crimson Pro", serif;
+  --grain: 0;
+}

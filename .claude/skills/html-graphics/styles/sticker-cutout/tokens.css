@@ -1,0 +1,14 @@
+/* Sticker Cutout: tokens. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Instrument+Sans:wght@500;700&display=block");
+
+:root {
+  --red: #c3161c;
+  --deep: #9e0f14;
+  --cream: #f4e6cc;
+  --bg: var(--red);
+  --ink: var(--cream);
+  --display: "Bagel Fat One", sans-serif;
+  --text: "Instrument Sans", sans-serif;
+  --grain: .55;
+  --grain-blend: overlay;
+}

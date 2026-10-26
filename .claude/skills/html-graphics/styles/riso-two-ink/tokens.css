@@ -1,0 +1,15 @@
+/* Riso Two Ink: tokens. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&display=block");
+
+:root {
+  --paper: #f1ece2;
+  --red: #e8412c;
+  --blue: #2f4b7c;
+  --bg: var(--paper);
+  --ink: var(--blue);
+  --ink-1: var(--red);
+  --ink-2: var(--blue);
+  --display: "Unbounded", sans-serif;
+  --text: "Unbounded", sans-serif;
+  --grain: 0;
+}

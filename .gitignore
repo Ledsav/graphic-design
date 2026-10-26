@@ -4,3 +4,4 @@ __pycache__/
 .DS_Store
 node_modules/
 .claude/skills/html-graphics/examples/export/
+.claude/skills/html-graphics/styles/*/export/

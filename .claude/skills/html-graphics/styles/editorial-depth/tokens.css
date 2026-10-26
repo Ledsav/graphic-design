@@ -1,0 +1,12 @@
+/* Editorial Depth: tokens. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Instrument+Sans:wght@400;700&display=block");
+
+:root {
+  --bg: #0c1014;
+  --ink: #e9e3d4;
+  --shade: #0c1014;
+  --display: "Fraunces", serif;
+  --text: "Instrument Sans", sans-serif;
+  --grain: .75;
+  --grain-blend: overlay;
+}

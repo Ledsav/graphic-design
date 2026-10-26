@@ -1,0 +1,15 @@
+/* Neon Horror: tokens. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Butcherman&family=Creepster&family=Special+Elite&display=block");
+
+:root {
+  --night: #0b0a0d;
+  --blood: #ff2b2b;
+  --slime: #39ff6a;
+  --bone: #efe9dc;
+  --bg: var(--night);
+  --ink: var(--bone);
+  --display: "Creepster", cursive;
+  --text: "Special Elite", monospace;
+  --grain: .7;
+  --grain-blend: overlay;
+}

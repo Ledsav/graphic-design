@@ -1,0 +1,39 @@
+/* Swiss International: tokens and helpers. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=block");
+
+:root {
+  --bg: #f4f2ee;          /* paper white */
+  --ink: #111111;         /* type and geometry */
+  --signal: #e3000f;      /* the one accent */
+  --grey: #8c8a86;        /* secondary info only */
+  --display: "Schibsted Grotesk", sans-serif;
+  --text: "Schibsted Grotesk", sans-serif;
+  --grain: .12;
+  --grain-blend: multiply;
+
+  /* Grid: 6 columns on a 1080 px artboard; adjust --cols and --margin per format. */
+  --margin: 60px;
+  --gutter: 20px;
+  --cols: 6;
+  --baseline: 12px;
+}
+
+/* A 6-column grid on the artboard; place items with grid-column / grid-row. */
+.swiss-grid {
+  position: absolute; inset: var(--margin);
+  display: grid; grid-template-columns: repeat(var(--cols), 1fr); column-gap: var(--gutter);
+  grid-auto-rows: var(--baseline);
+}
+
+/* Display type: tight leading, tight tracking, flush left. */
+.swiss-display { font: 900 1em/.82 var(--display); letter-spacing: -.045em; text-align: left; }
+.swiss-head    { font: 700 34px/1.05 var(--text); letter-spacing: -.01em; }
+.swiss-text    { font: 400 22px/1.3 var(--text); }
+.swiss-small   { font: 500 16px/1.35 var(--text); letter-spacing: .01em; }
+.swiss-signal  { color: var(--signal); }
+
+/* Grid overlay for checking alignment while previewing (hidden in exports). */
+.swiss-grid-guide { position: absolute; inset: 0 var(--margin); pointer-events: none; z-index: 2147483646;
+  --gcol: calc((100% - (var(--cols) - 1) * var(--gutter)) / var(--cols));
+  background: repeating-linear-gradient(90deg, rgb(0 150 255 / .12) 0 var(--gcol), transparent var(--gcol) calc(var(--gcol) + var(--gutter))); }
+html.is-rendering:not(.show-guides) .swiss-grid-guide { display: none; }
