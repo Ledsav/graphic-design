@@ -1,0 +1,10 @@
+# Core: canvas-design, print-production, slack-gif-creator
+pillow>=10.0.0
+reportlab>=4.0.0
+numpy>=1.24.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# Optional: AI image generation in the `design` skill (logos, identity mockups, icons).
+# Needs GEMINI_API_KEY in the environment or in ~/.claude/.env.
+# google-genai
