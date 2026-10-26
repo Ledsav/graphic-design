@@ -2,8 +2,8 @@
 id: psychedelic-60s
 name: Psychedelic 60s
 family: pop
-mood: [hypnotic, liquid, loud, euphoric, dense, warm-blooded]
-fits: [concerts and dance nights, festivals, record and tape releases, light shows, cannabis-free juice bars and cafés, art openings, vintage fairs]
+mood: [hypnotic, liquid, loud, euphoric, dense]
+fits: [concerts and dance nights, festivals, record and tape releases, light shows, art openings, record and vintage fairs, craft drink labels]
 avoid: [corporate, healthcare and finance, anything that must be read at a glance from a distance, minimal luxury, children's safety messaging]
 formats: [poster, album cover, social post, gig flyer, festival lineup]
 palette: { ink: "#2a0b3d", cream: "#ffeec2", orange: "#ff5e1a", blue: "#4b8bff", magenta: "#e8178a", green: "#16934a" }
