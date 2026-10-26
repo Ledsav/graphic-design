@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Thumbnails</title>
+<style>
+*{margin:0;box-sizing:border-box} body{background:#777;padding:40px;display:flex;flex-wrap:wrap;gap:40px}
+.artboard{position:relative;overflow:hidden;isolation:isolate;width:1080px;height:1920px;background:#050505;flex:none}
+.img,.cut{position:absolute;left:0;top:-100px;width:1080px}
+.img{z-index:0}.cut{z-index:2}
+.t{position:absolute;z-index:1;display:block}
+.box{position:absolute;left:60px;right:60px;bottom:70px;height:300px;z-index:3;border:2px solid #e9e2d0;background:rgb(5 5 5 / .82)}
+.stamp{position:absolute;z-index:4;width:220px;height:220px;border:5px solid #c8141e;border-radius:50%}
+</style></head><body>
+<section class="artboard" data-name="a-didone-behind">
+  <img class="img" src="../assets/burning-eyes.png"><img class="t" src="../assets/t-didone.svg" style="left:48px;top:560px;width:984px"><img class="cut" src="../assets/burning-eyes-cut.png">
+  <div class="box"></div><div class="stamp" style="right:60px;top:90px"></div>
+</section>
+<section class="artboard" data-name="b-stack-behind">
+  <img class="img" src="../assets/burning-eyes.png"><img class="t" src="../assets/t-stack.svg" style="left:48px;top:330px;width:984px"><img class="cut" src="../assets/burning-eyes-cut.png">
+  <div class="box"></div><div class="stamp" style="left:60px;top:90px"></div>
+</section>
+<section class="artboard" data-name="c-blackletter">
+  <img class="img" src="../assets/burning-eyes.png"><img class="t" src="../assets/t-black.svg" style="left:48px;top:470px;width:984px"><img class="cut" src="../assets/burning-eyes-cut.png">
+  <div class="box"></div><div class="stamp" style="right:60px;top:90px"></div>
+</section>
+<section class="artboard" data-name="d-date">
+  <img class="img" src="../assets/burning-eyes.png"><img class="t" src="../assets/t-31.svg" style="left:160px;top:120px;width:760px"><img class="cut" src="../assets/burning-eyes-cut.png">
+  <div class="box"></div><div class="stamp" style="right:60px;top:90px"></div>
+</section>
+<section class="artboard" data-name="e-vertical">
+  <img class="img" src="../assets/burning-eyes.png" style="left:120px"><img class="cut" src="../assets/burning-eyes-cut.png" style="left:120px"><img class="t" src="../assets/t-vert.svg" style="left:-790px;top:860px;width:1804px;transform:rotate(-90deg)">
+  <div class="box" style="left:300px"></div><div class="stamp" style="right:60px;top:90px"></div>
+</section>
+</body></html>

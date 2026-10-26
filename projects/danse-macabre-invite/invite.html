@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Danse Macabre: private party invite</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/styles/_base.css">
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/styles/riso-two-ink/tokens.css">
+<style>
+  /* Riso two-ink on cream: red + slate; where both print you get the dark maroon.
+     Flat colours below are what each ink mix looks like on the paper, so treat.py riso can separate them. */
+  :root {
+    --paper: #ece6d8;
+    --slate-bg: #646670;   /* slate ink at ~92% */
+    --red: #bb432d;        /* red ink */
+    --both: #41140d;       /* red over slate */
+    --display: "UnifrakturMaguntia", serif;
+    --text: "Unbounded", sans-serif;
+  }
+  .artboard { width: 1080px; height: 1920px; --safe: 56px; background: var(--slate-bg); color: var(--both); font-family: var(--text); }
+
+  .blobs { position: absolute; inset: 0; filter: url(#wobble); }
+  .blob { position: absolute; background: var(--red); }
+  .b1 { left: 90px; top: 780px; width: 920px; height: 840px; border-radius: 62% 38% 55% 45% / 38% 58% 42% 62%; transform: rotate(-8deg); }
+  .b2 { right: -230px; top: 60px; width: 520px; height: 560px; border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%; }
+  .b3 { left: -200px; top: 330px; width: 420px; height: 420px; border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%; }
+
+  /* The engraving, inverted into ink: dark figure and flames, blood in red. Fades out above the details. */
+  .fig { position: absolute; left: 0; top: 20px; width: 1080px;
+    -webkit-mask: linear-gradient(#000 64%, transparent 79%); mask: linear-gradient(#000 64%, transparent 79%); }
+  .title { position: absolute; left: 48px; top: 150px; width: 984px; filter: url(#rough); }
+
+  .kicker { position: absolute; left: 64px; top: 70px; font: 700 26px/1 var(--text); letter-spacing: .04em; }
+  .side { position: absolute; top: 760px; height: 640px; writing-mode: vertical-rl; text-align: center; font: 700 44px/1 var(--text); letter-spacing: .02em; }
+  .side.l { left: 60px; transform: rotate(180deg); } .side.r { right: 60px; }
+
+  .details { position: absolute; left: 64px; right: 64px; bottom: 70px; }
+  .when { display: flex; align-items: flex-end; gap: 28px; padding-bottom: 22px; border-bottom: 5px solid var(--red); }
+  .when .date { font: 900 168px/.8 var(--text); letter-spacing: -.04em; }
+  .when .meta { font: 700 30px/1.25 var(--text); padding-bottom: 6px; }
+  .notes { margin-top: 22px; font: 500 30px/1.4 var(--text); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- Rough edges: hand-cut, linocut, stamped. scale = wobble in px; baseFrequency = jaggedness. -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Wobbly drawn line: silhouettes and doodles that look hand-drawn. -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Worn print: clumps of ink knocked out. Last matrix number sets the wear: 8.4 = about 9% of the ink, 7.6 = 5%. -->
+    <filter id="distress" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="4" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -24 0 0 0 8.4" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Riso / screen-print speckle: fine grain inside flat ink. 9.8 = about 6% speckle, 11.4 = 13%. -->
+    <filter id="speckle" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 9.8" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+
+    <!-- Ink bleed: letterpress / photocopied type with swollen, rounded corners. -->
+    <filter id="ink-bleed" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b"/>
+      <feComponentTransfer in="b">
+        <feFuncA type="linear" slope="7" intercept="-2.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Sticker / die-cut border around anything with transparency (cut-out photos, type). -->
+    <filter id="sticker" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="b"/>          <!-- border width ~ 2 x stdDeviation -->
+      <feComponentTransfer in="b" result="grown"><feFuncA type="linear" slope="40" intercept="-1"/></feComponentTransfer>
+      <feFlood flood-color="#ffffff"/>
+      <feComposite in2="grown" operator="in" result="border"/>
+      <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Hard black and white (photocopy / threshold). Move the intercept to shift the cut point. -->
+    <filter id="threshold" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="12" intercept="-5.6"/>
+        <feFuncG type="linear" slope="12" intercept="-5.6"/>
+        <feFuncB type="linear" slope="12" intercept="-5.6"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Duotone: shadows -> first table value, highlights -> second (per channel, 0..1).
+         This one maps black to #121212 and white to #f2e600. -->
+    <filter id="duotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>                                                   <!-- contrast: raise slope for punchier -->
+        <feFuncR type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncG type="linear" slope="1.5" intercept="-0.25"/>
+        <feFuncB type="linear" slope="1.5" intercept="-0.25"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.07 0.95"/>
+        <feFuncG type="table" tableValues="0.07 0.90"/>
+        <feFuncB type="table" tableValues="0.07 0.00"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Posterize to 4 tones per channel (screen-print, pop art). -->
+    <filter id="posterize" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncG type="discrete" tableValues="0 .33 .66 1"/>
+        <feFuncB type="discrete" tableValues="0 .33 .66 1"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Misregistration: a second ink printed slightly off (riso, screen print). Set the flood colour. -->
+    <filter id="misregister" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feOffset in="SourceAlpha" dx="5" dy="-4" result="o"/>
+      <feFlood flood-color="#3d5a80"/>
+      <feComposite in2="o" operator="in" result="second"/>
+      <feBlend in="SourceGraphic" in2="second" mode="multiply"/>
+    </filter>
+
+    <!-- Neon glow: tight core plus wide bloom in the element's own colour. -->
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="g1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="g2"/>
+      <feMerge><feMergeNode in="g2"/><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Torn edge for a solid block (paper scrap, photo strip). Heavier than rough. -->
+    <filter id="torn" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="4" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+  </defs>
+</svg>
+<section class="artboard" data-name="invite">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <img class="title" src="assets/t-danse-stack.svg" alt="Danse Macabre">
+  <img class="fig" src="assets/figure-ink.png" alt=""><img class="fig" src="assets/figure-blood.png" alt="">
+  <p class="kicker">YOU ARE INVITED</p>
+  <p class="side l">PRIVATE PARTY</p><p class="side r">INVITATION ONLY</p>
+  <div class="details">
+    <div class="when"><span class="date">31.10</span><span class="meta">SATURDAY<br>RUE ROBERT STUMPER</span></div>
+    <p class="notes">BRING SOMETHING TO DRINK &amp; SHARE<br>COSTUME NOT NEEDED, BUT APPRECIATED</p>
+  </div>
+</section>
+</body>
+</html>

@@ -192,12 +192,18 @@ def cmd_riso(a):
     if a.split == "luma":
         d = 1 - gray(img, a.levels, a.gamma)
         cov = [d, np.clip((d - 0.45) / 0.55, 0, 1)]
-    else:                                             # unmix each pixel into the two inks
-        da, db = paper - paper * ink_a, paper - paper * ink_b
-        m = np.stack([da, db], axis=1)                # 3x2
-        pinv = np.linalg.pinv(m)                      # 2x3
-        cov_ab = np.einsum("ij,hwj->hwi", pinv, paper - src)
+    else:
+        # Unmix each pixel into the two inks in optical density, where overprinting inks add
+        # (in reflectance they multiply), so the two-ink overprint separates into 100% + 100%.
+        dens = lambda c: -np.log(np.clip(c, 1 / 255, 1))
+        m = np.stack([dens(ink_a), dens(ink_b)], axis=1)              # 3x2
+        pinv = np.linalg.pinv(m)                                      # 2x3
+        cov_ab = np.einsum("ij,hwj->hwi", pinv, dens(src / np.maximum(paper, 1 / 255)))
         cov = [np.clip(cov_ab[..., 0], 0, 1), np.clip(cov_ab[..., 1], 0, 1)]
+    # Misregister ink 2 before graining, repeating edge values (no wrap-around, no streaks at the edge).
+    dx, dy = a.offset
+    padded = np.pad(cov[1], ((max(dy, 0), max(-dy, 0)), (max(dx, 0), max(-dx, 0))), mode="edge")
+    cov[1] = padded[max(-dy, 0):max(-dy, 0) + h, max(-dx, 0):max(-dx, 0) + w]
     layers = []
     for i, c in enumerate(cov):
         thresh = uniform(noise((h, w), a.grain_size, rng) * 0.6 + rng.random((h, w)) * 0.4)
@@ -205,8 +211,6 @@ def cmd_riso(a):
         c = (1 - a.grain) * c + a.grain * dither
         c *= 1 - a.uneven * fractal((h, w), max(h, w) / 3, rng, 3)   # uneven drum ink
         layers.append(c)
-    dx, dy = a.offset
-    layers[1] = np.roll(layers[1], (dy, dx), axis=(0, 1))
     out = paper * (1 - layers[0][..., None] * (1 - ink_a)) * (1 - layers[1][..., None] * (1 - ink_b))
     save(Image.fromarray((np.clip(out, 0, 1) * 255 + 0.5).astype(np.uint8), "RGB"), a.output)
 
