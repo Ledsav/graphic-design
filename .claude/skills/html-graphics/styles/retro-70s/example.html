@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Slow Roast</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1350px; --safe: 48px; }
+
+  /* 1. The cup: warm duotone, bleeding off the bottom-left corner. */
+  .cup { position: absolute; left: -150px; top: 770px; width: 1040px; z-index: 2; }
+
+  /* 2. Steam: the four-stripe band rises out of the coffee and leaves the frame top right. */
+  .steam { position: absolute; inset: 0; z-index: 3; }
+
+  /* 3. Title on the band's diagonal: lettering.cjs --warp rise. */
+  .kicker { position: absolute; left: 66px; top: 104px; z-index: 4; color: var(--rust); transform: rotate(-6deg); transform-origin: left top; }
+  .title { position: absolute; left: 34px; top: 112px; width: 731px; z-index: 4; }
+
+  /* 4. Info: one cluster, flush right, under the band. */
+  .info { position: absolute; right: 48px; bottom: 54px; z-index: 5; text-align: right; color: var(--ink); }
+  .info .r70-pill { margin-bottom: 18px; }
+  .info .what { margin-bottom: 16px; }
+
+  /* 5. Price-sticker starburst on the saucer. */
+  .sticker { position: absolute; left: 812px; top: 52px; width: 220px; height: 220px; z-index: 6; transform: rotate(12deg);
+    display: grid; place-items: center; text-align: center; color: var(--ink); }
+  .sticker svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .sticker .in { position: relative; }
+  .sticker .big { font: 400 38px/.9 var(--display); }
+  .sticker .sm { font: 400 18px/1.15 var(--text); margin-top: 6px; }
+
+  /* 6. Print: paper under multiply, then grain. */
+  .paper { z-index: 80; background-image: url(assets/paper.png); mix-blend-mode: multiply; opacity: .85; }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <img class="cup" src="assets/coffee-warm.png" alt="">
+
+  <svg class="steam" viewBox="0 0 1080 1350" aria-hidden="true">
+    <defs>
+      <!-- The band shows inside the crema ellipse and anywhere above the coffee line: it rises out of the cup. -->
+      <clipPath id="steam-clip" clipPathUnits="userSpaceOnUse">
+        <ellipse cx="348" cy="1019" rx="141" ry="82"/>
+        <rect x="0" y="0" width="1080" height="1019"/>
+      </clipPath>
+    </defs>
+    <g id="band" clip-path="url(#steam-clip)" fill="none" stroke-linejoin="round"></g>
+  </svg>
+
+  <p class="kicker r70-text">Marigold Coffee House presents</p>
+  <img class="title" src="assets/slow-roast.svg" alt="Slow Roast">
+
+  <div class="sticker">
+    <svg viewBox="0 0 230 230"><path id="burst" fill="#e3a92b" stroke="#4a2511" stroke-width="5" stroke-linejoin="round"/></svg>
+    <div class="in"><div class="big">Free<br>refills</div><div class="sm">while the<br>record spins</div></div>
+  </div>
+
+  <div class="info">
+    <span class="r70-pill r70-caps">Every Sunday · 10 am – 2 pm</span>
+    <p class="what r70-text">Soul, funk &amp; slow jams<br>spun on vinyl</p>
+    <p class="r70-small">48 Alder Row · marigold.example</p>
+  </div>
+
+  <div class="overlay paper"></div>
+  <div class="grain"></div>
+</section>
+<script>
+  // Steam band: two cubic curves, sampled, then four stripes offset along the normal (deterministic).
+  const segs = [
+    [[348, 1140], [348, 800], [470, 700], [620, 610]],
+    [[620, 610], [770, 520], [800, 330], [1250, 210]],
+  ];
+  const bez = (p, t) => [0, 1].map((k) => (1 - t) ** 3 * p[0][k] + 3 * (1 - t) ** 2 * t * p[1][k] + 3 * (1 - t) * t ** 2 * p[2][k] + t ** 3 * p[3][k]);
+  const pts = [];
+  segs.forEach((s, i) => { for (let j = i ? 1 : 0; j <= 80; j++) pts.push(bez(s, j / 80)); });
+  const W = 54, colours = ['#4a2511', '#a63c1c', '#d9631e', '#e3a92b'];
+  const band = document.getElementById('band');
+  colours.forEach((c, i) => {
+    const off = (i - 1.5) * W;
+    const d = pts.map((p, k) => {
+      const a = pts[Math.max(0, k - 1)], b = pts[Math.min(pts.length - 1, k + 1)];
+      const dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy);
+      return `${(p[0] + (dy / len) * off).toFixed(1)} ${(p[1] - (dx / len) * off).toFixed(1)}`;
+    });
+    band.insertAdjacentHTML('beforeend', `<path d="M${d.join('L')}" stroke="${c}" stroke-width="${W + 1}"/>`);
+  });
+
+  // Starburst sticker: 22 points.
+  const n = 22, R = 112, r = 94, cx = 115, cy = 115;
+  let s = '';
+  for (let k = 0; k < n * 2; k++) {
+    const rad = k % 2 ? r : R, a = (k / (n * 2)) * 2 * Math.PI;
+    s += `${k ? 'L' : 'M'}${(cx + rad * Math.cos(a)).toFixed(1)} ${(cy + rad * Math.sin(a)).toFixed(1)}`;
+  }
+  document.getElementById('burst').setAttribute('d', s + 'Z');
+</script>
+</body>
+</html>

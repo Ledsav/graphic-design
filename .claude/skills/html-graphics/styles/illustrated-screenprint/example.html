@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deep Water Blues</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1527px; --safe: 56px; }
+  .art { position: absolute; inset: 0; width: 1080px; height: 1527px; overflow: visible; }
+  .paper { position: absolute; inset: 0; z-index: 80; background: url(assets/paper.png) 0 0 / 100% 100%; mix-blend-mode: multiply; opacity: .5; pointer-events: none; }
+
+  .kicker { position: absolute; right: 56px; top: 64px; text-align: right; color: var(--ink); }
+  .kicker b { display: block; font: 800 22px/1.2 var(--text); text-transform: uppercase; letter-spacing: .06em; }
+  .kicker span { display: block; font: 500 20px/1.3 var(--text); }
+
+  /* Info set into the bubbles rising from the catfish's mouth. */
+  .b-date  { left: 70px;  top: 668px; width: 236px; height: 236px; color: var(--ink); }
+  .b-date small { display: block; font: 800 22px/1 var(--text); letter-spacing: .1em; margin-top: 8px; }
+  .b-venue { left: 112px; top: 930px; width: 168px; height: 168px; color: var(--ink); font: 800 19px/1.15 var(--text); text-transform: uppercase; letter-spacing: .03em; }
+
+  /* Line-up set into the riverbed. */
+  .bed { position: absolute; left: 56px; right: 56px; bottom: 56px; color: var(--bg); }
+  .bed .sp-head { line-height: 1.22; }
+  .bed .sp-head i { font-style: normal; color: var(--ink-c); }
+  .bed p.sp-text { margin-top: 14px; color: var(--ink-c); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Screen-print speckle: pinholes in flat ink. 9.8 = about 6%. -->
+    <filter id="speckle" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 10.2" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+    <!-- Wobbly drawn line: the submerged lettering, refracted. -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.03" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Rough edges: hand-cut stencil. -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<section class="artboard" data-name="poster">
+  <svg class="art" viewBox="0 0 1080 1527" aria-hidden="true">
+    <defs>
+      <!-- Water surface: crests and troughs every 180 px. -->
+      <path id="water" d="M0 500 C60 486 120 486 180 500 S300 514 360 500 S480 486 540 500 S660 514 720 500 S840 486 900 500 S1020 514 1080 500 V1527 H0 Z"/>
+      <clipPath id="under"><use href="#water"/></clipPath>
+      <!-- Catfish parts, drawn facing left on a 1000 x 560 grid. -->
+      <path id="body" d="M36,252 C34,206 78,174 150,160 C220,147 300,140 380,141 C520,145 660,171 790,207 C830,217 860,222 882,224 L882,276 C860,280 830,288 790,298 C660,334 520,358 380,358 C290,358 206,350 146,334 C84,318 38,296 36,252 Z"/>
+      <path id="tail" d="M868,226 C908,200 948,160 984,126 C1002,162 992,212 954,250 C992,290 1002,340 984,374 C948,342 908,302 868,274 Z"/>
+      <path id="dorsal" d="M318,146 C322,112 336,84 352,62 C374,90 398,118 418,144 Z"/>
+      <path id="adipose" d="M716,186 C734,160 774,160 800,196 Z"/>
+      <path id="pect" d="M226,326 C262,360 300,396 350,414 C334,374 312,344 288,326 Z"/>
+      <path id="pelvic" d="M520,354 C538,384 560,404 594,414 C592,384 584,366 574,352 Z"/>
+      <path id="anal" d="M610,340 C640,384 770,364 840,296 C786,312 704,330 610,340 Z"/>
+    </defs>
+
+    <!-- 1. Title, above the surface: vermilion with a key-ink extrusion, printed on bare paper. -->
+    <image class="sp-ink" href="assets/title-above.svg" x="52" y="58" width="960" height="556"/>
+
+    <!-- 2. Ink A: the river. Covers the lower part of WATER. -->
+    <use class="sp-ink" href="#water" fill="var(--ink-a)"/>
+
+    <!-- 3. The submerged part of the title: paper colour, shifted and wobbled by the water. -->
+    <g clip-path="url(#under)">
+      <image class="sp-wobble" href="assets/title-below.svg" x="64" y="62" width="960" height="556"/>
+    </g>
+    <image class="sp-wobble" href="assets/blues.svg" x="566" y="636" width="440" height="119" opacity=".95"/>
+
+    <!-- 4. Riverbed (key ink) and the weeds behind the fish (warm ink over the river, multiplied). -->
+    <path class="sp-ink" fill="var(--ink)" d="M0 1290 C120 1262 210 1300 330 1284 C460 1266 560 1238 700 1262 C820 1282 930 1256 1080 1240 V1527 H0 Z"/>
+    <g class="sp-ink sp-over" fill="var(--ink-c)">
+      <path d="M884 1262 C870 1150 900 1050 950 960 C940 1060 934 1160 930 1258 Z"/>
+      <path d="M934 1256 C950 1150 1000 1080 1060 1030 C1030 1110 1000 1180 984 1252 Z"/>
+      <path d="M60 1290 C40 1200 50 1110 92 1030 C96 1120 100 1200 106 1288 Z"/>
+    </g>
+
+    <!-- 5. The catfish, rising toward the bait: scaled 1.25, head tilted up 8 degrees about the mouth. -->
+    <g transform="translate(456 940) rotate(8) translate(-56 -375) scale(1.4)">
+      <!-- ink B vermilion, off register -->
+      <g class="sp-ink sp-mis-b" fill="var(--ink-b)"><use href="#body"/><use href="#tail"/></g>
+      <!-- ink C mustard: belly and eye, off register the other way -->
+      <g class="sp-ink sp-mis-c" fill="var(--ink-c)">
+        <path d="M44,276 C96,306 220,346 380,354 C520,356 650,334 770,302 C700,294 640,304 560,300 C470,296 420,306 340,294 C270,284 210,272 150,272 C100,272 70,276 44,276 Z"/>
+        <circle cx="150" cy="214" r="15"/>
+      </g>
+      <!-- key ink: outline, fins, dark back, mottling, mouth, pupil -->
+      <g class="sp-ink" fill="var(--ink)">
+        <use href="#body" fill="none" stroke="var(--ink)" stroke-width="9"/>
+        <use href="#tail"/><use href="#dorsal"/><use href="#adipose"/><use href="#pect"/><use href="#pelvic"/><use href="#anal"/>
+        <path d="M104,170 C150,158 220,147 300,141 C420,138 560,150 700,182 C780,200 840,214 880,224 L880,236 C830,232 780,214 730,222 C680,230 650,248 600,236 C550,224 520,200 470,208 C420,216 400,238 350,230 C300,222 280,198 240,196 C200,194 180,206 150,200 C130,196 116,184 104,170 Z"/>
+        <circle cx="282" cy="246" r="8"/><circle cx="330" cy="262" r="6"/><circle cx="392" cy="252" r="9"/><circle cx="446" cy="270" r="5"/>
+        <circle cx="500" cy="244" r="7"/><circle cx="556" cy="262" r="9"/><circle cx="612" cy="252" r="5"/><circle cx="662" cy="268" r="7"/>
+        <circle cx="716" cy="250" r="5"/><circle cx="770" cy="262" r="4"/><circle cx="244" cy="266" r="5"/><circle cx="520" cy="284" r="4"/>
+        <path d="M34,262 C80,266 128,270 172,272 C134,286 84,292 44,286 C36,280 33,270 34,262 Z"/>
+        <circle cx="146" cy="211" r="8"/>
+      </g>
+      <!-- paper-colour details: gill line, fin rays, eye glint -->
+      <g fill="none" stroke="var(--bg)" stroke-linecap="round">
+        <path stroke-width="5" d="M222,170 C252,214 256,282 234,336"/>
+        <path stroke-width="3" d="M352,70 L340,140 M372,96 L366,142 M392,120 L390,143"/>
+        <path stroke-width="3" d="M300,400 L262,340 M330,404 L284,334"/>
+        <path stroke-width="3" d="M700,350 L690,330 M760,334 L740,316 M800,312 L790,300"/>
+      </g>
+      <circle cx="142" cy="207" r="3" fill="var(--bg)"/>
+      <!-- barbels: centre lines, turned into tapered shapes by taper() -->
+      <g class="sp-ink" stroke="var(--ink)">
+        <path data-taper="13,2" d="M168,274 C150,340 196,420 290,446 C380,470 440,436 498,480"/>
+        <path data-taper="11,2" d="M60,272 C22,312 0,376 30,440 C52,486 30,520 -10,540"/>
+        <path data-taper="8,2" d="M72,206 C56,176 60,140 92,116"/>
+        <path data-taper="7,2" d="M108,292 C102,316 112,336 98,360"/>
+        <path data-taper="7,2" d="M138,298 C136,322 146,342 134,366"/>
+      </g>
+    </g>
+
+    <!-- 6. Weeds in front of the fish. -->
+    <g class="sp-ink" fill="var(--ink-b)">
+      <path d="M990 1250 C980 1170 996 1110 1030 1060 C1028 1130 1024 1190 1024 1246 Z"/>
+      <path d="M150 1290 C170 1220 210 1170 262 1140 C236 1196 214 1246 200 1290 Z"/>
+    </g>
+
+    <!-- 7. The line from the rod (off the top edge), the hook and a guitar pick for bait. -->
+    <path class="sp-ink" d="M384 -10 V790" stroke="var(--ink)" stroke-width="3"/>
+    <g class="sp-ink" transform="translate(384 790) rotate(-6)">
+      <path d="M0 0 C0 34 26 40 32 18" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M0 22 C44 22 62 42 50 66 C38 90 16 114 0 126 C-16 114 -38 90 -50 66 C-62 42 -44 22 0 22 Z" fill="var(--ink-b)" stroke="var(--ink)" stroke-width="5"/>
+      <path d="M-26 42 C-18 34 -4 32 10 34" fill="none" stroke="var(--bg)" stroke-width="5" stroke-linecap="round"/>
+    </g>
+
+    <!-- 8. Bubbles: paper colour knocked out of the river, with a key-ink rim. -->
+    <g fill="var(--bg)" stroke="var(--ink)" stroke-width="4">
+      <circle cx="188" cy="786" r="118"/>
+      <circle cx="196" cy="1014" r="84"/>
+      <circle cx="330" cy="640" r="30"/><circle cx="352" cy="574" r="16"/><circle cx="302" cy="926" r="18"/>
+    </g>
+  </svg>
+
+  <div class="kicker"><b>Pier 9 Boathouse</b><span>a riverside blues weekend<br>third edition</span></div>
+
+  <div class="sp-shape b-date"><span class="sp-date">18–20</span><small>JUNE 2027</small></div>
+  <div class="sp-shape b-venue">Fish fry<br>all<br>weekend</div>
+
+  <div class="bed">
+    <p class="sp-head">Hattie Marsh &amp; the Low Lanterns <i>·</i> Oscar Bell Trio<br>The Slow Ferry Orchestra <i>·</i> Della Price <i>·</i> Juniper Dawes</p>
+    <p class="sp-text">Millbrook riverside · weekend pass 60 · day ticket 24 · deepwaterblues.example</p>
+  </div>
+
+  <div class="paper"></div>
+  <div class="grain"></div>
+</section>
+<script>
+  // Tapered strokes: replace each path[data-taper="start,end"] with a filled outline whose width runs from start to end.
+  function taper(root) {
+    for (const p of root.querySelectorAll('path[data-taper]')) {
+      const [w0, w1] = p.dataset.taper.split(',').map(Number);
+      const col = p.getAttribute('stroke') || p.parentNode.getAttribute('stroke') || 'currentColor';
+      const L = p.getTotalLength(), n = Math.max(24, Math.ceil(L / 5)), A = [], B = [];
+      for (let i = 0; i <= n; i++) {
+        const s = i / n * L, c = p.getPointAtLength(s);
+        const a = p.getPointAtLength(Math.max(0, s - .5)), b = p.getPointAtLength(Math.min(L, s + .5));
+        let dx = b.x - a.x, dy = b.y - a.y; const d = Math.hypot(dx, dy) || 1; dx /= d; dy /= d;
+        const w = (w0 + (w1 - w0) * (i / n)) / 2;
+        A.push(`${(c.x - dy * w).toFixed(1)},${(c.y + dx * w).toFixed(1)}`);
+        B.unshift(`${(c.x + dy * w).toFixed(1)},${(c.y - dx * w).toFixed(1)}`);
+      }
+      const ns = 'http://www.w3.org/2000/svg', g = document.createElementNS(ns, 'g');
+      const poly = document.createElementNS(ns, 'polygon'); poly.setAttribute('points', A.concat(B).join(' '));
+      const s0 = p.getPointAtLength(0), cap = document.createElementNS(ns, 'circle');
+      cap.setAttribute('cx', s0.x); cap.setAttribute('cy', s0.y); cap.setAttribute('r', w0 / 2);
+      g.setAttribute('fill', col); g.append(poly, cap); p.replaceWith(g);
+    }
+  }
+  taper(document);
+</script>
+</body>
+</html>

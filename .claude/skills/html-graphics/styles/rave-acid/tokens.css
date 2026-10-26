@@ -1,0 +1,48 @@
+/* Rave acid: tokens and helpers. Link after styles/_base.css.
+   Neon inks on black, stretched lettering.cjs titles, spec-sheet small print. Paste the #neon and #acid-split
+   filters (style.md, Build) into the page when you use .acid-neon or .acid-split. */
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Dela+Gothic+One&display=block");
+
+:root {
+  --bg: #0a0a0a;            /* warehouse black */
+  --ink: #d4ff00;           /* acid: the main ink */
+  --acid: #d4ff00;
+  --magenta: #ff1fa8;       /* UV magenta: the second ink, echoes and misregistration */
+  --uv: #5a12d6;            /* deep violet: halftone fields and image shadows, never type */
+  --chalk: #f2f2ec;         /* white for the odd line of small print */
+  --display: "Dela Gothic One", sans-serif;
+  --text: "Space Mono", monospace;
+  --grain: .4;              /* the base grain is dark specks: overlay textures the inks, the black stays black */
+  --grain-blend: overlay;
+
+  --acid-margin: 40px;
+}
+
+/* Spec-sheet type: monospace caps, tight, labels in magenta. */
+.acid-spec  { font: 400 18px/1.35 var(--text); letter-spacing: .02em; text-transform: uppercase; color: var(--acid); }
+.acid-spec b { font-weight: 700; }
+.acid-label { font: 700 16px/1.2 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--magenta); }
+.acid-name  { font: 700 24px/1.05 var(--text); letter-spacing: -.01em; text-transform: uppercase; color: var(--acid); }
+
+/* A ruled spec block: 2 px acid frame, rows split by 1 px rules, label column in magenta. */
+.acid-sheet { position: absolute; border: 2px solid var(--acid); background: var(--bg); }
+.acid-sheet > div { display: grid; grid-template-columns: 76px 1fr; gap: 10px; padding: 7px 12px 8px; border-top: 1px solid rgb(212 255 0 / .45); }
+.acid-sheet > div:first-child { border-top: 0; }
+.acid-sheet > div > span:first-child { color: var(--magenta); }
+
+/* Barcode from a repeating gradient: stripes of 2/4/6 px; tune with background-size. */
+.acid-barcode { height: 54px; background:
+  repeating-linear-gradient(90deg, var(--acid) 0 2px, transparent 2px 5px, var(--acid) 5px 9px, transparent 9px 11px, var(--acid) 11px 12px, transparent 12px 16px, var(--acid) 16px 22px, transparent 22px 24px); }
+
+/* Technical grid over the black. */
+.acid-grid { position: absolute; inset: 0; pointer-events: none; opacity: .12;
+  background: repeating-linear-gradient(90deg, var(--acid) 0 1px, transparent 1px 48px), repeating-linear-gradient(0deg, var(--acid) 0 1px, transparent 1px 48px); }
+
+/* Halftone gradient: dots that grow toward one corner. Change the mask's "at" to move the dense end. */
+.acid-halftone { position: absolute; pointer-events: none;
+  background: radial-gradient(circle, var(--uv) 0 38%, transparent 42%) 0 0 / 16px 16px;
+  -webkit-mask: radial-gradient(circle at 100% 0, #000 0 20%, transparent 75%); mask: radial-gradient(circle at 100% 0, #000 0 20%, transparent 75%); }
+
+/* Glow and channel split for accents only (needs the filters pasted in the page). */
+.acid-neon  { filter: url(#neon); }
+.acid-split { filter: url(#acid-split); }

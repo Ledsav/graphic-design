@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>montage</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1350px; --safe: 48px; }
+  .artboard > * { position: absolute; }
+
+  .stage { left: 0; top: 0; width: 1080px; height: 1350px; overflow: visible; }
+  .lens-disc { width: 190px; height: 190px; }
+  .figure { width: 704px; z-index: 3; }
+
+  .intro { left: var(--margin); top: var(--margin); width: 420px; }
+  .intro .bc-small { margin-bottom: 20px; }
+  .slogan { font-size: 78px; line-height: .9; }
+  .dates { padding: 14px 22px 10px; white-space: nowrap; transform-origin: 0 0; }
+  .venue { padding: 12px 22px 10px; white-space: nowrap; transform-origin: 0 0; font: 600 24px/1.1 var(--text); letter-spacing: .02em; text-transform: uppercase; }
+  .info { right: var(--margin); bottom: var(--margin); width: 380px; text-align: right; }
+</style>
+</head>
+<body>
+<!-- Print speckle for the flat inks (from templates/filters.html, lightened). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="speckle" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 9.2" result="holes"/>
+    <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+  </filter>
+</defs></svg>
+<section class="artboard" data-name="poster">
+  <div class="lens-disc bc-yellow bc-circle bc-printed" id="disc"></div>
+
+  <!-- Beam and crescendo title: drawn in axis coordinates (origin = camera lens, x along the beam). -->
+  <svg class="stage" viewBox="0 0 1080 1350">
+    <g id="axis">
+      <polygon id="beam" fill="var(--red)" filter="url(#speckle)"/>
+      <g id="cuts" fill="var(--bg)"></g>
+      <g id="word" fill="var(--bg)" font-family="League Spartan" font-weight="900"></g>
+    </g>
+  </svg>
+
+  <img class="figure" id="fig" src="assets/cameraman-bw.png" alt="">
+
+  <div class="intro">
+    <p class="bc-small">7th festival of experimental film</p>
+    <p class="bc-display slogan">Cut.<br>Splice.<br>Project.</p>
+  </div>
+
+  <p class="dates bc-head bc-blue" id="dates">14&ndash;20 May 2027</p>
+
+  <p class="venue bc-black" id="venue">Tram Depot Cinema, Hall 4 / Rail Street 9</p>
+
+  <div class="info bc-text">
+    <p>40 films / 12 programmes / 3 live cuts<br><b>montage.example</b></p>
+  </div>
+
+  <div class="grain"></div>
+</section>
+<script>
+  // Geometry: the camera lens sits at L; the beam runs from it along AXIS degrees.
+  // Each letter is sized in proportion to its distance from the lens, so the word's
+  // silhouette is a cone with its apex at the lens and the beam fits it exactly.
+  const L = { x: 330, y: 880 }, AXIS = -45, K = 0.62;         // K: figure scale
+  const LENS_IN_IMG = { x: 1016, y: 280 };                     // lens position in cameraman-bw.png (px)
+  const WORD = 'MONTAGE', S0 = 190, END = 1005, GAP = .12, PAD = 1.4, CUT = .035;   // GAP, CUT: fractions of the local font size
+
+  window.layout = async () => {
+    await document.fonts.load('900 100px "League Spartan"');
+    const fig = document.getElementById('fig');
+    fig.style.left = `${L.x - LENS_IN_IMG.x * K}px`; fig.style.top = `${L.y - LENS_IN_IMG.y * K}px`;
+    fig.style.width = `${1280 * K}px`;
+    const disc = document.getElementById('disc');
+    disc.style.left = `${L.x - 95}px`; disc.style.top = `${L.y - 95}px`;
+    document.getElementById('axis').setAttribute('transform', `translate(${L.x} ${L.y}) rotate(${AXIS})`);
+    // Place a block in axis coordinates: d along the beam, n across it (positive = below the beam).
+    const rad = AXIS * Math.PI / 180, ax = [Math.cos(rad), Math.sin(rad)], nx = [-Math.sin(rad), Math.cos(rad)];
+    const onAxis = (el, d, n, extra = 0) => { el.style.left = `${L.x + d * ax[0] + n * nx[0]}px`; el.style.top = `${L.y + d * ax[1] + n * nx[1]}px`;
+      el.style.transform = `rotate(${AXIS + extra}deg)`; };
+
+    const ctx = document.createElement('canvas').getContext('2d');
+    ctx.font = '900 100px "League Spartan"';
+    const capR = ctx.measureText('H').actualBoundingBoxAscent / 100;
+    const glyphs = [...WORD].map(ch => { const t = ctx.measureText(ch);
+      return { ch, l: t.actualBoundingBoxLeft / 100, ink: (t.actualBoundingBoxLeft + t.actualBoundingBoxRight) / 100 }; });
+    const run = c => { let s = S0; const out = [];
+      for (const g of glyphs) { const w = g.ink * c * s / (1 - g.ink * c / 2); const f = c * (s + w / 2);
+        out.push({ ...g, s, w, f }); s += w + GAP * f; }
+      return { out, end: s - GAP * out.at(-1).f }; };
+    let lo = .05, hi = 1.2;
+    for (let i = 0; i < 40; i++) { const mid = (lo + hi) / 2; if (run(mid).end > END) hi = mid; else lo = mid; }
+    const c = lo, { out } = run(c);
+    document.getElementById('word').innerHTML = out.map(g =>
+      `<text x="${(g.s + g.l * g.f).toFixed(1)}" y="${(capR * g.f / 2).toFixed(1)}" font-size="${g.f.toFixed(1)}">${g.ch}</text>`).join('');
+    const t = capR * c / 2 * PAD, far = 2400;
+    document.getElementById('beam').setAttribute('points', `0,0 ${far},${-far * t} ${far},${far * t}`);
+    // Date bar parallel to the beam, below it, clearing the beam's edge by 40 px at its far end.
+    const dates = document.getElementById('dates'), D0 = 250;
+    onAxis(dates, D0, t * (D0 + dates.offsetWidth) + 40);
+    // Venue: a second, longer bar stepped below the first, starting further from the lens.
+    const venue = document.getElementById('venue'), nDates = t * (D0 + dates.offsetWidth) + 40;
+    onAxis(venue, D0 + 60, nDates + dates.offsetHeight + 16);
+    // Splices: the beam is cut into frames, one per letter, by paper-coloured gaps across it.
+    document.getElementById('cuts').innerHTML = out.slice(1).map((g, i) => {
+      const prev = out[i], x = (prev.s + prev.w + g.s) / 2, w = CUT * c * x, h = x * t + 4;
+      return `<rect x="${(x - w / 2).toFixed(1)}" y="${(-h).toFixed(1)}" width="${w.toFixed(1)}" height="${(2 * h).toFixed(1)}"/>`; }).join('');
+  };
+  window.addEventListener('load', () => window.layout());
+</script>
+</body>
+</html>

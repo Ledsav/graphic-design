@@ -7,7 +7,7 @@ fits: [concerts and dance nights, festivals, record and tape releases, light sho
 avoid: [corporate, healthcare and finance, anything that must be read at a glance from a distance, minimal luxury, children's safety messaging]
 formats: [poster, album cover, social post, gig flyer, festival lineup]
 palette: { ink: "#2a0b3d", cream: "#ffeec2", orange: "#ff5e1a", blue: "#4b8bff", magenta: "#e8178a", green: "#16934a" }
-fonts: { display: "Gajraj One 400 (drawn with lettering.cjs)", alt-display: "Fascinate 400, Berkshire Swash 400, Monoton 400", text: "Righteous 400" }
+fonts: { display: "Gajraj One 400", alt-display: "Fascinate 400", text: "Righteous 400" }
 ---
 
 # Psychedelic 60s

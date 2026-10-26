@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Squelch</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1527px; --safe: 40px; }
+
+  .halftone { right: 0; top: 0; width: 760px; height: 900px; z-index: 1; opacity: .75; }
+
+  /* The galaxy as a sun setting behind the analyser. */
+  .disc { position: absolute; left: 322px; top: 58px; width: 384px; height: 384px; z-index: 2; border-radius: 50%;
+    background: url(assets/hubble-acid.png) 40% 50% / 160% auto; box-shadow: 0 0 0 2px var(--acid); }
+
+  /* SQUELCH as a spectrum analyser: one stretched letter per band, sitting on a baseline at y 1447.
+     Box top = 1447 - body height - 2 (lettering pad). Q's box is 25% taller: its tail dives off the bottom. */
+  .wall { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+  .wall img { position: absolute; display: block; }
+  .peak { opacity: .95; }
+
+  /* Glitch: two thin bands of the wall, shifted sideways. */
+  .slice { z-index: 5; }
+  .slice-1 { clip-path: inset(880px 0 623px 0); transform: translateX(26px); }
+  .slice-2 { clip-path: inset(1212px 0 303px 0); transform: translateX(-18px); }
+
+  .axis { position: absolute; left: 39px; right: 39px; top: 1457px; height: 2px; background: var(--acid); z-index: 3; }
+  .hz { position: absolute; top: 1468px; z-index: 6; }
+
+  .side { position: absolute; left: 46px; top: 556px; z-index: 6; transform-origin: left top; transform: rotate(-90deg); white-space: nowrap; }
+  .side .date { display: block; font: 400 72px/1 var(--display); color: var(--acid); letter-spacing: -.01em; }
+  .side .who { display: block; margin-top: 10px; }
+
+  .sheet { left: 760px; top: 40px; width: 280px; z-index: 6; }
+  .sheet .t { display: block; padding: 10px 12px 8px; border-top: 0; }
+  .sheet .t b { display: block; font: 400 34px/1 var(--display); color: var(--acid); letter-spacing: .01em; }
+  .sheet .code { display: block; padding: 10px 12px 12px; }
+  .sheet .code small { display: flex; justify-content: space-between; margin-top: 6px; font-size: 16px; }
+
+  /* Lineup: each act sits on top of its band's peak. */
+  .act { position: absolute; z-index: 6; }
+  .act .acid-label { display: block; margin-top: 4px; }
+
+  .dust { z-index: 80; opacity: .35; background-image: url(assets/dust.png); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Neon glow: tight core plus wide bloom in the element's own colour. -->
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="g1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="g2"/>
+      <feMerge><feMergeNode in="g2"/><feMergeNode in="g2"/><feMergeNode in="g1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Misregistration on black: a magenta copy printed off-register behind the acid ink. dx/dy = the slip. -->
+    <filter id="acid-split" x="-5%" y="-10%" width="110%" height="120%" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#ff1fa8"/>
+      <feComposite in2="SourceAlpha" operator="in"/>
+      <feOffset dx="4" dy="-3" result="m"/>
+      <feMerge><feMergeNode in="m"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<section class="artboard" data-name="poster">
+  <div class="acid-grid"></div>
+  <div class="acid-halftone halftone"></div>
+  <div class="disc"></div>
+  <div class="axis"></div>
+
+  <div class="wall" id="wall">
+    <img class="peak" src="assets/peak-0.svg" style="left:45px;top:575px" alt="">
+    <img class="peak" src="assets/peak-1.svg" style="left:189px;top:55px" alt="">
+    <img class="peak" src="assets/peak-2.svg" style="left:333px;top:175px" alt="">
+    <img class="peak" src="assets/peak-3.svg" style="left:477px;top:315px" alt="">
+    <img class="peak" src="assets/peak-4.svg" style="left:621px;top:505px" alt="">
+    <img class="peak" src="assets/peak-5.svg" style="left:765px;top:615px" alt="">
+    <img class="peak" src="assets/peak-6.svg" style="left:909px;top:755px" alt="">
+    <img src="assets/bar-0.svg" style="left:37px;top:685px" alt="S">
+    <img src="assets/bar-1.svg" style="left:181px;top:115px" alt="Q">
+    <img src="assets/bar-2.svg" style="left:325px;top:265px" alt="U">
+    <img src="assets/bar-3.svg" style="left:469px;top:435px" alt="E">
+    <img src="assets/bar-4.svg" style="left:613px;top:585px" alt="L">
+    <img src="assets/bar-5.svg" style="left:757px;top:715px" alt="C">
+    <img src="assets/bar-6.svg" style="left:901px;top:825px" alt="H">
+  </div>
+  <div class="wall slice slice-1"></div>
+  <div class="wall slice slice-2"></div>
+
+  <span class="hz acid-label" style="left:39px">40 Hz</span>
+  <span class="hz acid-label" style="left:183px">80</span>
+  <span class="hz acid-label" style="left:327px">160</span>
+  <span class="hz acid-label" style="left:471px">320</span>
+  <span class="hz acid-label" style="left:615px">640</span>
+  <span class="hz acid-label" style="left:759px">1.2k</span>
+  <span class="hz acid-label" style="left:903px">2.5k</span>
+
+  <p class="side"><span class="date acid-split">13.03.27</span><span class="who acid-label">Unit 9 presents &middot; acid session nº3</span></p>
+
+  <div class="acid-sheet acid-spec sheet">
+    <div class="t"><b class="acid-split">SQUELCH</b></div>
+    <div><span>Type</span><span>Acid house all-nighter</span></div>
+    <div><span>Time</span><span>Sat 22:00&ndash;08:00</span></div>
+    <div><span>Loc</span><span>Unit 9, Canal Basin</span></div>
+    <div><span>BPM</span><span>126&ndash;138</span></div>
+    <div><span>Res</span><span>87% / cutoff 2.4 kHz</span></div>
+    <div class="code"><div class="acid-barcode"></div><small><span>SQ-130327</span><span>squelch.example</span></small></div>
+  </div>
+
+  <div class="act" style="left:615px;top:443px"><span class="acid-name">DJ Envelope</span><span class="acid-label">00:00&ndash;02:00</span></div>
+  <div class="act" style="left:759px;top:528px"><span class="acid-name">Half Step<br>Sisters</span><span class="acid-label">02:00&ndash;04:30</span></div>
+  <div class="act" style="left:903px;top:693px"><span class="acid-name">Resonator</span><span class="acid-label">live 05:00</span></div>
+
+  <div class="overlay dust"></div>
+  <div class="grain"></div>
+</section>
+<script>
+  // Glitch bands are copies of the wall; clip-path in .slice-1/.slice-2 picks the band.
+  const src = document.getElementById('wall').innerHTML;
+  for (const el of document.querySelectorAll('.slice')) el.innerHTML = src;
+</script>
+</body>
+</html>

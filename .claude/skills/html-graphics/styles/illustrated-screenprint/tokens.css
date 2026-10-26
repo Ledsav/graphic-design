@@ -1,0 +1,38 @@
+/* Illustrated screen-print: tokens and helpers. Link after styles/_base.css.
+   Paste templates/filters.html after <body>: .sp-ink uses #speckle, .sp-wobble uses #wobble. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Shrikhand&display=block");
+
+:root {
+  --bg: #f2e6c9;          /* cream stock: the paper is a colour, leave it bare */
+  --ink: #182b3a;         /* key ink: outlines, details, small type (prints last) */
+  --ink-a: #2b7a78;       /* big field ink: water, sky, ground */
+  --ink-b: #e8532b;       /* warm ink: the figure, the title */
+  --ink-c: #f2b134;       /* light ink: highlights, eye, belly, info shapes */
+  --display: "Shrikhand", cursive;
+  --text: "Archivo", sans-serif;
+  --grain: .28;
+  --grain-blend: multiply;
+
+  /* Registration: each colour screen lands a few px off the key. */
+  --mis-b: 6px 4px;
+  --mis-c: -5px 5px;
+}
+
+/* A flat ink layer: speckle knocks pinholes out of it, like ink that didn't quite cover. */
+.sp-ink { filter: url(#speckle); }
+/* Off-register colour screens (translate on top of any transform). */
+.sp-mis-b { translate: var(--mis-b); }
+.sp-mis-c { translate: var(--mis-c); }
+/* Transparent ink: where two screens overlap they make a third colour. */
+.sp-over { mix-blend-mode: multiply; }
+/* Wobbly, hand-cut stencil edge. */
+.sp-wobble { filter: url(#wobble); }
+
+/* Type. Display is drawn with lettering.cjs; these are for HTML text set into shapes. */
+.sp-date   { font: 400 64px/.9 var(--display); }
+.sp-head   { font: 800 30px/1.05 var(--text); text-transform: uppercase; letter-spacing: .02em; }
+.sp-text   { font: 500 21px/1.3 var(--text); }
+.sp-small  { font: 800 18px/1.25 var(--text); text-transform: uppercase; letter-spacing: .08em; }
+
+/* Info set into a shape: a bubble, a sun, a badge. Size it with width/height; text is centred inside. */
+.sp-shape { position: absolute; display: grid; place-content: center; text-align: center; border-radius: 50%; }

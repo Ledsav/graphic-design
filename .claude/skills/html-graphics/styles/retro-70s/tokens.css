@@ -1,0 +1,53 @@
+/* Retro 70s: tokens and helpers. Link after styles/_base.css. Young Serif is bundled (assets/fonts.css). */
+@import url("https://fonts.googleapis.com/css2?family=Shrikhand&display=block");
+
+:root {
+  --bg: #f3e3c3;          /* cream paper */
+  --ink: #4a2511;         /* chocolate brown: type, outlines, extrusion */
+  --mustard: #e3a92b;     /* harvest gold */
+  --orange: #d9631e;      /* burnt orange */
+  --rust: #a63c1c;
+  --avocado: #5c6a22;     /* the one cool note; 4.7:1 on cream */
+  --display: "Shrikhand", serif;
+  --text: "Young Serif", serif;
+  --grain: .35;
+  --grain-blend: overlay;
+
+  /* The stripe stack, dark to light. Every stripe set uses these four, in this order. */
+  --stripe-1: var(--ink);
+  --stripe-2: var(--rust);
+  --stripe-3: var(--orange);
+  --stripe-4: var(--mustard);
+  --stripe: 54px;         /* one stripe on a 1080 artboard; 40-60 px */
+}
+
+/* Straight stripe stack (horizontal band); rotate it or use it as a rounded-end pill. */
+.r70-stripes {
+  background: linear-gradient(var(--stripe-1) 0 25%, var(--stripe-2) 25% 50%, var(--stripe-3) 50% 75%, var(--stripe-4) 75%);
+  height: calc(var(--stripe) * 4);
+}
+
+/* Rainbow arcs: concentric stripes round a centre at the bottom edge of the box. Set the box width = 2 x radius. */
+.r70-arcs {
+  aspect-ratio: 2 / 1; border-radius: 999px 999px 0 0;
+  background: radial-gradient(circle at 50% 100%, transparent 0 calc(50% - var(--stripe) * 4),
+    var(--stripe-4) 0 calc(50% - var(--stripe) * 3), var(--stripe-3) 0 calc(50% - var(--stripe) * 2),
+    var(--stripe-2) 0 calc(50% - var(--stripe)), var(--stripe-1) 0 50%, transparent 0);
+}
+
+/* Sunburst rays from a point (--sx, --sy): 15 deg rays in two tones. */
+.r70-sunburst {
+  background: repeating-conic-gradient(from 0deg at var(--sx, 50%) var(--sy, 100%),
+    var(--ray-a, var(--mustard)) 0 7.5deg, var(--ray-b, var(--bg)) 7.5deg 15deg);
+}
+
+/* Rounded label / pill: the 70s rounded rectangle. */
+.r70-pill { display: inline-block; border-radius: 999px; padding: .32em .9em .38em; background: var(--mustard); color: var(--ink); }
+.r70-box  { border: 4px solid var(--ink); border-radius: 36px; }
+
+/* Type. Titles are drawn with lettering.cjs; these are for everything else. */
+.r70-display { font: 400 1em/.9 var(--display); letter-spacing: -.01em; }
+.r70-head    { font: 400 40px/1 var(--display); }
+.r70-text    { font: 400 26px/1.25 var(--text); }
+.r70-small   { font: 400 20px/1.3 var(--text); letter-spacing: .02em; }
+.r70-caps    { font: 400 20px/1.2 var(--text); letter-spacing: .14em; text-transform: uppercase; }
