@@ -1,11 +1,13 @@
 {
   "name": "graphic-design",
   "private": true,
-  "description": "Renderer dependencies for the html-graphics skill",
+  "description": "Renderer and lettering dependencies for the html-graphics skill",
   "scripts": {
-    "render": "node .claude/skills/html-graphics/scripts/render.cjs"
+    "render": "node .claude/skills/html-graphics/scripts/render.cjs",
+    "lettering": "node .claude/skills/html-graphics/scripts/lettering.cjs"
   },
   "devDependencies": {
-    "playwright": "^1.49.0"
+    "playwright": "^1.49.0",
+    "opentype.js": "^2.0.0"
   }
 }

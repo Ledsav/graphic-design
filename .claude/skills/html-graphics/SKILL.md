@@ -1,23 +1,25 @@
 ---
 name: html-graphics
-description: Design graphics in HTML and CSS and export them as pixel-exact PNG/JPEG or vector PDF - event and gig posters, flyers, social posts, carousels and stories, ads and banners, thumbnails, link previews, magazine and album covers, invitations, infographics. Covers expressive print-era looks (halftone, photocopy, riso, duotone, torn paper, cut-out stickers, text behind the subject, grain and grunge) as well as clean typographic layouts. Use when the user wants a graphic built with HTML/CSS, or when a static graphic is mostly type, layout, image treatment and texture. Ships a renderer that flags fallback fonts, faux bold/italic, clipped, overflowing, overlapping or tiny text and soft or broken images, plus an image-treatment script.
+description: Design graphics in HTML and CSS and export them as pixel-exact PNG/JPEG or vector PDF - event and gig posters, flyers, social posts, carousels and stories, ads and banners, thumbnails, link previews, magazine and album covers, invitations, infographics. Covers drawn lettering (warped, dripping, extruded, hand-bounced titles), expressive composition, and print-era looks (halftone, photocopy, riso, duotone, torn paper, cut-out stickers, text behind or around the subject, grain and grunge) as well as clean typographic layouts. Use when the user wants a graphic built with HTML/CSS, or when a static graphic is mostly type, layout, image treatment and texture. Ships a renderer that flags fallback fonts, faux bold/italic, clipped, overflowing, overlapping or tiny text and soft or broken images, plus an image-treatment script.
 ---
 
 # HTML Graphics
 
 Build each graphic as an HTML file with one fixed-size `.artboard` per output image, render it with headless Chromium, look at the result, and iterate. HTML gives real typography (kerning, variable fonts, `text-wrap: balance`), real layout, live filters, one source for many sizes, and vector PDF. Pre-processing in Python adds what browsers do badly: halftone, photocopy, riso, cut-outs, torn edges, textures.
 
-The bar is a poster a working designer would be proud of: a strong image with a treatment, display type with character, texture, depth and confident small type. `references/poster-styles.md` has the recipes; `examples/` has one worked poster per recipe.
+The bar is a poster a working designer would be proud of: a strong image with a treatment, drawn display type woven into the image, a composition with tension, texture, and confident small type. Fonts set in straight centred lines over a centred image read as a template: `references/type-and-composition.md` is how to get past that, `references/poster-styles.md` has genre recipes, and `examples/` has worked posters.
 
 ## Files
 
 | Path | What |
 |---|---|
 | `scripts/render.cjs` | Renderer and checker (Node + Playwright) |
-| `scripts/treat.py` | Image treatments and textures (Python, Pillow + numpy; rembg optional) |
+| `scripts/lettering.cjs` | Drawn titles: glyph outlines warped (arch, bulge, wave, rise, perspective), jittered, dripped, outlined, extruded; per-letter copies for interlocking (Node + opentype.js) |
+| `scripts/treat.py` | Image treatments, silhouette contours and textures (Python, Pillow + numpy; rembg optional) |
 | `templates/artboard.html` | Starting file: tokens, artboard, guides |
 | `templates/filters.html` | SVG filter library: rough, wobble, distress, speckle, ink-bleed, sticker, threshold, duotone, posterize, misregister, neon, torn |
-| `references/poster-styles.md` | Style recipes and display fonts by genre. **Read for any poster, flyer, cover or event graphic** |
+| `references/type-and-composition.md` | Composition archetypes, thumbnail process, expressive type moves, display fonts by mood. **Read for every piece** |
+| `references/poster-styles.md` | Genre recipes. **Read for any poster, flyer, cover or event graphic** |
 | `references/imagery.md` | Where images come from (licensing), treatments, cut-outs |
 | `references/css-techniques.md` | Composition, type, colour, texture, shape and image techniques with snippets |
 | `references/formats.md` | Sizes and safe areas for social, ads, covers, print |
@@ -29,11 +31,12 @@ Run everything from the repo root, e.g. `node .claude/skills/html-graphics/scrip
 
 1. **Brief.** What it is, where it appears, exact size (`references/formats.md`), the real copy, brand assets, how many options. For print, run `print-production` first and build the artboard in mm with bleed.
 2. **Image.** Decide where the image comes from before anything else (`references/imagery.md`): the user's assets, AI generation, or public-domain collections. Never invent a photo source or use one without a licence.
-3. **Direction.** Pick a recipe from `references/poster-styles.md` (or a clean typographic direction), then write a short plan: palette (4–6 hex), display face and text face, the image treatment, the layering, and the one bold move. For new work, offer 2–3 directions. Check the plan against the generated-design defaults listed in `frontend-design` and change anything generic.
-4. **Prepare assets** with `scripts/treat.py` into `projects/<project>/assets/`, at the final pixel size (artboard × export scale).
-5. **Build.** Copy `templates/artboard.html` to `projects/<project>/<piece>.html`. Paste `templates/filters.html` after `<body>` when you need filters. Follow the build rules below.
-6. **Render and look.** `node .claude/skills/html-graphics/scripts/render.cjs projects/<project>/<piece>.html --sheet`. Open the PNG with Read. Fix every WARN, or confirm it's intended and mark it (`data-allow-overlap`, `data-ignore`). Critique against the finishing pass in `poster-styles.md` and the checklist in `CLAUDE.md`. Do at least two passes; the first render is never the last.
-7. **Export** (table below) and hand off: files, a short rationale, image credits.
+3. **Direction.** Pick a recipe from `references/poster-styles.md` (or a clean typographic direction), then write a short plan: palette (4–6 hex), display face and how the title will be drawn, the image treatment, and the one bold move. For new work, offer 2–3 directions. Check the plan against the generated-design defaults listed in `frontend-design` and change anything generic.
+4. **Prepare assets** with `scripts/treat.py` (image, cut-out, contour, textures) and `scripts/lettering.cjs` (title) into `projects/<project>/assets/`, at the final pixel size (artboard × export scale).
+5. **Composition thumbnails.** Before any detail, build 4–6 rough layouts as artboards in one file, each a different archetype from `references/type-and-composition.md`, with only the image and the title. Render with `--sheet`, pick the strongest, and say why. Never go straight to the centred title / image / info stack.
+6. **Build.** Copy `templates/artboard.html` to `projects/<project>/<piece>.html`. Paste `templates/filters.html` after `<body>` when you need filters. Follow the build rules below.
+7. **Render and look.** `node .claude/skills/html-graphics/scripts/render.cjs projects/<project>/<piece>.html --sheet`. Open the PNG with Read. Fix every WARN, or confirm it's intended and mark it (`data-allow-overlap`, `data-ignore`). Critique against the composition critique in `type-and-composition.md`, the finishing pass in `poster-styles.md` and the checklist in `CLAUDE.md`. Do at least two passes; the first render is never the last.
+8. **Export** (table below) and hand off: files, a short rationale, image credits.
 
 ## Build rules
 
@@ -71,15 +74,19 @@ Text boxes are measured from the glyphs' ink, so tight display leading is fine. 
 
 Chrome rounds PDF page sizes up to whole points (≤ 0.35 mm). That lands in the bleed for print, but for exact print raster use `--dpi` and `print-production`.
 
+## Lettering
+
+`node .claude/skills/html-graphics/scripts/lettering.cjs --help`. Examples and the effect table are in `references/type-and-composition.md`. Use it for the title of nearly every expressive poster; plain HTML text for the small print.
+
 ## Treatments
 
 `python3 .claude/skills/html-graphics/scripts/treat.py <command> --help` for every option.
 
-`halftone`, `photocopy`, `duotone`, `riso`, `cutout`, `outline`, `torn`, `texture grain|paper|dust|folds|grunge`. See `references/imagery.md` for the command table and blend modes. `riso` also prints a finished flat two-ink poster: design in two inks with multiply overlaps, render, then run it on the PNG.
+`halftone`, `photocopy`, `duotone`, `riso`, `cutout`, `outline`, `torn`, `contour`, `texture grain|paper|dust|folds|grunge`. See `references/imagery.md` for the command table and blend modes. `riso` also prints a finished flat two-ink poster: design in two inks with multiply overlaps, render, then run it on the PNG.
 
 ## Setup
 
-- Node and Playwright: `npm install` at the repo root (uses `package.json`), then `npx playwright install chromium`. A globally installed Playwright works too.
+- Node: `npm install` at the repo root (Playwright and opentype.js from `package.json`), then `npx playwright install chromium`. A globally installed Playwright works too.
 - Python: `pip install -r requirements.txt`. For cut-outs, also `pip install rembg onnxruntime` (the model downloads on first use).
 
 ## Troubleshooting

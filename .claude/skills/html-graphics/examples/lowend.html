@@ -5,39 +5,23 @@
 <title>Low end</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&display=block" rel="stylesheet">
 <style>
-  /* Designed in two flat inks on paper, then printed with: treat.py riso --inks red,blue */
-  :root {
-    --paper: #f1ece2;
-    --red: #e8412c;
-    --blue: #2f4b7c;
-    --display: "Unbounded", sans-serif;
-  }
+  /* Two flat inks on paper with multiply overlaps; printed afterwards with treat.py riso. */
+  :root { --paper: #f1ece2; --red: #e8412c; --blue: #2f4b7c; --display: "Unbounded", sans-serif; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1350px; --safe: 50px;
+    background: var(--paper); color: var(--blue); font-family: var(--display); }
 
-  .artboard {
-    position: relative; overflow: hidden; isolation: isolate;
-    width: 1080px; height: 1350px; --safe: 56px;
-    background: var(--paper); color: var(--blue); font-family: var(--display);
-  }
-  .blobs { position: absolute; inset: 0; z-index: 0; filter: url(#wobble); }
-  .blob { position: absolute; background: var(--red); }
-  .b1 { left: -140px; top: 120px; width: 620px; height: 560px; border-radius: 58% 42% 63% 37% / 45% 55% 45% 55%; }
-  .b2 { right: -180px; top: 460px; width: 640px; height: 700px; border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%; }
-  .b3 { left: 160px; bottom: -220px; width: 520px; height: 420px; border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%; }
+  /* Echo: the title repeated, each copy bent further by the bass wave, over a speaker that bleeds off the edge. */
+  .cone { position: absolute; left: 330px; top: 300px; width: 1100px; height: 1100px; border-radius: 50%; z-index: 0;
+    background: repeating-radial-gradient(circle, var(--red) 0 22px, transparent 22px 46px); filter: url(#rough); }
+  .cap { position: absolute; left: 760px; top: 730px; width: 240px; height: 240px; border-radius: 50%; background: var(--red); z-index: 0; }
+  .echo { position: absolute; left: 50px; width: 980px; z-index: 1; mix-blend-mode: multiply; }
 
-  .cone { position: absolute; left: 190px; top: 250px; width: 700px; height: 700px; border-radius: 50%; z-index: 1; mix-blend-mode: multiply;
-    background: repeating-radial-gradient(circle, var(--blue) 0 14px, transparent 14px 38px); filter: url(#rough); }
-  .cap { position: absolute; left: 470px; top: 530px; width: 140px; height: 140px; border-radius: 50%; background: var(--blue); z-index: 2; }
-
-  .side { position: absolute; top: 56px; bottom: 56px; z-index: 3; writing-mode: vertical-rl; font: 700 58px/1 var(--display); color: var(--blue);
-    text-align: center; letter-spacing: .02em; mix-blend-mode: multiply; }
-  .side.l { left: 56px; transform: rotate(180deg); } .side.r { right: 56px; }
-
-  .date { position: absolute; right: 150px; top: 56px; z-index: 3; text-align: right; font: 900 76px/.95 var(--display); }
-  .title { position: absolute; left: 140px; right: 140px; top: 930px; z-index: 3; font: 900 150px/.9 var(--display); white-space: nowrap; text-align: center; letter-spacing: -.02em; mix-blend-mode: multiply; }
-  .lineup { position: absolute; left: 140px; right: 140px; bottom: 56px; z-index: 3; display: flex; justify-content: space-between; font: 500 30px/1.35 var(--display); }
-  .lineup div:last-child { text-align: right; }
+  .side { position: absolute; left: 50px; top: 50px; z-index: 2; font: 700 26px/1 var(--display); color: var(--red); letter-spacing: .02em; }
+  .date { position: absolute; right: 50px; top: 46px; z-index: 2; text-align: right; font: 900 30px/1 var(--display); }
+  .info { position: absolute; left: 50px; bottom: 50px; z-index: 2; font: 500 26px/1.35 var(--display); mix-blend-mode: multiply; }
+  .info b { display: block; font: 900 64px/1 var(--display); margin-bottom: 14px; }
 </style>
 </head>
 <body>
@@ -146,28 +130,16 @@
   </defs>
 </svg>
 <section class="artboard" data-name="flat">
-  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
   <div class="cone"></div><div class="cap"></div>
-  <div class="side l">BASEMENT</div><div class="side r">FREQUENCIES</div>
-  <div class="date">21.11<br>2026</div>
-  <h1 class="title" data-fit>LOW END</h1>
-  <div class="lineup"><div>KAIROS<br>DUSTPAN<br>VJ HALO</div><div>MERIDIAN<br>LOWTIDE<br>OXBOW</div></div>
+  <img class="echo" src="assets/lowend-0.svg" style="top:110px" alt="Low end">
+  <img class="echo" src="assets/lowend-1.svg" style="top:278px" alt="">
+  <img class="echo" src="assets/lowend-2.svg" style="top:446px" alt="">
+  <img class="echo" src="assets/lowend-3.svg" style="top:614px" alt="">
+  <img class="echo" src="assets/lowend-4.svg" style="top:782px" alt="">
+  <img class="echo" src="assets/lowend-5.svg" style="top:950px" alt="">
+  <p class="side">BASEMENT FREQUENCIES</p>
+  <p class="date">21.11.2026</p>
+  <div class="info"><b>23:00–06:00</b>KAIROS · DUSTPAN · MERIDIAN<br>LOWTIDE · OXBOW · VJ HALO</div>
 </section>
-<script>
-window.layout = async () => {
-  for (const el of document.querySelectorAll('[data-fit]')) {
-    const cs = getComputedStyle(el);
-    await document.fonts.load(`${cs.fontStyle} ${cs.fontWeight} 100px ${cs.fontFamily}`);
-    let lo = 4, hi = 1000;
-    while (hi - lo > 0.25) {
-      const mid = (lo + hi) / 2;
-      el.style.fontSize = `${mid}px`;
-      if (el.scrollWidth <= el.clientWidth) lo = mid; else hi = mid;
-    }
-    el.style.fontSize = `${lo}px`;
-  }
-};
-window.addEventListener('load', () => window.layout());
-</script>
 </body>
 </html>

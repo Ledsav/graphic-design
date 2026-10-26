@@ -8,6 +8,7 @@
   cutout     subject on a transparent background (rembg if installed, else flood from the edges)
   outline    sticker border around a cut-out
   torn       torn-paper edges with a fibrous paper rim
+  contour    a cut-out's silhouette as an SVG path, for text that follows the figure
   texture    procedural overlays: grain, paper, dust, folds, grunge
 
 Every photo command takes --width (resize before treating: halftone and photocopy
@@ -300,6 +301,65 @@ def cmd_torn(a):
     save(res, a.output)
 
 
+def cmd_contour(a):
+    """Trace a cut-out's silhouette (offset outward) as an SVG path for text to follow."""
+    img = Image.open(a.image).convert("RGBA")
+    w, h = img.size
+    alpha = img.getchannel("A").point(lambda v: 255 if v > 128 else 0)
+    if a.offset + a.round > 0:                     # grow by offset + round, then shrink by round: fills tight concave corners
+        alpha = alpha.filter(ImageFilter.GaussianBlur((a.offset + a.round) / 2)).point(lambda v: 255 if v > 10 else 0)
+    if a.round > 0:
+        alpha = alpha.filter(ImageFilter.GaussianBlur(a.round / 2)).point(lambda v: 255 if v > 245 else 0)
+    f = max(1.0, max(w, h) / 500)
+    small = alpha.resize((max(1, round(w / f)), max(1, round(h / f))), Image.BOX).point(lambda v: 255 if v > 127 else 0)
+    m = np.pad(np.asarray(small) > 0, 1)
+    if not m.any():
+        sys.exit("no opaque pixels to trace")
+    ys, xs = np.nonzero(m)
+    k = np.lexsort((xs, ys))[0]
+    start = (int(ys[k]), int(xs[k]))
+    ring = [(0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)]
+    pts, cur, back = [start], start, 0                 # Moore-neighbour tracing, clockwise
+    for _ in range(400000):
+        for step in range(8):
+            d = (back + step) % 8
+            ny, nx = cur[0] + ring[d][0], cur[1] + ring[d][1]
+            if m[ny, nx]:
+                pd = (back + step - 1) % 8
+                by, bx = cur[0] + ring[pd][0], cur[1] + ring[pd][1]
+                cur, back = (ny, nx), ring.index((by - ny, bx - nx))
+                break
+        else:
+            break
+        if cur == start:
+            break
+        pts.append(cur)
+    pts = np.array([((x - 1 + 0.5) * f, (y - 1 + 0.5) * f) for y, x in pts], np.float64)
+    pts = pts[:: max(1, len(pts) // 240)]
+    closed = a.part == "full"
+    if not closed:                                    # left-most to right-most point over the top (or under the bottom)
+        i0, i1 = int(np.argmin(pts[:, 0])), int(np.argmax(pts[:, 0]))
+        seg1 = np.concatenate([pts[i0:], pts[:i1 + 1]]) if i0 > i1 else pts[i0:i1 + 1]
+        seg2 = np.concatenate([pts[i1:], pts[:i0 + 1]]) if i1 > i0 else pts[i1:i0 + 1]
+        seg2 = seg2[::-1]
+        pick_top = a.part == "top"
+        pts = seg1 if (seg1[:, 1].mean() < seg2[:, 1].mean()) == pick_top else seg2
+    for _ in range(a.smooth):                         # Chaikin corner cutting
+        q = 0.75 * pts + 0.25 * np.roll(pts, -1, axis=0)
+        r = 0.25 * pts + 0.75 * np.roll(pts, -1, axis=0)
+        sm = np.empty((len(pts) * 2, 2))
+        sm[0::2], sm[1::2] = q, r
+        pts = sm if closed else np.vstack([pts[:1], sm[:-2], pts[-1:]])
+    d = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts) + ("Z" if closed else "")
+    length = float(np.sum(np.hypot(*np.diff(np.vstack([pts, pts[:1]]) if closed else pts, axis=0).T)))
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}">'
+           f'<path id="contour" d="{d}" fill="none" stroke="#ff0066" stroke-width="3"/></svg>\n')
+    with open(a.output, "w") as fh:
+        fh.write(svg)
+    print(f"Wrote {a.output}: {a.part} contour, {len(pts)} points, length {length:.0f}px in a {w}x{h} viewBox "
+          "(place it over the image box; use the path d in a <textPath>)")
+
+
 def cmd_texture(a):
     w, h = a.size
     rng = np.random.default_rng(a.seed)
@@ -438,6 +498,16 @@ def main():
     sp.add_argument("--rim", type=float, default=7, help="paper fibre rim width, px")
     sp.add_argument("--rim-color", type=rgb, default=rgb("#f1eee6"))
     sp.set_defaults(func=cmd_torn)
+
+    sp = sub.add_parser("contour", help="silhouette outline as an SVG path for text on a path")
+    sp.add_argument("image", help="cut-out PNG with transparency")
+    sp.add_argument("-o", "--output", required=True, help=".svg")
+    sp.add_argument("--offset", type=float, default=24, help="distance outside the silhouette, px")
+    sp.add_argument("--part", choices=["full", "top", "bottom"], default="top",
+                    help="full closed outline, or left-to-right over the top / under the bottom")
+    sp.add_argument("--round", type=float, default=60, help="fill concave corners tighter than this radius, px (text flows better)")
+    sp.add_argument("--smooth", type=int, default=3, help="smoothing passes")
+    sp.set_defaults(func=cmd_contour)
 
     sp = sub.add_parser("texture", help="procedural overlay")
     sp.add_argument("kind", choices=["grain", "paper", "dust", "folds", "grunge"])

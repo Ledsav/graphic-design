@@ -6,7 +6,7 @@ A Claude Code workspace set up as a full-service graphic design studio. Open thi
 
 | Skill | What it does | Source |
 |---|---|---|
-| `html-graphics` | Posters, flyers, covers, social posts and ads built in HTML/CSS and rendered to exact PNG/JPEG/PDF. Includes a renderer that checks the output, image treatments (halftone, photocopy, riso, duotone, cut-outs, torn paper, textures), an SVG filter library, poster style recipes and five worked examples. | Written for this repo |
+| `html-graphics` | Posters, flyers, covers, social posts and ads built in HTML/CSS and rendered to exact PNG/JPEG/PDF. Includes a renderer that checks the output, a lettering tool for drawn titles (warps, drips, extrusion, hand-lettered bounce, interlocking with the subject), image treatments (halftone, photocopy, riso, duotone, cut-outs, torn paper, silhouette contours, textures), an SVG filter library, composition and poster style guides, and worked examples. | Written for this repo |
 | `canvas-design` | Art prints and abstract visual pieces as PNG/PDF, driven by a written design philosophy. Ships 29 open-licence (OFL) font families. | Anthropic |
 | `algorithmic-art` | Generative art in p5.js: flow fields, particles, patterns, textures, with an interactive parameter viewer. | Anthropic |
 | `theme-factory` | 10 curated colour and type themes, plus custom ones, applied consistently to decks, docs and pages. | Anthropic |
@@ -35,7 +35,7 @@ Left out on purpose:
 
 ```bash
 pip install -r requirements.txt
-npm install && npx playwright install chromium   # HTML renderer
+npm install && npx playwright install chromium   # HTML renderer and lettering tool
 pip install rembg onnxruntime                     # optional: background removal for cut-outs
 ```
 
@@ -43,7 +43,7 @@ Optional: for AI-generated logos, identity mockups and icons in the `design` ski
 
 ## Examples
 
-`.claude/skills/html-graphics/examples/previews/` has five posters made with this setup: a photocopy zine, a sticker cut-out over giant type, halftone on torn paper, an editorial cover with the title behind the subject, and a two-ink riso print.
+`.claude/skills/html-graphics/examples/previews/` has posters made with this setup: a giant-crop photocopy zine, a cut-out interlocking with a drawn title, a diagonal halftone collage with dripping western type, an echo riso print, a type-led horror poster, an editorial cover, and the composition thumbnails behind one of them.
 
 ## Try it
 

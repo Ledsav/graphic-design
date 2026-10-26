@@ -19,7 +19,7 @@ Stack order that works for nearly all of them (z-index low to high): background 
 
 ## Display fonts by genre
 
-All on Google Fonts (OFL), loaded with a `<link>`. Bundled families (from `assets/fonts.css`) are marked with a star. The renderer warns if a name is wrong and the text falls back.
+All on Google Fonts (OFL), loaded with a `<link>`. Bundled families (from `assets/fonts.css`) are marked with a star. The renderer warns if a name is wrong and the text falls back. A longer list by mood is in `type-and-composition.md`; whichever face you choose, draw the title with `scripts/lettering.cjs` rather than setting it straight.
 
 | Genre | Fonts |
 |---|---|

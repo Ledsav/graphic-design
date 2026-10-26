@@ -28,7 +28,7 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 ## Process
 
 1. **Brief.** Pin down goal, audience, medium and exact size, the real copy, existing brand assets, constraints and how many options. Ask only for what is missing and matters; otherwise state your assumptions and go.
-2. **Direction.** For new work, propose 2-3 distinct concepts in a few lines each (idea, palette as hex, typefaces, composition) before producing finals, unless the user asked you to just make it.
+2. **Direction.** For new work, propose 2-3 distinct concepts in a few lines each (idea, palette as hex, typefaces, composition) before producing finals, unless the user asked you to just make it. For posters and other layouts, sketch 4-6 composition thumbnails before detailing one (see `html-graphics/references/type-and-composition.md`).
 3. **Make.** Follow the routed skill. Use the real copy, never lorem ipsum. Design at the final output size.
 4. **Look.** Render the output and view it yourself (open the PNG with Read; HTML goes through `html-graphics/scripts/render.cjs`, which also flags type and image problems). Critique it against the checklist below and do at least one refinement pass. Never deliver something you have not seen.
 5. **Deliver.** Put files in `projects/<project-slug>/` (brief, sources, exports). Give the user the files plus a short rationale: concept, palette, type and what to watch for.
@@ -38,6 +38,7 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 - One clear focal point; the hierarchy survives a squint test and a thumbnail-size view.
 - Everything sits on a grid or a deliberate alignment; spacing comes from a consistent scale.
 - At most two type families with a clear scale; comfortable line length; no orphaned words in headlines.
+- Display titles are drawn, not just typed: warped, stacked, interlocked with the image, cropped or fitted to the subject (`html-graphics/scripts/lettering.cjs`). The centred title / image / info stack is the default to beat, not the answer.
 - Restrained palette; text contrast at least 4.5:1 (3:1 for large display type).
 - Nothing overlaps unintentionally, nothing falls off the canvas, margins are generous.
 - Fits the brand and the subject, not a generic template (see the "AI-generated design" tells in `frontend-design`).

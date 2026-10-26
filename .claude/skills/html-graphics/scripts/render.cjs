@@ -514,7 +514,8 @@ async function main() {
     const u = new URL(proxyEnv);
     proxy = { server: `${u.protocol}//${u.host}`, username: decodeURIComponent(u.username) || undefined, password: decodeURIComponent(u.password) || undefined };
   }
-  const browser = await chromium.launch(proxy ? { proxy } : {});
+  // file:// pages count as one origin, so shape-outside, masks and canvas can read local images.
+  const browser = await chromium.launch({ args: ['--allow-file-access-from-files'], ...(proxy ? { proxy } : {}) });
   let warnings = 0;
   try {
     for (const f of opts.files) warnings += await renderFile(browser, f, opts);

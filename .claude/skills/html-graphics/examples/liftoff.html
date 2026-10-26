@@ -3,47 +3,43 @@
 <head>
 <meta charset="utf-8">
 <title>Lift off</title>
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Instrument+Sans:wght@500;700&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Instrument+Sans:wght@500;700&display=block" rel="stylesheet">
 <style>
-  :root {
-    --red: #c3161c;
-    --deep: #9e0f14;
-    --cream: #f4e6cc;
-    --display: "Bowlby One", sans-serif;
-    --text: "Instrument Sans", sans-serif;
-  }
+  :root { --red: #c3161c; --deep: #9e0f14; --cream: #f4e6cc; --display: "Bagel Fat One", sans-serif; --text: "Instrument Sans", sans-serif; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1350px; --safe: 48px;
+    background: var(--red); color: var(--cream); font-family: var(--text); }
 
-  .artboard {
-    position: relative; overflow: hidden; isolation: isolate;
-    width: 1080px; height: 1350px; --safe: 56px;
-    background: var(--red); color: var(--cream); font-family: var(--text);
-  }
-  .contours {
-    position: absolute; inset: -120px; z-index: 0;
-    background: repeating-radial-gradient(circle at 70% 35%, transparent 0 46px, var(--deep) 46px 80px);
-    opacity: .45; filter: url(#wobble);
-  }
-  .dots {
-    position: absolute; inset: 0; z-index: 1; opacity: .18;
+  .contours { position: absolute; inset: -120px; z-index: 0; opacity: .45; filter: url(#wobble);
+    background: repeating-radial-gradient(circle at 78% 30%, transparent 0 46px, var(--deep) 46px 80px); }
+  .dots { position: absolute; inset: 0; z-index: 1; opacity: .18;
     background: radial-gradient(circle, #000 30%, transparent 32%) 0 0 / 9px 9px;
-    -webkit-mask: linear-gradient(160deg, #000, transparent 60%); mask: linear-gradient(160deg, #000, transparent 60%);
-  }
+    -webkit-mask: linear-gradient(200deg, #000, transparent 55%); mask: linear-gradient(200deg, #000, transparent 55%); }
 
-  .kicker { position: absolute; left: 0; right: 0; top: 62px; text-align: center; font: 700 26px/1 var(--text); letter-spacing: .03em; z-index: 3; }
-  .stack { position: absolute; left: 44px; right: 44px; top: 104px; z-index: 2; filter: url(#speckle); }
-  .title { display: block; font: 400 300px/.8 var(--display); text-align: center; letter-spacing: -.02em; white-space: nowrap; }
+  /* Title behind the subject, one letter (the last F) in front of it. */
+  .title, .title-front { position: absolute; left: 34px; top: 46px; width: 1000px; filter: url(#speckle); }
+  .title { z-index: 2; }
+  .title-front { z-index: 5; }
+  .astro { position: absolute; left: 30px; top: 420px; width: 1190px; z-index: 4;
+    filter: url(#sticker) drop-shadow(0 18px 30px rgb(60 0 0 / .5)); }
 
-  .astro { position: absolute; left: 150px; top: 470px; width: 780px; z-index: 4; filter: url(#sticker) drop-shadow(0 14px 24px rgb(60 0 0 / .45)); }
+  .kicker { position: absolute; left: 30px; bottom: 300px; z-index: 6; transform-origin: left bottom; transform: rotate(-90deg) translateY(100%);
+    font: 700 22px/1 var(--text); letter-spacing: .02em; white-space: nowrap; }
 
-  .info { position: absolute; left: 56px; right: 56px; bottom: 56px; z-index: 5; text-align: center; font-family: var(--display); }
-  .info .when { font-size: 38px; line-height: 1; display: flex; justify-content: center; gap: 22px; align-items: center; white-space: nowrap; }
-  .info .when i { width: 3px; height: 40px; background: var(--cream); display: inline-block; }
-  .info .acts { margin-top: 18px; font-size: 40px; display: flex; justify-content: space-between; }
-  .band { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; z-index: 4; background: linear-gradient(transparent, var(--red) 45%); }
+  .badge { position: absolute; right: 54px; top: 930px; width: 210px; height: 210px; z-index: 6; border-radius: 50%;
+    background: var(--cream); color: var(--red); transform: rotate(14deg); display: grid; place-items: center; text-align: center;
+    font: 400 40px/.9 var(--display); box-shadow: 0 10px 24px rgb(60 0 0 / .35); }
+  .badge small { display: block; font: 700 17px/1.1 var(--text); margin-top: 6px; }
+  .badge svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-  .grain { position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: overlay; opacity: .55; z-index: 9; pointer-events: none; }
+  .band { position: absolute; left: 0; right: 0; bottom: 0; height: 330px; z-index: 5; background: linear-gradient(transparent, var(--red) 52%); }
+  .when { position: absolute; left: 48px; bottom: 52px; z-index: 6; font: 400 54px/.95 var(--display); }
+  .when span { display: block; font: 700 26px/1.2 var(--text); margin-top: 10px; }
+  .acts { position: absolute; right: 48px; bottom: 52px; z-index: 6; text-align: right; font: 400 34px/1.05 var(--display); }
+
+  .grain { position: absolute; inset: 0; z-index: 9; pointer-events: none; mix-blend-mode: overlay; opacity: .55;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 </style>
 </head>
 <body>
@@ -153,31 +149,19 @@
 </svg>
 <section class="artboard" data-name="post">
   <div class="contours"></div><div class="dots"></div>
-  <p class="kicker">● Planetarium late · adults only ●</p>
-  <h1 class="stack"><span class="title" data-fit>LIFT</span><span class="title" data-fit>OFF</span></h1>
+  <img class="title" src="assets/liftoff-title.svg" alt="Lift off">
   <img class="astro" src="assets/astronaut-cut.png" alt="">
-  <div class="band"></div>
-  <div class="info">
-    <div class="when"><span>SAT 14.11</span><i></i><span>21H</span><i></i><span>CITY PLANETARIUM</span></div>
-    <div class="acts"><span>DJ ORBIT</span><span>DJ PERIGEE</span><span>DJ NOVA</span></div>
+  <img class="title-front" src="assets/liftoff-title-front.svg" alt="">
+  <p class="kicker">Planetarium late · adults only</p>
+  <div class="badge">
+    <svg viewBox="0 0 210 210"><path id="ring" d="M105,105 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0" fill="none"/>
+      <text font-family="Instrument Sans" font-weight="700" font-size="15" letter-spacing="3" fill="#c3161c"><textPath href="#ring">FREE ENTRY BEFORE 22H · FREE ENTRY BEFORE 22H ·</textPath></text></svg>
+    <div>FREE<small>before 22h</small></div>
   </div>
+  <div class="band"></div>
+  <div class="when">SAT 14.11<span>21h · City Planetarium</span></div>
+  <div class="acts">DJ ORBIT<br>DJ PERIGEE<br>DJ NOVA</div>
   <div class="grain"></div>
 </section>
-<script>
-window.layout = async () => {
-  for (const el of document.querySelectorAll('[data-fit]')) {
-    const cs = getComputedStyle(el);
-    await document.fonts.load(`${cs.fontStyle} ${cs.fontWeight} 100px ${cs.fontFamily}`);
-    let lo = 4, hi = 1000;
-    while (hi - lo > 0.25) {
-      const mid = (lo + hi) / 2;
-      el.style.fontSize = `${mid}px`;
-      if (el.scrollWidth <= el.clientWidth) lo = mid; else hi = mid;
-    }
-    el.style.fontSize = `${lo}px`;
-  }
-};
-window.addEventListener('load', () => window.layout());
-</script>
 </body>
 </html>
