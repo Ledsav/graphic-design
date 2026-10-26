@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Salon Félin</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1527px; --safe: 48px; }
+  .abs { position: absolute; }
+
+  /* Halo: centre (740, 640), outer radius 470, bleeding off the right edge. */
+  .halo-svg { left: 0; top: 0; z-index: 2; overflow: visible; }
+  .window   { left: 340px; top: 240px; width: 800px; height: 800px; z-index: 3; }
+  .window img { position: absolute; left: -335px; top: -95px; width: 1350px; }
+
+  .felin  { left: 60px; top: 1010px; width: 960px; z-index: 1; }
+  .salon  { left: 52px; top: 120px; width: 400px; z-index: 6; transform: rotate(-16deg); transform-origin: left bottom; }
+  .ring   { left: 0; top: 0; z-index: 4; overflow: visible; }
+  .stems  { left: 0; top: 0; z-index: 5; overflow: visible; }
+
+  .when   { left: var(--margin); bottom: 52px; z-index: 6; }
+  .when b { display: block; font: 400 52px/1 var(--display); letter-spacing: .01em; }
+  .when span { display: block; margin-top: 10px; }
+  .where  { right: var(--margin); bottom: 52px; z-index: 6; text-align: right; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Posterize to the palette: blur away the fur, snap luminance to 4 flat inks (umber, sienna, ochre, cream),
+         ink the borders between tones and the silhouette in umber. Input: a greyscale cut-out with levels set
+         (treat.py duotone ... --colors '#000000,#ffffff'). Each tableValues list has 10 steps of 0.1 luminance. -->
+    <filter id="nv-tones" color-interpolation-filters="sRGB" x="-2%" y="-2%" width="104%" height="104%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="soft"/>                       <!-- 3-6: bigger = flatter shapes -->
+      <feColorMatrix in="soft" type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0" result="lum"/>
+      <feComponentTransfer in="lum" result="lev"><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer>
+      <feComponentTransfer in="lev" result="tones">                                              <!-- U U S S O O O O C C -->
+        <feFuncR type="discrete" tableValues=".231 .231 .612 .612 .784 .784 .784 .784 .937 .937"/>
+        <feFuncG type="discrete" tableValues=".165 .165 .353 .353 .576 .576 .576 .576 .894 .894"/>
+        <feFuncB type="discrete" tableValues=".125 .125 .235 .235 .231 .231 .231 .231 .796 .796"/>
+      </feComponentTransfer>
+      <feComponentTransfer in="lev" result="steps">
+        <feFuncR type="discrete" tableValues="0 0 .33 .33 .66 .66 .66 .66 1 1"/>
+        <feFuncG type="discrete" tableValues="0 0 .33 .33 .66 .66 .66 .66 1 1"/>
+        <feFuncB type="discrete" tableValues="0 0 .33 .33 .66 .66 .66 .66 1 1"/>
+      </feComponentTransfer>
+      <feConvolveMatrix in="steps" order="3" kernelMatrix="0 1 0 1 -4 1 0 1 0" preserveAlpha="true" result="lap"/>
+      <feColorMatrix in="lap" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  6 0 0 0 0" result="edgeA"/>
+      <feMorphology in="edgeA" operator="dilate" radius="1" result="edgeT"/>                    <!-- contour weight -->
+      <feFlood flood-color="#3b2a20"/><feComposite in2="edgeT" operator="in" result="edges"/>
+      <feComponentTransfer in="SourceAlpha" result="hard"><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer>
+      <feMorphology in="hard" operator="dilate" radius="5" result="fat"/>                       <!-- silhouette keyline -->
+      <feFlood flood-color="#3b2a20"/><feComposite in2="fat" operator="in" result="rim"/>
+      <feMerge><feMergeNode in="rim"/><feMergeNode in="tones"/><feMergeNode in="edges"/></feMerge>
+    </filter>
+
+    <!-- Catnip leaf (ovate, pointed, with midrib) and floret, drawn at the origin pointing right. -->
+    <symbol id="leaf" viewBox="-6 -40 100 80" overflow="visible">
+      <path d="M0 0 C 8 -30, 52 -38, 86 0 C 52 38, 8 30, 0 0 Z" fill="#9aa47f" stroke="#3b2a20" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M6 0 C 30 -4, 52 -3, 74 0" fill="none" stroke="#3b2a20" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<section class="artboard" data-name="poster">
+  <div class="nv-frame" style="z-index:0"></div>
+
+  <!-- Display word behind the halo: its ascenders tuck under the ring. -->
+  <img class="abs felin" src="assets/title-felin.svg" alt="Félin">
+
+  <!-- Halo bands: ochre band with cream beads, rose inner band, umber keylines. -->
+  <svg class="abs halo-svg" width="1080" height="1527" viewBox="0 0 1080 1527" aria-hidden="true">
+    <circle cx="740" cy="640" r="470" fill="#c8933b" stroke="#3b2a20" stroke-width="10"/>
+    <circle cx="740" cy="640" r="421" fill="#cf968a" stroke="#3b2a20" stroke-width="5"/>
+    <circle cx="740" cy="640" r="403" fill="none" stroke="#3b2a20" stroke-width="5"/>
+    <g id="beads"></g>
+  </svg>
+
+  <div class="nv-halo nv-rings window"><img class="nv-tones" src="assets/cat-tone.png" alt=""></div>
+
+  <!-- Line on the halo's circumference. -->
+  <svg class="abs ring" width="1080" height="1527" viewBox="0 0 1080 1527">
+    <path id="ringpath" d="M235 640 a505 505 0 1 1 1010 0 a505 505 0 1 1 -1010 0" fill="none"/>
+    <text class="nv-caps" font-family="Cormorant Garamond" font-weight="700" font-size="21" letter-spacing="3.4" fill="#3b2a20">
+      <textPath href="#ringpath" startOffset="560">Trente-deuxième exposition · Société féline de Valrose</textPath>
+    </text>
+  </svg>
+
+  <!-- Whiplash stems with catnip leaves, drawn here and leafed by the script below. -->
+  <svg class="abs stems" width="1080" height="1527" viewBox="0 0 1080 1527" aria-hidden="true">
+    <g fill="none" stroke="#3b2a20" stroke-linecap="round">
+      <path id="stem1" d="M150 1160 C 120 1060, 40 1000, 70 880 C 100 760, 230 740, 220 620 C 210 500, 90 500, 95 430 C 100 360, 175 350, 178 400 C 180 430, 150 440, 140 420" stroke-width="9"/>
+    </g>
+    <g id="leaves"></g>
+  </svg>
+
+  <img class="abs salon" src="assets/title-salon.svg" alt="Salon">
+
+  <div class="abs when">
+    <b>14 – 16 mai 2027</b>
+    <span class="nv-caps">Palmarium de Valrose</span>
+  </div>
+  <div class="abs where nv-text">
+    Allée des Tilleuls · 10 h – 19 h<br>
+    Entrée 6 € · salonfelin.example
+  </div>
+
+  <div class="overlay nv-paper" style="background-image:url(assets/paper.png)"></div>
+  <div class="grain"></div>
+</section>
+<script>
+  // Deterministic ornament: beads round the halo band and leaf pairs along the stems.
+  const NS = 'http://www.w3.org/2000/svg';
+  const beads = document.getElementById('beads');
+  for (let i = 0; i < 72; i++) {
+    const a = i / 72 * Math.PI * 2, r = 446;
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', 740 + Math.cos(a) * r); c.setAttribute('cy', 640 + Math.sin(a) * r);
+    c.setAttribute('r', i % 2 ? 4 : 10);
+    c.setAttribute('fill', i % 2 ? '#3b2a20' : '#efe4cb');
+    if (!(i % 2)) { c.setAttribute('stroke', '#3b2a20'); c.setAttribute('stroke-width', 3); }
+    beads.appendChild(c);
+  }
+  const leaves = document.getElementById('leaves');
+  function leafPairs(id, stops) {
+    const p = document.getElementById(id), L = p.getTotalLength();
+    for (const [t, size, flip] of stops) {
+      const a = p.getPointAtLength(L * t), b = p.getPointAtLength(L * t + 2);
+      const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+      for (const side of flip ? [1] : [1, -1]) {
+        const u = document.createElementNS(NS, 'use');
+        u.setAttribute('href', '#leaf'); u.setAttribute('width', 100); u.setAttribute('height', 80);
+        u.setAttribute('transform', `translate(${a.x} ${a.y}) rotate(${ang + side * 58}) scale(${size}) translate(6 -40)`);
+        leaves.appendChild(u);
+      }
+    }
+  }
+  leafPairs('stem1', [[.1, 1.1], [.24, 1], [.4, .9], [.56, .8], [.7, .65], [.8, .5]]);
+</script>
+</body>
+</html>

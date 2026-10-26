@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>max q</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1527px; --safe: 24px; }
+  .artboard > * { position: absolute; }
+
+  /* Slab: the rocket, photocopied white on black, hard-cropped to a 300 px column and bleeding off the bottom. */
+  .slab { left: 0; top: 0; width: 300px; height: 1527px; background: var(--ink) url(assets/rocket-slab.png) -363px 33px / 840px auto no-repeat; }
+
+  /* Title: MAX stretched and cropped by the right edge; Q crosses the slab in x-ray (difference) mode. */
+  .max { left: 312px; top: 40px; width: 860px; }
+  .bar { left: 300px; right: 0; top: 452px; border-top: var(--rule) solid var(--ink); }
+  .q   { left: 140px; top: 508px; width: 884px; }
+
+  /* Dimension line measuring the Q, with its label breaking the line. */
+  .dim { left: 1041px; top: 510px; height: 986px; width: 2px; background: var(--ink); }
+  .dim::before, .dim::after { content: ""; position: absolute; left: -11px; width: 24px; height: 2px; background: var(--ink); }
+  .dim::before { top: 0; } .dim::after { bottom: 0; }
+  .dim-label { left: 1042px; top: 1003px; text-transform: none; transform: translate(-50%, -50%) rotate(-90deg); background: var(--bg); padding: 0 12px; white-space: nowrap; font-size: 16px; }
+
+  .tag { left: 24px; top: 58px; width: 252px; color: var(--bg); }
+  .tag .brut-big { display: block; margin-bottom: 14px; }
+  .fig { left: 24px; top: 400px; color: var(--bg); }
+
+  .lineup { left: 445px; top: 820px; width: 280px; font-size: 18px; }
+  .date { left: 300px; bottom: -12px; width: 430px; padding: 20px 24px 36px 24px; border: var(--rule) solid var(--ink); }
+  .date .brut-big { display: block; margin-bottom: 6px; }
+  .date .brut-label { display: block; margin-top: 12px; }
+</style>
+</head>
+<body>
+<!-- Photo: _shared/photos/rocket.jpg (SpaceX, public domain), cropped and treated with treat.py photocopy into assets/rocket-slab.png.
+     Title: assets/max.svg and assets/q.svg from lettering.cjs (Archivo Black); commands in style.md. -->
+<section class="artboard" data-name="poster">
+  <div class="slab"></div>
+  <img class="max" src="assets/max.svg" alt="">
+  <div class="bar"></div>
+  <img class="q brut-xray" src="assets/q.svg" alt="">
+
+  <div class="brut-hline" style="--y:40px"></div>
+  <div class="brut-hline" style="--y:1496px"></div>
+  <div class="dim"></div>
+  <p class="dim-label brut-label">q = &frac12;&rho;v&sup2; &asymp; 35 kPa</p>
+
+  <div class="tag brut-label">
+    <span class="brut-big">[Max Q]</span>
+    <p>Noise / industrial / hard techno. 12 hours at maximum dynamic pressure.</p>
+  </div>
+  <p class="fig brut-label">Fig. 01<br>Vehicle on pad<br>T&minus;00:00:10</p>
+
+  <ol class="lineup brut-table">
+    <li><span>01</span><span>Hollow Sector</span><span>22:00</span></li>
+    <li><span>02</span><span>Void Press</span><span>23:30</span></li>
+    <li><span>03</span><span>Rustbelt Choir</span><span>01:00</span></li>
+    <li><span>04</span><span>Torque Room</span><span>03:00</span></li>
+    <li><span>05</span><span>Null Field</span><span>05:30</span></li>
+    <li><span>06</span><span>Ore &amp; Static</span><span>08:00</span></li>
+  </ol>
+
+  <div class="date brut-acid">
+    <span class="brut-big">Sat 13.03.2027</span>
+    <span class="brut-big">22:00 &rarr; 10:00</span>
+    <span class="brut-label">Hangar 9, Pier Road 40<br>&euro;24 / 18+ / maxq.example</span>
+  </div>
+
+  <div class="grain"></div>
+</section>
+</body>
+</html>

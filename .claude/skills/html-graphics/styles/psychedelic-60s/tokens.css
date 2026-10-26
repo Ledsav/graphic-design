@@ -1,0 +1,50 @@
+/* Psychedelic 60s: tokens and helpers. Link after styles/_base.css.
+   The posterize filter (#psy-poster) and the melt filter (#psy-melt) live in the HTML: see style.md, Build. */
+@import url("https://fonts.googleapis.com/css2?family=Gajraj+One&family=Righteous&display=block");
+
+:root {
+  --bg: #4b8bff;          /* electric blue: the ground and ring B */
+  --ink: #2a0b3d;         /* aubergine: outlines, frame, pupils, darkest poster tone */
+  --cream: #ffeec2;       /* title face, highlights, frame lettering */
+  --orange: #ff5e1a;      /* ring A; vibrates against --blue (equal value) */
+  --blue: #4b8bff;
+  --magenta: #e8178a;     /* second pair, used once as an accent */
+  --green: #16934a;
+  --display: "Gajraj One", serif;
+  --text: "Righteous", sans-serif;
+  --grain: .28;
+  --grain-blend: overlay;
+
+  --ring: 24px;           /* op-art band width on a 1080 artboard */
+  --frame: 56px;          /* ornamental border thickness (sides) */
+}
+
+/* Concentric op-art field in the vibrating pair. Set --cx/--cy to the focal point (an eye, a mouth, a sun). */
+.psy-rings {
+  position: absolute; inset: 0;
+  background: repeating-radial-gradient(circle at var(--cx, 50%) var(--cy, 50%),
+    var(--ring-a, var(--orange)) 0 var(--ring), var(--ring-b, var(--blue)) var(--ring) calc(var(--ring) * 2));
+}
+
+/* Radial rays (sunburst / hypnotic iris) in the second pair. */
+.psy-rays {
+  background: repeating-conic-gradient(from 0deg at var(--cx, 50%) var(--cy, 50%),
+    var(--ray-a, var(--magenta)) 0 7.5deg, var(--ray-b, var(--green)) 7.5deg 15deg);
+}
+
+/* Flat posterized image: the img must be a grey, contrast-set file at final size (treat.py duotone '#000,#fff'). */
+.psy-poster { filter: url(#psy-poster); }
+
+/* Liquid wobble for ring fields and borders (inset the element by -80px so the edges never show). */
+.psy-melt { filter: url(#psy-melt); }
+
+/* Type. Display is drawn with lettering.cjs; these are for the small print. */
+.psy-display { font: 400 1em/.86 var(--display); letter-spacing: -.02em; }
+.psy-label   { font: 400 21px/1.15 var(--text); letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+.psy-text    { font: 400 24px/1.25 var(--text); letter-spacing: .04em; }
+
+/* Scalloped edge strip: put along the inside of a frame band. --sc = scallop diameter. */
+.psy-scallop-x { height: calc(var(--sc, 36px) / 2);
+  background: radial-gradient(circle at 50% 0, var(--ink) calc(var(--sc, 36px) / 2 - .5px), transparent calc(var(--sc, 36px) / 2)) 0 0 / var(--sc, 36px) 100% repeat-x; }
+.psy-scallop-y { width: calc(var(--sc, 36px) / 2);
+  background: radial-gradient(circle at 0 50%, var(--ink) calc(var(--sc, 36px) / 2 - .5px), transparent calc(var(--sc, 36px) / 2)) 0 0 / 100% var(--sc, 36px) repeat-y; }

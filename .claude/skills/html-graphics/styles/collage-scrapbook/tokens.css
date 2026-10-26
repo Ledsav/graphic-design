@@ -1,0 +1,76 @@
+/* Collage scrapbook: tokens and helpers. Link after styles/_base.css.
+   Paste templates/filters.html after <body>: .cs-torn and .cs-stamp use #torn and #distress. */
+@import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Special+Elite&display=block");
+
+:root {
+  --bg: #c8a272;              /* kraft card: the board everything is pasted on */
+  --ink: #161514;             /* black card, marker, type */
+  --newsprint: #ebe5d5;       /* paper tone 1 */
+  --white-card: #f8f5ee;      /* paper tone 2 */
+  --grey-card: #d9d6cf;       /* paper tone 3 */
+  --kraft-dark: #a67f52;      /* paper tone 4: shadows of the ground, back of torn kraft */
+  --accent: #ff3f8e;          /* the one bright colour: fluoro pink */
+  --tape: rgb(238 230 204 / .74);
+  --rule: rgb(80 110 150 / .32); /* notebook and graph lines printed on scraps */
+
+  --display: "Caveat Brush", cursive;   /* hand-written notes; the title is ransom letters (lettering SVGs) */
+  --hand: "Caveat Brush", cursive;
+  --text: "Special Elite", monospace;   /* typed information */
+  --grain: .22;
+  --grain-blend: multiply;
+
+  /* One light source for every scrap: top left. */
+  --lift: drop-shadow(2px 5px 5px rgb(40 26 10 / .34));
+  --lift-high: drop-shadow(4px 12px 12px rgb(40 26 10 / .38));
+}
+
+/* A pasted piece. Its paper is painted on ::before, so the edge treatment (torn or cut)
+   doesn't touch the content. Set --paper per piece; rotate with transform. */
+.cs-scrap { position: absolute; z-index: 3; filter: var(--lift); }
+.cs-scrap::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--paper, var(--newsprint)); }
+.cs-torn::before { filter: url(#torn); }                                                     /* hand-torn edge */
+.cs-cut::before  { clip-path: var(--cut, polygon(1% 3%, 99% 0, 100% 96%, 0 100%)); }          /* scissor cut */
+.cs-cut.k2::before { --cut: polygon(0 0, 97% 4%, 100% 100%, 3% 97%); }
+.cs-cut.k3::before { --cut: polygon(4% 1%, 100% 0, 96% 100%, 0 95%); }
+
+/* Paper patterns printed on a scrap: notebook, graph paper, magazine halftone. */
+.cs-lined::before { background:
+  linear-gradient(90deg, transparent 54px, var(--accent) 54px 56px, transparent 56px),
+  repeating-linear-gradient(transparent 0 33px, var(--rule) 33px 35px), var(--paper, var(--white-card)); }
+.cs-graph::before { background:
+  repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 22px),
+  repeating-linear-gradient(var(--rule) 0 1px, transparent 1px 22px), var(--paper, var(--white-card)); }
+.cs-dots::before  { background: radial-gradient(rgb(22 21 20 / .16) 28%, transparent 32%) 0 0 / 9px 9px, var(--paper, var(--newsprint)); }
+
+/* Ransom-note letter: one letter per scrap, its own face, colour, size and angle.
+   <i class="cs-letter cs-cut" style="--paper:#ff3f8e; --h:180px; left:..; top:..; rotate:-4deg"><img src="assets/r2-p.svg"></i> */
+.cs-letter { padding: 16px 15px; line-height: 0; }
+.cs-letter img { display: block; height: var(--h, 160px); }
+/* Letter cut out of a photo: the lettering SVG masks the image. Set --src, --ar (svg width/height) and --img. */
+.cs-letter .cs-photo { display: block; height: var(--h, 160px); aspect-ratio: var(--ar);
+  -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat;
+  background: var(--img) center / cover; }
+
+/* Tape. Masking tape by default; .washi is the accent stripe. Hand-torn jagged ends via clip-path
+   (a displacement filter would smear the stripes). Translucent, normal blend: it must show on dark paper too. */
+.cs-tape { position: absolute; z-index: 6; width: 190px; height: 52px; background: var(--tape);
+  clip-path: polygon(2% 0, 98% 0, 100% 18%, 97% 34%, 100% 52%, 96% 70%, 100% 86%, 98% 100%, 2% 100%, 0 84%, 3% 66%, 0 48%, 4% 30%, 0 14%); }
+.cs-tape.washi { opacity: .92;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, var(--white-card) 12px 22px); }
+
+/* Words. */
+.cs-hand  { font: 400 44px/1 var(--hand); }
+.cs-typed { font: 400 25px/1.32 var(--text); }
+.cs-label { font: 400 21px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; }
+
+/* Embossed label-maker tape. */
+.cs-dymo { position: absolute; z-index: 7; white-space: nowrap; padding: 11px 18px 10px; background: var(--ink); color: #f4f1ea;
+  border-radius: 3px; filter: var(--lift);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / .6), 0 1px 0 rgb(255 255 255 / .25); }
+
+/* Rubber stamp in the accent ink: overprints, worn. */
+.cs-stamp { position: absolute; z-index: 8; color: var(--accent); mix-blend-mode: multiply; filter: url(#distress); }
+
+/* Marker doodles (arrows, circles, underlines) drawn as SVG paths. */
+.cs-doodle { position: absolute; z-index: 9; overflow: visible; fill: none; stroke: var(--ink);
+  stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }

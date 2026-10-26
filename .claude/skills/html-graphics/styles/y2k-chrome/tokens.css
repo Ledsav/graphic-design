@@ -1,0 +1,80 @@
+/* Y2K chrome: tokens and helpers. Link after styles/_base.css.
+   Chrome type = a lettering.cjs SVG used as a CSS mask over layered gradients, a bevel filter on a wrapper,
+   and a dark outline copy of the same lettering behind it. Paste the #y2k-bevel filter (style.md, Build) into the page. */
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&family=Silkscreen:wght@400;700&display=block");
+
+:root {
+  --bg: #0a0f2c;            /* deep space navy */
+  --ink: #f5f8ff;           /* ice white: type on navy */
+  --navy: #0a0f2c;          /* outlines, type on light panels */
+  --indigo: #25307a;        /* background glow */
+  --silver: #c9d3e0;
+  --baby: #9fd4ff;          /* baby blue */
+  --lilac: #b9a5ff;
+  --pink: #ff4fc8;          /* hot pink: one call to action */
+  --lime: #c8ff3c;          /* lime: one or two tiny accents */
+  --display: "Zen Dots", sans-serif;
+  --text: "Silkscreen", monospace;
+  --grain: .14;
+  --grain-blend: overlay;
+
+  /* The chrome fill: sky above a hard horizon at 50%, dark ground below, bright reflection at the bottom. */
+  --y2k-chrome: linear-gradient(180deg, #ffffff 0%, #d6ecff 16%, #7fb1e6 40%, #f2f9ff 48.5%, #141a2a 50%, #2c3548 56%, #7d8ca6 70%, #e4edf8 86%, #9fb0c8 100%);
+  /* XL chrome for letters taller than ~450 px: two horizons (12% and 66%), so a giant letter still reads as metal.
+     Move the two horizon pairs so each lands inside a horizontal stroke of the letter. */
+  --y2k-chrome-xl: linear-gradient(180deg, #ffffff 0%, #d6ecff 5%, #7fb1e6 10%, #eef7ff 11.6%, #121829 12.4%, #2c3548 16%, #8d9cb3 24%, #e9f0fa 34%,
+    #ffffff 44%, #bcd9f7 52%, #5d8fd0 62%, #e6f2ff 65.4%, #0f1424 66.2%, #2f3a52 72%, #93a3bd 84%, #e4edf8 94%, #b8c6da 100%);
+  /* Holographic film: conic rainbow kept in the pastel half of the palette. */
+  --y2k-holo: conic-gradient(from 200deg at 60% 55%, #ff9de2, #a5f3ff, #c6b3ff, #fff1a8, #9dffcf, #ff9de2);
+  /* Hard highlight streaks, screened over the chrome. */
+  --y2k-streaks: linear-gradient(112deg, transparent 0 22%, rgb(255 255 255 / .85) 23%, transparent 25.5%, transparent 61%, rgb(255 255 255 / .7) 62%, transparent 63.5%);
+}
+
+/* Chrome lettering. Markup (one box per title, sized to the SVG's aspect ratio):
+   <div class="y2k-chrome-type" style="--m: url(assets/t-mask.svg); left:..; top:..; width:..; aspect-ratio: W / H">
+     <img src="assets/t-line.svg" alt="TITLE"><div class="y2k-bevel"><div class="y2k-chrome"></div></div>
+   </div> */
+.y2k-chrome-type { position: absolute; }
+.y2k-chrome-type > img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.y2k-bevel { position: absolute; inset: 0; filter: url(#y2k-bevel); }
+.y2k-chrome-type.xl .y2k-bevel { filter: url(#y2k-bevel-xl); }
+.y2k-chrome-type.xl .y2k-chrome { background: var(--y2k-streaks), var(--y2k-holo), var(--y2k-chrome-xl); }
+.y2k-chrome { position: absolute; inset: 0;
+  -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat;
+  background: var(--y2k-streaks), var(--y2k-holo), var(--y2k-chrome);
+  background-blend-mode: screen, soft-light, normal; }
+
+/* Holographic sheen over a cut-out photo: same box as the <img>, masked by the same PNG. */
+.y2k-holo-sheen { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; opacity: .75;
+  background: var(--y2k-holo);
+  -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat; }
+
+/* Glossy pill button (Aqua-era): top highlight, hard mid-line, navy keyline. */
+.y2k-pill { display: inline-flex; align-items: center; gap: .6em; padding: .55em 1.2em .6em; border-radius: 999px;
+  border: 3px solid var(--navy); color: var(--navy); font: 700 24px/1 var(--text); letter-spacing: .02em; white-space: nowrap;
+  background: linear-gradient(180deg, #ffd1f1 0%, #ff8ade 48%, var(--pink) 52%, #ff9be4 100%);
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / .75), 0 0 0 3px rgb(255 255 255 / .25), 0 10px 24px rgb(255 79 200 / .35); }
+
+/* Inflated bubble: iridescent rim, clear centre, a hard window highlight. Size it with width/height. */
+.y2k-bubble { position: absolute; border-radius: 50%; pointer-events: none;
+  background:
+    radial-gradient(28% 18% at 34% 26%, rgb(255 255 255 / .95) 0 40%, transparent 100%),
+    radial-gradient(circle at 50% 50%, rgb(159 212 255 / .04) 50%, rgb(185 165 255 / .4) 68%, rgb(255 157 226 / .75) 86%, rgb(245 248 255 / .95) 100%); }
+
+/* Four-point sparkle: <svg class="y2k-sparkle" viewBox="0 0 100 100"><path d="M50 0C53 38 62 47 100 50C62 53 53 62 50 100C47 62 38 53 0 50C38 47 47 38 50 0Z"/></svg> */
+.y2k-sparkle { position: absolute; fill: #fff; filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px var(--lilac)); }
+
+/* Pixel label: Silkscreen at multiples of 8 px (16 / 24 / 32) so the pixels stay square. */
+.y2k-pixel { font: 400 24px/1.15 var(--text); letter-spacing: .02em; }
+.y2k-pixel b { font-weight: 700; }
+
+/* Retro OS window for an info block: title bar, pale glass body, navy keyline. */
+.y2k-window { position: absolute; border: 3px solid var(--navy); border-radius: 16px; overflow: hidden; color: var(--navy);
+  background: linear-gradient(180deg, #f5f8ff, #d7e6fb); box-shadow: 0 0 0 3px rgb(255 255 255 / .2), 0 18px 40px rgb(0 0 0 / .45); }
+.y2k-window > header { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 3px solid var(--navy);
+  background: linear-gradient(180deg, #e6f3ff 0%, var(--baby) 50%, #7fb1e6 52%, var(--lilac) 100%); font: 700 16px/1 var(--text); }
+
+/* Wireframe floor in perspective; put it in a box at the bottom and let it bleed. */
+.y2k-wireframe { position: absolute; pointer-events: none; transform: perspective(520px) rotateX(64deg); transform-origin: 50% 100%;
+  background: repeating-linear-gradient(90deg, var(--baby) 0 2px, transparent 2px 72px), repeating-linear-gradient(0deg, var(--baby) 0 2px, transparent 2px 72px);
+  -webkit-mask: linear-gradient(to top, #000 30%, transparent); mask: linear-gradient(to top, #000 30%, transparent); }

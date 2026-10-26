@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Paper Cuts zine fair</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1350px; --safe: 48px; }
+
+  /* Ground: kraft card, paper fibre, a soft vignette where the board curls. */
+  .ground { position: absolute; inset: 0; z-index: 0; background: url(assets/paper.png) 0 0 / 100% 100%; mix-blend-mode: multiply; opacity: .55; }
+  .vignette { position: absolute; inset: 0; z-index: 0; box-shadow: inset 0 0 160px rgb(80 50 20 / .28); }
+
+  /* Anchor: a big torn sheet of deep space, bleeding off three edges. */
+  .space { position: absolute; left: -70px; top: -90px; width: 1110px; height: 900px; z-index: 1; rotate: -3deg;
+    background: url(assets/hubble-torn.png) center / 100% 100%; filter: var(--lift-high); }
+
+  /* Rocket: photocopied newspaper strip, rising out of the kraft into space. */
+  .rocket { position: absolute; left: 846px; top: 640px; width: 300px; height: 726px; z-index: 2; rotate: 6deg;
+    background: url(assets/rocket-copy-torn.png) center / 100% 100%; filter: var(--lift); }
+
+  /* The cover star: cat in a helmet cut from grey card. */
+  .helmet { position: absolute; left: 556px; top: 64px; width: 560px; height: 560px; z-index: 4; }
+  .helmet .ring { position: absolute; inset: 0; border-radius: 50%; background: var(--grey-card); filter: url(#rough) var(--lift-high); }
+  .helmet .ring::after { content: ""; position: absolute; inset: 14px; border-radius: 50%; border: 3px dashed rgb(22 21 20 / .45); }
+  .helmet .visor { position: absolute; inset: 52px; border-radius: 50%; background: url(assets/cat-face.png) 50% 40% / cover;
+    box-shadow: inset 6px 10px 22px rgb(0 0 0 / .55); }
+  .helmet .bolt { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); }
+  .helmet svg { position: absolute; inset: 0; overflow: visible; }
+
+  /* Ransom-note title: each letter its own scrap. Positions follow a baseline tilted -3 degrees. */
+  .title .cs-letter { z-index: 5; }
+
+  /* Information: a torn page of notebook paper, taped to the board. */
+  .note { left: 58px; top: 1002px; width: 540px; height: 306px; padding: 26px 24px 0 78px; rotate: -2deg; --paper: var(--white-card); z-index: 6; }
+  .note .date { font: 400 74px/.9 var(--hand); margin: 0 0 14px -4px; }
+  .note .cs-typed { font-size: 24px; line-height: 1.36; }
+  .note .ps { font-size: 36px; margin-top: 8px; }
+
+  .coffee { position: absolute; left: 676px; top: 1062px; width: 270px; z-index: 7; rotate: -14deg; filter: var(--lift); }
+
+  .issue { position: absolute; left: 92px; top: 118px; z-index: 9; color: #f4f1ea; rotate: -5deg; line-height: .95; }
+  .issue small { display: block; font-size: 30px; margin-top: 8px; }
+  
+  .stamp { left: 486px; top: 1012px; width: 184px; height: 184px; rotate: -16deg; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Rough edges: hand-cut card. -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Worn print: the rubber stamp. -->
+    <filter id="distress" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="4" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -24 0 0 0 8.9" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="out"/>
+    </filter>
+    <!-- Torn edge for paper scraps and tape ends. -->
+    <filter id="torn" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="4" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<section class="artboard" data-name="poster">
+  <div class="ground"></div><div class="vignette"></div>
+  <div class="space"></div>
+  <div class="rocket"></div>
+  <div class="cs-tape" style="left:956px;top:652px;width:150px;rotate:24deg"></div>
+
+  <div class="helmet">
+    <div class="ring"></div>
+    <div class="visor"></div>
+    <i class="bolt" style="left:30px;top:272px"></i><i class="bolt" style="left:514px;top:272px"></i>
+    <svg viewBox="0 0 560 560" aria-hidden="true">
+      <!-- glint on the visor and an antenna, in white paint marker -->
+      <path d="M150 170 C 185 125, 235 102, 290 100" stroke="#f4f1ea" stroke-width="10" stroke-linecap="round" fill="none" opacity=".75"/>
+      <path d="M132 214 L 128 226" stroke="#f4f1ea" stroke-width="10" stroke-linecap="round" fill="none" opacity=".75"/>
+      <path d="M352 8 C 370 -14, 392 -30, 420 -38" stroke="#f4f1ea" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <circle cx="430" cy="-40" r="13" fill="var(--accent)"/>
+    </svg>
+  </div>
+  <div class="cs-tape washi" style="left:950px;top:470px;width:180px;height:44px;rotate:58deg"></div>
+
+  <h1 class="title" aria-label="Paper Cuts">
+    <i class="cs-letter cs-scrap cs-torn"      style="--paper:var(--newsprint);--h:168px;left:52px;top:556px;rotate:-6deg"><img src="assets/r0-p.svg" alt=""></i>
+    <i class="cs-letter cs-scrap cs-cut"       style="--paper:var(--grey-card);--h:128px;left:226px;top:578px;rotate:4deg"><img src="assets/r1-a.svg" alt=""></i>
+    <i class="cs-letter cs-scrap cs-cut k2"    style="--paper:var(--accent);--h:186px;left:398px;top:520px;rotate:-3deg"><img src="assets/r2-p.svg" alt=""></i>
+    <i class="cs-letter cs-scrap cs-cut k3"    style="--paper:var(--white-card);--h:150px;left:620px;top:548px;rotate:7deg"><span class="cs-photo" style="--src:url(assets/r3-e.svg);--ar:235/304;--img:url(assets/hubble-torn.png)"></span></i>
+    <i class="cs-letter cs-scrap cs-torn cs-dots" style="--paper:var(--newsprint);--h:184px;left:790px;top:506px;rotate:-8deg;z-index:6"><img src="assets/r4-r.svg" alt=""></i>
+
+    <i class="cs-letter cs-scrap cs-cut k2"    style="--paper:var(--ink);--h:214px;left:70px;top:770px;rotate:5deg"><span class="cs-photo" style="--src:url(assets/r5-c.svg);--ar:253/304;--img:url(assets/cat-face.png)"></span></i>
+    <i class="cs-letter cs-scrap cs-cut cs-graph" style="--h:178px;left:296px;top:790px;rotate:-4deg"><img src="assets/r6-u.svg" alt=""></i>
+    <i class="cs-letter cs-scrap cs-torn"      style="--paper:var(--accent);--h:226px;left:520px;top:748px;rotate:6deg"><img src="assets/r7-t.svg" alt=""></i>
+    <i class="cs-letter cs-scrap cs-cut k3"    style="--paper:var(--newsprint);--h:200px;left:700px;top:796px;rotate:-5deg"><img src="assets/r8-s.svg" alt=""></i>
+  </h1>
+
+  <p class="issue cs-hand">No. 6 is<br>the space issue!<small>cover star: Biscuit</small></p>
+  <svg class="cs-doodle" style="left:350px;top:228px;width:200px;height:120px;stroke:#f4f1ea" viewBox="0 0 200 120" aria-hidden="true">
+    <path d="M6 30 C 70 10, 140 30, 186 92"/><path d="M160 88 L 188 96 L 192 66"/>
+  </svg>
+
+  <div class="note cs-scrap cs-torn cs-lined">
+    <p class="date">Sat 13 March</p>
+    <p class="cs-typed">zine &amp; small press fair<br>11:00–18:00 · 60+ tables<br>The Old Laundry, 22 Kettle St<br>papercuts.example</p>
+    <p class="ps cs-hand">P.S. free coffee till noon</p>
+  </div>
+  <div class="cs-tape" style="left:20px;top:986px;width:150px;rotate:-24deg"></div>
+  <div class="cs-tape" style="left:500px;top:990px;width:150px;rotate:28deg"></div>
+
+  <img class="coffee" src="assets/coffee-cut-rim.png" alt="">
+  <svg class="cs-doodle" style="left:520px;top:1196px;width:160px;height:90px" viewBox="0 0 160 90" aria-hidden="true">
+    <path d="M8 74 C 60 84, 118 70, 150 26"/><path d="M122 30 L 152 22 L 154 52"/>
+  </svg>
+
+  <p class="cs-dymo cs-label" style="left:688px;top:1240px;rotate:-3deg">Riso workshop 14:00</p>
+
+  <svg class="cs-stamp stamp" viewBox="0 0 200 200" aria-hidden="true">
+    <defs><path id="ring" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+    <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="6"/>
+    <circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" stroke-width="3"/>
+    <text font-family="Special Elite" font-size="21" letter-spacing="3" fill="currentColor"><textPath href="#ring" textLength="452">PAPER CUTS · ZINE FAIR · No.6 ·</textPath></text>
+    <text x="100" y="96" text-anchor="middle" font-family="Special Elite" font-size="34" fill="currentColor">FREE</text>
+    <text x="100" y="124" text-anchor="middle" font-family="Special Elite" font-size="22" fill="currentColor">ENTRY</text>
+  </svg>
+
+  <div class="overlay" style="background-image:url(assets/dust.png);opacity:.5;z-index:89"></div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

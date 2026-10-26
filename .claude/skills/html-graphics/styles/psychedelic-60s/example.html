@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nine Lives</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1527px; --safe: 16px; --frame: 60px; }
+
+  /* 1. Op-art field radiating from the cat's nose like an aura, melted so it reads hand-drawn. */
+  .field { position: absolute; inset: -80px; z-index: 1; --cx: 603px; --cy: 876px; }
+
+  /* 2. Giant crop: the face bleeds off the top and left; the cut-out's chin edge hides under the grin. */
+  .cat { position: absolute; left: -410px; top: -40px; width: 1600px; z-index: 2; }
+
+  /* 3. Hypnotic iris drawn over the photo's eye: rays in the second pair, slit pupil. */
+  .iris { position: absolute; z-index: 3; border-radius: 50%; --cx: 50%; --cy: 50%; border: 11px solid var(--ink); }
+  .iris.l { left: 112px; top: 253px; width: 252px; height: 252px; }
+  .iris.r { left: 633px; top: 352px; width: 164px; height: 184px; transform: rotate(8deg); }
+  .iris::after { content: ""; position: absolute; left: 50%; top: 50%; width: 16%; height: 66%; transform: translate(-50%, -50%);
+    border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 6px var(--cream); }
+
+  /* 4. The grin: the title bent into a smile under the eye. */
+  .title { position: absolute; left: 7px; top: 930px; width: 1066px; z-index: 4; }
+
+  /* 5. Date badge: a scalloped flower in the free corner of the field. */
+  .badge { position: absolute; left: 748px; top: 92px; width: 270px; height: 270px; z-index: 5; transform: rotate(-9deg);
+    display: grid; place-items: center; text-align: center; color: var(--ink); }
+  .badge svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .badge .in { position: relative; }
+  .badge .k, .badge .m { font: 400 18px/1 var(--text); letter-spacing: .16em; text-transform: uppercase; }
+  .badge .d { font: 400 96px/.86 var(--display); letter-spacing: -.03em; margin: 8px 0 4px; }
+
+  /* 6. Ornamental frame: an ink band with scalloped inner edge; the small print runs round it. */
+  .frame { position: absolute; inset: 0; z-index: 6; pointer-events: none;
+    border: solid var(--ink); border-width: 80px var(--frame) 96px; }
+  .sc { position: absolute; z-index: 6; --sc: 34px; }
+  .sc.t { left: var(--frame); right: var(--frame); top: 80px; }
+  .sc.b { left: var(--frame); right: var(--frame); bottom: 96px; transform: rotate(180deg); }
+  .sc.l { top: 80px; bottom: 96px; left: var(--frame); }
+  .sc.r { top: 80px; bottom: 96px; right: var(--frame); transform: rotate(180deg); }
+
+  .band { position: absolute; z-index: 7; color: var(--cream); }
+  .band.top { left: 0; right: 0; top: 30px; text-align: center; }
+  .band.bottom { left: 0; right: 0; bottom: 38px; text-align: center; }
+  .band.left, .band.right { top: 50%; letter-spacing: .09em; }
+  .band.left { left: 30px; transform: translate(-50%, -50%) rotate(-90deg); transform-origin: 50% 50%; }
+  .band.right { right: 30px; transform: translate(50%, -50%) rotate(90deg); transform-origin: 50% 50%; }
+  .band b { font-weight: 400; color: var(--orange); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Posterize to the palette: blur, take luminance, map 4 bands to 4 inks (dark to light:
+         ink #2a0b3d, magenta #e8178a, orange #ff5e1a, cream #ffeec2), then cut a crisp, smoothed edge. -->
+    <filter id="psy-poster" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="soft"/>
+      <feColorMatrix in="soft" type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 0 1" result="lum"/>
+      <feComponentTransfer in="lum" result="flat">
+        <feFuncR type="discrete" tableValues=".165 .910 1 1"/>
+        <feFuncG type="discrete" tableValues=".043 .090 .369 .933"/>
+        <feFuncB type="discrete" tableValues=".239 .541 .102 .761"/>
+      </feComponentTransfer>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="ab"/>
+      <feComponentTransfer in="ab" result="edge"><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer>
+      <feComposite in="flat" in2="edge" operator="in"/>
+    </filter>
+
+    <!-- Liquid melt: slow, large displacement for ring fields and borders. -->
+    <filter id="psy-melt" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0035" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="70" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<section class="artboard" data-name="poster">
+  <div class="field psy-rings psy-melt"></div>
+  <img class="cat psy-poster" src="assets/cat-grey.png" alt="">
+  <div class="iris l psy-rays"></div>
+  <div class="iris r psy-rays"></div>
+  <img class="title" src="assets/nine-lives.svg" alt="Nine Lives">
+
+  <div class="badge">
+    <svg viewBox="0 0 270 270"><path id="flower" fill="#ffeec2" stroke="#2a0b3d" stroke-width="7" stroke-linejoin="round"/></svg>
+    <div class="in"><div class="k">Two nights</div><div class="d">5+6</div><div class="m">March 2027</div></div>
+  </div>
+
+  <div class="frame"></div>
+  <div class="sc t psy-scallop-x"></div><div class="sc b psy-scallop-x"></div>
+  <div class="sc l psy-scallop-y"></div><div class="sc r psy-scallop-y"></div>
+
+  <p class="band top psy-label">The Halcyon Ballroom <b>·</b> a dance concert in nine colours</p>
+  <p class="band bottom psy-label">1200 Vane Street <b>·</b> doors 8 pm <b>·</b> $14 <b>·</b> halcyon.example</p>
+  <p class="band left psy-label"><b>Fri 5</b> · The Apricot Tide · Lantern Moth · Saffron Freeway · Quiet Ocelot</p>
+  <p class="band right psy-label"><b>Sat 6</b> · Mirror Pond · Honeycomb Kites · Gentle Riot · Velvet Compass · Owl &amp; Ember</p>
+
+  <div class="grain"></div>
+</section>
+<script>
+  // Scalloped flower for the badge: 18 round petals on a circle (deterministic).
+  const n = 16, cx = 135, cy = 135, R = 114, r = R * Math.sin(Math.PI / n) * 1.25;
+  let d = '';
+  for (let k = 0; k <= n; k++) {
+    const a = (k / n) * 2 * Math.PI - Math.PI / 2;
+    const x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+    d += k === 0 ? `M${x.toFixed(1)} ${y.toFixed(1)}` : `A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}`;
+  }
+  document.getElementById('flower').setAttribute('d', d + 'Z');
+</script>
+</body>
+</html>
