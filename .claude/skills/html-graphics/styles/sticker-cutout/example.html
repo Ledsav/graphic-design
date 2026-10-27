@@ -15,14 +15,14 @@
     background: radial-gradient(circle, #000 30%, transparent 32%) 0 0 / 9px 9px;
     -webkit-mask: linear-gradient(200deg, #000, transparent 55%); mask: linear-gradient(200deg, #000, transparent 55%); }
 
-  /* Title behind the subject, one letter (the last F) in front of it. */
+  /* Title behind the subject; the O in front of its wing, so the eagle sits inside the letter. */
   .title, .title-front { position: absolute; left: 34px; top: 46px; width: 1000px; filter: url(#speckle); }
   .title { z-index: 2; }
   .title-front { z-index: 5; }
-  .astro { position: absolute; left: 30px; top: 420px; width: 1190px; z-index: 4;
+  .eagle { position: absolute; left: -60px; top: 392px; width: 1100px; z-index: 4;
     filter: url(#sticker) drop-shadow(0 18px 30px rgb(60 0 0 / .5)); }
 
-  .kicker { position: absolute; left: 30px; bottom: 300px; z-index: 6; transform-origin: left bottom; transform: rotate(-90deg) translateY(100%);
+  .kicker { position: absolute; left: 50px; bottom: 300px; z-index: 6; transform-origin: left bottom; transform: rotate(-90deg) translateY(100%);
     font: 700 22px/1 var(--text); letter-spacing: .02em; white-space: nowrap; }
 
   .badge { position: absolute; right: 54px; top: 930px; width: 210px; height: 210px; z-index: 6; border-radius: 50%;
@@ -146,17 +146,17 @@
 <section class="artboard" data-name="post">
   <div class="contours"></div><div class="dots"></div>
   <img class="title" src="assets/liftoff-title.svg" alt="Lift off">
-  <img class="astro" src="../_shared/photos/astronaut-cut.png" alt="">
+  <img class="eagle" src="assets/eagle-duo.png" alt="">
   <img class="title-front" src="assets/liftoff-title-front.svg" alt="">
-  <p class="kicker">Planetarium late · adults only</p>
+  <p class="kicker">Adults only · 18+</p>
   <div class="badge">
     <svg viewBox="0 0 210 210"><path id="ring" d="M105,105 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0" fill="none"/>
       <text font-family="Instrument Sans" font-weight="700" font-size="15" letter-spacing="3" fill="#c3161c"><textPath href="#ring">FREE ENTRY BEFORE 22H · FREE ENTRY BEFORE 22H ·</textPath></text></svg>
     <div>FREE<small>before 22h</small></div>
   </div>
   <div class="band"></div>
-  <div class="when">SAT 14.11<span>21h · City Planetarium</span></div>
-  <div class="acts">DJ ORBIT<br>DJ PERIGEE<br>DJ NOVA</div>
+  <div class="when">SAT 14.11<span>21h · The Aviary Rooftop</span></div>
+  <div class="acts">DJ KESTREL<br>DJ OSPREY<br>DJ NOVA</div>
   <div class="grain"></div>
 </section>
 </body>
