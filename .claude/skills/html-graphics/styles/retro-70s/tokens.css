@@ -1,5 +1,5 @@
-/* Retro 70s: tokens and helpers. Link after styles/_base.css. Young Serif is bundled (assets/fonts.css). */
-@import url("https://fonts.googleapis.com/css2?family=Shrikhand&display=block");
+/* Retro 70s: tokens and helpers. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Shrikhand&family=Young+Serif&display=block");
 
 :root {
   --bg: #f3e3c3;          /* cream paper */
