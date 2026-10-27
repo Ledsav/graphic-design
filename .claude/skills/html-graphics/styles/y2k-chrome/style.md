@@ -49,8 +49,9 @@ node $L "G" -o assets/g-line.svg --google "Zen Dots" --width 1300 --stroke '#0a0
 
 ## Imagery
 
-- One cut-out subject that belongs to the future-past: an astronaut, a helmet, a phone, a CD, a robot toy, a butterfly. Treat it cool, then put holographic film on it:
-  `treat.py duotone astronaut-cut.png -o assets/astronaut-holo.png --colors '#0a0f2c,#4a3cc4,#9fd4ff,#f5f8ff' --levels .04,.96` (alpha is kept), then a `.y2k-holo-sheen` div in the same box, masked by the same PNG (conic pastel rainbow, `mix-blend-mode: color`, opacity .38).
+- One hero object that belongs to the future-past: a CD, a flip phone, a helmet, a robot toy, a butterfly, a chrome blob. The example's CD is drawn entirely in CSS (`.y2k-disc`): tilted with `perspective(1600px) rotateZ(-24deg) rotateX(48deg)`, it reads as an object floating in space.
+- A cut-out photo works too (the user's own, or a licensed object; not a recognisable real person). Treat it cool, then put holographic film on it:
+  `treat.py duotone subject-cut.png -o assets/subject-holo.png --colors '#0a0f2c,#4a3cc4,#9fd4ff,#f5f8ff' --levels .04,.96` (alpha is kept), then a `.y2k-holo-sheen` div in the same box, masked by the same PNG (conic pastel rainbow, `mix-blend-mode: color`, opacity .38).
 - Space backdrop or window fill: `treat.py duotone hubble_deep_field.jpg -o assets/space-holo.png --colors '#0b1033,#5a3fc0,#ff8ad8,#bff6ff' --levels .02,.7`, inside a pill or blob shape with a baby-blue and navy double keyline (`box-shadow: 0 0 0 10px #cfe3ff, 0 0 0 18px #0a0f2c`).
 - Drawn objects (CSS/SVG, no photos needed): inflated bubbles, four-point sparkles, orbit rings, a perspective wireframe floor, chrome blobs (any SVG blob path works as the chrome mask).
 - Hide the cut-out's cropped edges: behind a stroke of the chrome letter, under a UI window, or off the canvas. Never let a straight crop edge float in space.
@@ -61,10 +62,11 @@ Glossy and digital: almost none. `--grain: .14` with `overlay`, only to stop the
 
 ## Composition
 
-- Archetypes: **giant crop** (one chrome letter or numeral bleeding off two edges, the subject in its counter), **orbit** (rings round the subject, back half behind it, front half in front), **depth sandwich**, **diagonal float** (subject and letters tilted −5° to −30°, weightless). Not the centred logo on a gradient: the chrome must interact with something.
+- Archetypes: **orbit** (rings round the hero, back half behind it, front half in front; the example), **giant crop** (one chrome letter or numeral bleeding off two edges, the subject in its counter), **depth sandwich**, **diagonal float** (subject and letters tilted −5° to −30°, weightless). Not the centred logo on a gradient: the chrome must interact with something.
+- A front copy of a giant letter must be clipped along the letter's own edges. A straight clip across a stroke or across the subject shows as a flat panel with a hard edge.
 - 1080 artboard, `--safe: 56px`. The info lives in UI objects: a retro OS window (title bar, progress bar, list), a glossy pill button, a corner date block. Rotate them −3° at most; they float over the scene, not on a grid.
 - Interlocking with one glyph: duplicate the chrome block and clip the front copy to a region whose edges are the letter's own edges (the bar of a G, the bowl of a B), in whole pixels: `clip-path: polygon(608px 510px, 100% 510px, 100% 100%, 608px 100%)`.
-- Layer order (z low to high): navy + radial glows, star dust, wireframe floor, giant chrome (back copy), orbit back half, subject + holo sheen, chrome front copy, orbit front half, smaller chrome title, bubbles and sparkles, info windows and pill, grain.
+- Layer order (z low to high): navy + radial glows, star dust, wireframe floor, giant chrome if any (back copy), orbit back half, hero object or subject + holo sheen, chrome front copy, orbit front half, chrome title, bubbles and sparkles, info windows and pill, grain.
 
 ## Signature moves
 
@@ -92,4 +94,4 @@ Glossy and digital: almost none. `--grain: .14` with `overlay`, only to stop the
 
 ## Build
 
-Link `../_base.css` and `tokens.css`, then paste the `#y2k-bevel` and `#y2k-bevel-xl` filters from `example.html` after `<body>` (Chrome won't load filters from another file; blur ~ stroke thickness / 3 for normal titles, / 10 for giant letters). Chrome markup: `<div class="y2k-chrome-type [xl]" style="--m: url(assets/t-mask.svg); aspect-ratio: W / H"><img src="assets/t-line.svg" alt="…"><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>`; set `--m` in the page's own CSS (it resolves relative to the page). Helpers: `.y2k-chrome-type`, `.y2k-chrome`, `.y2k-bevel`, `.y2k-holo-sheen`, `.y2k-pill`, `.y2k-bubble`, `.y2k-sparkle` (path in the comment), `.y2k-pixel`, `.y2k-window`, `.y2k-wireframe`; gradients `--y2k-chrome`, `--y2k-chrome-xl` (move its two horizons into the letter's horizontal strokes), `--y2k-holo`, `--y2k-streaks`.
+Link `../_base.css` and `tokens.css`, then paste the `#y2k-bevel` and `#y2k-bevel-xl` filters from `example.html` after `<body>` (Chrome won't load filters from another file; blur ~ stroke thickness / 3 for normal titles, / 10 for giant letters). Chrome markup: `<div class="y2k-chrome-type [xl]" style="--m: url(assets/t-mask.svg); aspect-ratio: W / H"><img src="assets/t-line.svg" alt="…"><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>`; set `--m` in the page's own CSS (it resolves relative to the page). Helpers: `.y2k-chrome-type`, `.y2k-chrome`, `.y2k-bevel`, `.y2k-holo-sheen`, `.y2k-disc` (a holographic CD: `<div class="y2k-disc"><i></i></div>`), `.y2k-pill`, `.y2k-bubble`, `.y2k-sparkle` (path in the comment), `.y2k-pixel`, `.y2k-window`, `.y2k-wireframe`; gradients `--y2k-chrome`, `--y2k-chrome-xl` (move its two horizons into the letter's horizontal strokes), `--y2k-holo`, `--y2k-streaks`.

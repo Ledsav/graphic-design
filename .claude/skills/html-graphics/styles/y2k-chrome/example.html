@@ -2,62 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Zero G</title>
+<title>Zero</title>
 <link rel="stylesheet" href="../_base.css">
 <link rel="stylesheet" href="tokens.css">
 <style>
   .artboard { width: 1080px; height: 1350px; --safe: 56px;
     background:
-      radial-gradient(46% 34% at 74% 46%, rgb(185 165 255 / .38), transparent 70%),
-      radial-gradient(70% 55% at 60% 42%, var(--indigo), var(--bg) 72%); }
+      radial-gradient(46% 34% at 60% 50%, rgb(185 165 255 / .38), transparent 70%),
+      radial-gradient(70% 55% at 60% 46%, var(--indigo), var(--bg) 72%); }
 
   /* Faint star dust: two offset dot screens. */
   .stars { position: absolute; inset: 0; z-index: 0; opacity: .55;
     background: radial-gradient(circle, #fff 0 1.2px, transparent 1.6px) 0 0 / 97px 89px,
                 radial-gradient(circle, var(--baby) 0 1px, transparent 1.4px) 41px 23px / 151px 137px; }
+  .floor { left: -200px; right: -200px; bottom: -40px; height: 520px; z-index: 1; opacity: .5; }
 
-  /* Giant G: the hole in its bar sits just past the right edge, so the bar reads as solid. */
-  .g, .g-front { left: 236px; top: 290px; width: 1326px; aspect-ratio: 1326 / 1166; --m: url(assets/g-mask.svg); }
-  .g { z-index: 2; }
-  .g > img { filter: drop-shadow(0 0 28px rgb(185 165 255 / .55)); }
-  .g-front { z-index: 6; clip-path: polygon(608px 510px, 100% 510px, 100% 100%, 608px 100%); }   /* the bar block only, in whole px: its edges are real letter edges */
-  .zero { left: 56px; top: 92px; width: 638px; aspect-ratio: 638 / 148; z-index: 8; --m: url(assets/zero-mask.svg); transform: rotate(-5deg); }
-  .zero > img { filter: drop-shadow(0 0 16px rgb(185 165 255 / .8)); }
-
-  /* The astronaut floats out of the counter: in front of the stem and top arm, behind the bar; the lineup window hides her cut-off waist. */
-  .astro { position: absolute; left: 300px; top: 270px; width: 800px; height: 800px; z-index: 5; transform: rotate(-30deg); --m: url(assets/astronaut-holo.png); }
-  .astro img { width: 100%; height: 100%; display: block; }
-
-  /* Orbit ring round the astronaut: back half behind her, front half (clipped copy) in front of everything. */
-  .orbit { position: absolute; left: 235px; top: 590px; width: 980px; height: 303px; overflow: visible; transform: rotate(-18deg); }
+  /* The hero: a holographic CD drawn in CSS, tilted and floating, with an orbit ring through it. */
+  .cd { left: 238px; top: 300px; width: 740px; height: 740px; z-index: 5;
+    transform: perspective(1600px) rotateZ(-24deg) rotateX(48deg); }
+  /* Orbit ring round the disc: back half behind it, front half (clipped copy) in front. */
+  .orbit { position: absolute; left: 78px; top: 506px; width: 1060px; height: 328px; overflow: visible; transform: rotate(-9deg); }
   .orbit.back { z-index: 4; }
   .orbit.front { z-index: 7; clip-path: inset(50% -2% -10% -2%); }
 
-  .bubble-1 { left: 262px; top: 600px; width: 118px; height: 118px; z-index: 8; }
-  .bubble-2 { left: 120px; top: 720px; width: 50px; height: 50px; z-index: 8; }
+  .zero { left: 56px; top: 92px; width: 638px; aspect-ratio: 638 / 148; z-index: 8; --m: url(assets/zero-mask.svg); transform: rotate(-5deg); }
+  .zero > img { filter: drop-shadow(0 0 16px rgb(185 165 255 / .8)); }
+
+  .bubble-1 { left: 150px; top: 330px; width: 118px; height: 118px; z-index: 8; }
+  .bubble-2 { left: 136px; top: 1000px; width: 50px; height: 50px; z-index: 8; }
   .bubble-3 { left: 930px; top: 236px; width: 84px; height: 84px; z-index: 8; }
 
-  .s1 { left: 236px; top: 262px; width: 92px; z-index: 9; }
+  .s1 { left: 548px; top: 452px; width: 92px; z-index: 9; }
   .s2 { left: 700px; top: 52px; width: 40px; z-index: 9; }
-  .s3 { left: 980px; top: 742px; width: 70px; z-index: 9; }
+  .s3 { left: 968px; top: 806px; width: 64px; z-index: 9; }
 
-  /* Info: date top right, venue up the G's stem, lineup in a window over the bowl, the pill under it. */
+  /* Info: date top right, venue up the left edge, lineup in a window on the floor, the pill under it. */
   .date { position: absolute; right: 56px; top: 64px; z-index: 9; text-align: right; }
   .date .d { font: 400 40px/1 var(--display); letter-spacing: .02em; margin-top: 10px; text-shadow: 0 0 18px rgb(185 165 255 / .9); }
   .date .t { margin-top: 12px; }
   .lime { color: var(--lime); }
-
-  .venue { position: absolute; left: 192px; top: 960px; z-index: 9; transform-origin: left top; transform: rotate(-90deg);
+  .venue { position: absolute; left: 64px; top: 940px; z-index: 9; transform-origin: left top; transform: rotate(-90deg);
     white-space: nowrap; color: var(--baby); }
-
-  .lineup { left: 452px; top: 1004px; width: 420px; z-index: 10; transform: rotate(-3deg); }
+  .lineup { left: 560px; top: 1010px; width: 420px; z-index: 10; transform: rotate(-3deg); }
   .lineup header i { display: inline-block; width: 12px; height: 12px; margin-left: 6px; border: 2px solid var(--navy); border-radius: 50%; background: #fff; }
   .lineup ul { list-style: none; padding: 12px 18px 16px; }
   .lineup li { display: flex; justify-content: space-between; padding: 4px 0; }
   .lineup li span { color: #4a3cc4; }
   .lineup .bar { height: 16px; margin: 12px 18px 0; border: 2px solid var(--navy); border-radius: 8px;
     background: linear-gradient(90deg, var(--lime) 0 87%, transparent 87%); }
-
   .cta { position: absolute; left: 56px; bottom: 56px; z-index: 10; }
 </style>
 </head>
@@ -91,13 +83,13 @@
 
 <section class="artboard" data-name="poster">
   <div class="stars"></div>
+  <div class="y2k-wireframe floor"></div>
 
-  <div class="y2k-chrome-type xl g"><img src="assets/g-line.svg" alt=""><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>
   <svg class="orbit back" viewBox="0 0 1100 340"><use href="#ring-path" stroke="#0a0f2c" stroke-width="14"/><use href="#ring-path" stroke="url(#ring)" stroke-width="6"/></svg>
-  <div class="astro"><img src="assets/astronaut-holo.png" alt="Astronaut floating"><div class="y2k-holo-sheen"></div></div>
-  <div class="y2k-chrome-type xl g-front"><img src="assets/g-line.svg" alt=""><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>
+  <div class="y2k-disc cd"><i></i></div>
   <svg class="orbit front" viewBox="0 0 1100 340"><use href="#ring-path" stroke="#0a0f2c" stroke-width="14"/><use href="#ring-path" stroke="url(#ring)" stroke-width="6"/></svg>
-  <div class="y2k-chrome-type zero"><img src="assets/zero-line.svg" alt="Zero G"><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>
+
+  <div class="y2k-chrome-type zero"><img src="assets/zero-line.svg" alt="Zero"><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>
 
   <div class="y2k-bubble bubble-1"></div><div class="y2k-bubble bubble-2"></div><div class="y2k-bubble bubble-3"></div>
   <svg class="y2k-sparkle s1" viewBox="0 0 100 100"><use href="#spark"/></svg>
@@ -109,7 +101,6 @@
     <p class="d">31.12.26</p>
     <p class="y2k-pixel t">22:00 <span class="lime">&rarr;</span> 06:00</p>
   </div>
-
   <p class="venue y2k-pixel">Kepler Dome &middot; Pier 9 &middot; Y2K revival</p>
 
   <div class="y2k-window lineup">
@@ -122,8 +113,7 @@
       <li><b>Glitter.exe</b><span>04:00</span></li>
     </ul>
   </div>
-
-  <p class="cta"><span class="y2k-pill">Tickets &#9656; zerog.example</span></p>
+  <p class="cta"><span class="y2k-pill">Tickets &#9656; zero.example</span></p>
 
   <div class="grain"></div>
 </section>

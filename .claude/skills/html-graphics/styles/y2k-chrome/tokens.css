@@ -78,3 +78,19 @@
 .y2k-wireframe { position: absolute; pointer-events: none; transform: perspective(520px) rotateX(64deg); transform-origin: 50% 100%;
   background: repeating-linear-gradient(90deg, var(--baby) 0 2px, transparent 2px 72px), repeating-linear-gradient(0deg, var(--baby) 0 2px, transparent 2px 72px);
   -webkit-mask: linear-gradient(to top, #000 30%, transparent); mask: linear-gradient(to top, #000 30%, transparent); }
+
+/* Holographic CD, drawn in CSS: <div class="y2k-disc"><i></i></div> in a square box; tilt the box with a 3D transform
+   (e.g. perspective(1600px) rotateZ(-24deg) rotateX(48deg)). The <i> is the disc: masked centre hole, half-clear hub,
+   mirror band, then the data area with rainbow wedges and grooves. The box draws the navy keyline and the lilac glow. */
+.y2k-disc { position: absolute; border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--navy), 0 0 0 8px rgb(245 248 255 / .3), 0 0 90px 12px rgb(185 165 255 / .45); }
+.y2k-disc > i { position: absolute; inset: 0; border-radius: 50%;
+  -webkit-mask: radial-gradient(circle closest-side, transparent 0 12.5%, rgb(0 0 0 / .55) 12.7% 27%, #000 27.4%);
+          mask: radial-gradient(circle closest-side, transparent 0 12.5%, rgb(0 0 0 / .55) 12.7% 27%, #000 27.4%);
+  background:
+    linear-gradient(118deg, transparent 36%, rgb(255 255 255 / .7) 46%, transparent 56%),
+    radial-gradient(circle closest-side, var(--navy) 0 13.6%, #dfe7f4 14% 26.4%, #8d9cb3 27%, #f5f8ff 27.8% 37%, #9fb0c8 37.8%,
+      transparent 38.2% 97.4%, #f5f8ff 98% 100%),
+    repeating-radial-gradient(circle closest-side, rgb(255 255 255 / .12) 0 1px, transparent 1px 5px),
+    conic-gradient(from 20deg, #cfd8e6 0%, #ff9de2 9%, #fff1a8 13%, #9dffcf 17%, #a5f3ff 21%, #c6b3ff 25%, #e9eef6 30%, #7d8ca6 40%,
+      #c9d3e0 48%, #c6b3ff 55%, #a5f3ff 59%, #9dffcf 63%, #fff1a8 67%, #ff9de2 71%, #e9eef6 76%, #6f7f9c 88%, #cfd8e6 100%); }
