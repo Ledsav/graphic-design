@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Aurelian Centenary Ball</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .artboard { width: 1080px; height: 1527px; --safe: 56px;
+    background: linear-gradient(180deg, #13233a 0%, var(--bg) 45%, var(--night) 100%); color: var(--ink); }
+
+  /* Sunburst from the aureole's centre, fading out before the information band. */
+  .rays { --sx: 540px; --sy: 430px; z-index: 1;
+    -webkit-mask: radial-gradient(circle at 540px 430px, #000 0 300px, rgb(0 0 0 / .55) 620px, transparent 900px);
+            mask: radial-gradient(circle at 540px 430px, #000 0 300px, rgb(0 0 0 / .55) 620px, transparent 900px); }
+
+  /* Aureole, tower, frame and axis: one inline SVG on the artboard's grid. */
+  .art { position: absolute; inset: 0; width: 1080px; height: 1527px; z-index: 2; }
+
+  /* AURELIAN as a skyline: one gilt letter per building, stepping up toward the tower. Box = ink box + 2 px pad. */
+  .skyline { position: absolute; inset: 0; z-index: 3; }
+
+  .years { position: absolute; top: 404px; z-index: 4; font: 400 58px/1 var(--display); letter-spacing: .04em; color: var(--gold); }
+  .years.l { left: 72px; } .years.r { right: 72px; }
+
+  .top { position: absolute; left: 0; right: 0; top: 84px; z-index: 4; text-align: center; color: var(--gold); }
+
+  .rule { left: 72px; right: 72px; top: 1144px; z-index: 4; }
+  .head { position: absolute; left: 0; right: 0; top: 1186px; z-index: 4; text-align: center; color: var(--ink); }
+  .col { position: absolute; top: 1270px; width: 420px; z-index: 4; }
+  .col.l { right: 568px; text-align: right; }
+  .col.r { left: 568px; }
+  .col .deco-text { margin-top: 10px; color: var(--ink); }
+  .foot { position: absolute; left: 0; right: 0; top: 1418px; z-index: 4; text-align: center; color: var(--gold); font-size: 18px; }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="deco-sunburst rays"></div>
+
+  <svg class="art" viewBox="0 0 1080 1527" aria-hidden="true">
+    <defs>
+      <radialGradient id="aureole" cx="540" cy="400" r="290" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#f6e7b8"/><stop offset=".55" stop-color="#e2c27a"/><stop offset="1" stop-color="#b98d3e"/>
+      </radialGradient>
+      <linearGradient id="gilt" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f6e7b2"/><stop offset=".3" stop-color="#dcb766"/><stop offset=".56" stop-color="#a87b33"/><stop offset=".8" stop-color="#ecd38c"/><stop offset="1" stop-color="#c49642"/>
+      </linearGradient>
+      <!-- Fluting: 2 px gold lines every 20 px, centred on the axis (x = 540 + 20k). -->
+      <pattern id="flute" width="20" height="10" patternUnits="userSpaceOnUse" patternTransform="translate(529 0)">
+        <rect x="10" width="2" height="10" fill="#c9a14a" opacity=".55"/>
+      </pattern>
+    </defs>
+
+    <!-- Aureole: pale gold disc with two keyline rings. -->
+    <circle cx="540" cy="430" r="300" fill="none" stroke="#c9a14a" stroke-width="1.5"/>
+    <circle cx="540" cy="430" r="282" fill="none" stroke="#c9a14a" stroke-width="3"/>
+    <circle cx="540" cy="430" r="260" fill="url(#aureole)"/>
+
+    <!-- The tower: stepped setbacks, a needle, gold keyline; silhouetted on the aureole. -->
+    <path fill="#0a1220" stroke="url(#gilt)" stroke-width="3" stroke-linejoin="miter"
+      d="M390 1120 V640 H430 V520 H465 V420 H495 V340 H522 V290 H536 L540 190 L544 290 H558 V340 H585 V420 H615 V520 H650 V640 H690 V1120 Z"/>
+    <g fill="url(#flute)">
+      <rect x="402" y="654" width="276" height="466"/>
+      <rect x="442" y="534" width="196" height="96"/>
+      <rect x="477" y="434" width="126" height="76"/>
+      <rect x="507" y="354" width="66" height="56"/>
+    </g>
+    <!-- Setback ledges: a thin gold line under each step. -->
+    <g stroke="#c9a14a" stroke-width="1.5">
+      <path d="M396 650 H684 M436 530 H644 M471 430 H609 M501 350 H579 M528 300 H552"/>
+    </g>
+
+    <!-- Axis: the tower's centre line continues below the word and splits the details. -->
+    <path d="M540 1266 V1394" stroke="#c9a14a" stroke-width="2"/>
+    <path d="M540 1152 l10 10 l-10 10 l-10 -10 Z" fill="#2f6e62" stroke="#c9a14a" stroke-width="2"/>
+
+    <!-- Frame: thick and thin rules with stepped (notched) corners. -->
+    <path fill="none" stroke="#c9a14a" stroke-width="3" d="M52 28 H1028 V52 H1052 V1475 H1028 V1499 H52 V1475 H28 V52 H52 Z"/>
+    <path fill="none" stroke="#c9a14a" stroke-width="1" d="M62 38 H1018 V62 H1042 V1465 H1018 V1489 H62 V1465 H38 V62 H62 Z"/>
+  </svg>
+
+  <div class="skyline" role="img" aria-label="Aurelian">
+    <div class="deco-gilt" style="--m: url(assets/l0-a.svg); left: 70px;  top: 878px; width: 140px; height: 244px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l1-u.svg); left: 220px; top: 828px; width: 118px; height: 294px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l2-r.svg); left: 348px; top: 778px; width: 116px; height: 344px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l3-e.svg); left: 474px; top: 718px; width: 99px;  height: 404px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l4-l.svg); left: 583px; top: 718px; width: 92px;  height: 404px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l5-i.svg); left: 685px; top: 778px; width: 32px;  height: 344px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l6-a.svg); left: 727px; top: 828px; width: 140px; height: 294px"></div>
+    <div class="deco-gilt" style="--m: url(assets/l7-n.svg); left: 877px; top: 878px; width: 132px; height: 244px"></div>
+  </div>
+
+  <p class="years l">1927</p><p class="years r">2027</p>
+  <p class="top deco-caps">A century on the Promenade</p>
+
+  <div class="deco-rule rule"></div>
+  <p class="head deco-head">The Centenary Ball</p>
+  <div class="col l"><p class="deco-date">Saturday<br>11 September 2027</p></div>
+  <div class="col r"><p class="deco-text">Black tie<br>Dinner at 19:30<br>Dancing until two</p></div>
+  <p class="foot deco-caps">The Grand Ballroom &middot; Hotel Aurelian &middot; aurelian.example</p>
+
+  <div class="grain"></div>
+</section>
+</body>
+</html>

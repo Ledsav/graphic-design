@@ -1,0 +1,38 @@
+/* Art Deco: tokens and helpers. Link after styles/_base.css. */
+@import url("https://fonts.googleapis.com/css2?family=Federo&family=Josefin+Sans:wght@400;600;700&display=block");
+
+:root {
+  --bg: #0e1a2b;          /* midnight navy */
+  --ink: #efe4cc;         /* cream: text on navy */
+  --night: #0a1220;       /* silhouettes (tower, skyline) */
+  --ray: #15263d;         /* the lighter sunburst ray */
+  --gold: #c9a14a;        /* flat gold: rules, keylines, small display */
+  --gold-pale: #f1dea6;   /* the aureole's light centre */
+  --jade: #2f6e62;        /* the one cool accent, used once */
+  --display: "Federo", sans-serif;
+  --text: "Josefin Sans", sans-serif;
+  --grain: .18;
+  --grain-blend: overlay;
+
+  /* Gilt: banded metallic gold, light at the top, dark band low, bright return. */
+  --deco-gilt: linear-gradient(180deg, #f6e7b2 0%, #dcb766 28%, #a87b33 56%, #ecd38c 80%, #c49642 100%);
+}
+
+/* Gilt lettering: a lettering.cjs SVG (any fill) used as a mask over the gilt gradient.
+   <div class="deco-gilt" style="--m: url(assets/l0-a.svg); left:..; top:..; width:..; height:.."></div>
+   Set --m in the page's own CSS or inline (it resolves relative to the page). */
+.deco-gilt { position: absolute; background: var(--deco-gilt);
+  -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat; }
+
+/* Sunburst: alternating rays from a point (--sx, --sy); fade it with a mask so text areas stay calm. */
+.deco-sunburst { position: absolute; inset: 0; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg at var(--sx, 50%) var(--sy, 30%), var(--ray) 0 3deg, transparent 3deg 6deg); }
+
+/* Type. Tracked caps need the trailing letter-space balanced, or centred lines sit off-axis. */
+.deco-caps { font: 600 22px/1.3 var(--text); letter-spacing: .32em; text-transform: uppercase; padding-left: .32em; }
+.deco-head { font: 400 46px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; padding-left: .16em; }
+.deco-date { font: 400 40px/1.05 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+.deco-text { font: 400 22px/1.45 var(--text); letter-spacing: .12em; text-transform: uppercase; }
+
+/* Double gold rule (thick over thin). */
+.deco-rule { position: absolute; height: 8px; border-top: 3px solid var(--gold); border-bottom: 1px solid var(--gold); }
