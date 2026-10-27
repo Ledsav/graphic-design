@@ -6,7 +6,7 @@ A Claude Code workspace set up as a full-service graphic design studio. Open thi
 
 | Skill | What it does | Source |
 |---|---|---|
-| `html-graphics` | Posters, flyers, covers, social posts and ads built in HTML/CSS and rendered to exact PNG/JPEG/PDF. Includes a renderer that checks the output, a lettering tool for drawn titles (warps, drips, extrusion, hand-lettered bounce, interlocking with the subject), image treatments (halftone, photocopy, riso, duotone, cut-outs, torn paper, silhouette contours, textures), an SVG filter library, composition and poster style guides, and worked examples. | Written for this repo |
+| `html-graphics` | Posters, flyers, covers, social posts and ads built in HTML/CSS and rendered to exact PNG/JPEG/PDF. Includes a renderer that checks the output, a lettering tool for drawn titles (warps, drips, extrusion, hand-lettered bounce, interlocking with the subject), image treatments (halftone, photocopy, riso, duotone, cut-outs, torn paper, silhouette contours, textures), an SVG filter library, composition guides, and a style library with a reference poster per style. | Written for this repo |
 | `canvas-design` | Art prints and abstract visual pieces as PNG/PDF, driven by a written design philosophy. Ships 29 open-licence (OFL) font families. | Anthropic |
 | `algorithmic-art` | Generative art in p5.js: flow fields, particles, patterns, textures, with an interactive parameter viewer. | Anthropic |
 | `theme-factory` | 10 curated colour and type themes, plus custom ones, applied consistently to decks, docs and pages. | Anthropic |
@@ -41,9 +41,9 @@ pip install rembg onnxruntime                     # optional: background removal
 
 Optional: for AI-generated logos, identity mockups and icons in the `design` skill, set `GEMINI_API_KEY` (or `MUAPI_API_KEY` / `ATLASCLOUD_API_KEY`) in your environment or in `~/.claude/.env`. Without a key, Claude draws logos and icons as SVG by hand, and everything else works offline.
 
-## Examples
+## Style library
 
-`.claude/skills/html-graphics/examples/previews/` has posters made with this setup: a giant-crop photocopy zine, a cut-out interlocking with a drawn title, a diagonal halftone collage with dripping western type, an echo riso print, a type-led horror poster, an editorial cover, and the composition thumbnails behind one of them.
+`.claude/skills/html-graphics/styles/` holds the visual styles, each with a spec (palette, type, imagery, texture, composition, signature moves, don'ts, checks), CSS tokens and an original reference poster. `styles/catalog.jpg` shows them all; ask "show me the Art Deco style" to get a reference. Rebuild previews with `python3 .claude/skills/html-graphics/scripts/previews.py`.
 
 ## Try it
 

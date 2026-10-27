@@ -7,7 +7,7 @@ description: Design graphics in HTML and CSS and export them as pixel-exact PNG/
 
 Build each graphic as an HTML file with one fixed-size `.artboard` per output image, render it with headless Chromium, look at the result, and iterate. HTML gives real typography (kerning, variable fonts, `text-wrap: balance`), real layout, live filters, one source for many sizes, and vector PDF. Pre-processing in Python adds what browsers do badly: halftone, photocopy, riso, cut-outs, torn edges, textures.
 
-The bar is a poster a working designer would be proud of: a strong image with a treatment, drawn display type woven into the image, a composition with tension, texture, and confident small type. Fonts set in straight centred lines over a centred image read as a template: `references/type-and-composition.md` is how to get past that, `references/poster-styles.md` has genre recipes, and `examples/` has worked posters.
+The bar is a poster a working designer would be proud of: a strong image with a treatment, drawn display type woven into the image, a composition with tension, texture, and confident small type. Fonts set in straight centred lines over a centred image read as a template: `references/type-and-composition.md` is how to get past that, and the style library in `styles/` gives each visual style a spec, CSS tokens and a reference poster.
 
 ## Files
 
@@ -19,11 +19,11 @@ The bar is a poster a working designer would be proud of: a strong image with a 
 | `templates/artboard.html` | Starting file: tokens, artboard, guides |
 | `templates/filters.html` | SVG filter library: rough, wobble, distress, speckle, ink-bleed, sticker, threshold, duotone, posterize, misregister, neon, torn |
 | `references/type-and-composition.md` | Composition archetypes, thumbnail process, expressive type moves, display fonts by mood. **Read for every piece** |
-| `references/poster-styles.md` | Genre recipes. **Read for any poster, flyer, cover or event graphic** |
+| `styles/` | Style library: one folder per style with `style.md` (spec), `tokens.css`, `example.html` and `preview.jpg`. Catalog in `styles/README.md`, all previews in `styles/catalog.jpg` |
+| `references/poster-styles.md` | What every expressive poster shares, and which style suits which brief. **Read for any poster, flyer, cover or event graphic** |
 | `references/imagery.md` | Where images come from (licensing), treatments, cut-outs |
 | `references/css-techniques.md` | Composition, type, colour, texture, shape and image techniques with snippets |
 | `references/formats.md` | Sizes and safe areas for social, ads, covers, print |
-| `examples/` | Five worked posters with previews |
 
 Run everything from the repo root, e.g. `node .claude/skills/html-graphics/scripts/render.cjs projects/x/poster.html`.
 
@@ -31,7 +31,7 @@ Run everything from the repo root, e.g. `node .claude/skills/html-graphics/scrip
 
 1. **Brief.** What it is, where it appears, exact size (`references/formats.md`), the real copy, brand assets, how many options. For print, run `print-production` first and build the artboard in mm with bleed.
 2. **Image.** Decide where the image comes from before anything else (`references/imagery.md`): the user's assets, AI generation, or public-domain collections. Never invent a photo source or use one without a licence.
-3. **Direction.** Pick a recipe from `references/poster-styles.md` (or a clean typographic direction), then write a short plan: palette (4–6 hex), display face and how the title will be drawn, the image treatment, and the one bold move. For new work, offer 2–3 directions. Check the plan against the generated-design defaults listed in `frontend-design` and change anything generic.
+3. **Direction.** Pick a style from `styles/README.md` (the brief table in `references/poster-styles.md` helps), read its `style.md` in full and link its `tokens.css`. If the user names or shows a look that isn't in the library, take the closest style and say what you change. Then write a short plan: palette (4–6 hex), display face and how the title will be drawn, the image treatment, and the one bold move. For new work, offer 2–3 directions. Check the plan against the generated-design defaults listed in `frontend-design` and change anything generic.
 4. **Prepare assets** with `scripts/treat.py` (image, cut-out, contour, textures) and `scripts/lettering.cjs` (title) into `projects/<project>/assets/`, at the final pixel size (artboard × export scale).
 5. **Composition thumbnails.** Before any detail, build 4–6 rough layouts as artboards in one file, each a different archetype from `references/type-and-composition.md`, with only the image and the title. Render with `--sheet`, pick the strongest, and say why. Never go straight to the centred title / image / info stack.
 6. **Build.** Copy `templates/artboard.html` to `projects/<project>/<piece>.html`. Paste `templates/filters.html` after `<body>` when you need filters. Follow the build rules below.
@@ -48,6 +48,12 @@ Run everything from the repo root, e.g. `node .claude/skills/html-graphics/scrip
 - **Images:** local files in `assets/`, with enough pixels for the export scale (the renderer warns when one is upscaled). Logos and icons as inline SVG, never emoji.
 - **Filters:** paste the `templates/filters.html` svg once per file and tune the commented numbers. Chrome won't load filters from another file.
 - **Legibility:** text over images needs a scrim, a band or a halo (`paint-order: stroke` on SVG text). The renderer can't measure contrast over images, so look.
+
+## Style references
+
+When the user asks to see a style ("show me Art Deco", "what does riso look like", "send me a reference"), send `styles/<id>/preview.jpg` with SendUserFile; for "what styles do we have", send `styles/catalog.jpg` and list the names from `styles/README.md`. Each example is a working HTML file, so a reference can be re-rendered or adapted.
+
+To add a style (or a client's house style), copy the format of an existing folder, fill every section of `style.md`, build an original `example.html`, and run `python3 .claude/skills/html-graphics/scripts/previews.py <id>` to render its preview and refresh the catalog.
 
 ## Renderer
 

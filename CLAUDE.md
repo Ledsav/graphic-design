@@ -12,7 +12,8 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 | Brand identity system, guidelines, voice | `brand`, palette and type research in `ui-ux-pro-max` |
 | Stationery, business cards, letterhead, identity mockups | `design` (CIP section), then `print-production` |
 | Icons and icon sets | `design` (icon section) |
-| Event or gig poster, flyer, magazine or album cover, invitation | `html-graphics` (read its `references/poster-styles.md`), then `print-production` if printed |
+| Event or gig poster, flyer, magazine or album cover, invitation | `html-graphics`: pick a style from its `styles/` library, then `print-production` if printed |
+| "Show me a style" / a reference for a look | `html-graphics/styles/<id>/preview.jpg` (all styles: `styles/catalog.jpg`) |
 | Social posts, carousels, stories, ads, banners, thumbnails | `html-graphics`; `banner-design` for extra art-direction options |
 | Image treatments: halftone, photocopy, riso, duotone, cut-outs, torn paper, textures | `html-graphics` (`scripts/treat.py`) |
 | Abstract art print or standalone visual piece | `canvas-design`, then `print-production` if printed |
@@ -28,7 +29,7 @@ Skills live in `.claude/skills/`. Load the matching one before starting; most jo
 ## Process
 
 1. **Brief.** Pin down goal, audience, medium and exact size, the real copy, existing brand assets, constraints and how many options. Ask only for what is missing and matters; otherwise state your assumptions and go.
-2. **Direction.** For new work, propose 2-3 distinct concepts in a few lines each (idea, palette as hex, typefaces, composition) before producing finals, unless the user asked you to just make it. For posters and other layouts, sketch 4-6 composition thumbnails before detailing one (see `html-graphics/references/type-and-composition.md`).
+2. **Direction.** For new work, propose 2-3 distinct concepts in a few lines each (idea, style from the `html-graphics/styles/` library, palette as hex, typefaces, composition) before producing finals, unless the user asked you to just make it. For posters and other layouts, sketch 4-6 composition thumbnails before detailing one (see `html-graphics/references/type-and-composition.md`).
 3. **Make.** Follow the routed skill. Use the real copy, never lorem ipsum. Design at the final output size.
 4. **Look.** Render the output and view it yourself (open the PNG with Read; HTML goes through `html-graphics/scripts/render.cjs`, which also flags type and image problems). Critique it against the checklist below and do at least one refinement pass. Never deliver something you have not seen.
 5. **Deliver.** Put files in `projects/<project-slug>/` (brief, sources, exports). Give the user the files plus a short rationale: concept, palette, type and what to watch for.
