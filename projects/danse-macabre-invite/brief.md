@@ -1,6 +1,6 @@
 # Danse Macabre: private party invite
 
-- Event: private party, Saturday 31 October 2026, from 20:00, Rue Robert Stumper 16
+- Event: private party, Saturday 31 October 2026, from 20:30, Rue Robert Stumper 16
 - Notes for guests: bring something to drink and share; costume not needed but appreciated
 - Must read as private and invitation-only; not obviously Halloween (no "Halloween" wording)
 - Format: 1080 x 1920 phone story (WhatsApp / Instagram)
