@@ -32,7 +32,7 @@ Rules: two colours plus the scrap. Paper alternatives: hot pink `#ff4f9a`, safet
 
 ## Imagery
 
-- A subject with a strong silhouette; cut out and flattened on black reads as a ghost: `treat.py halftone cut.png -o ht.png --flatten '#000000' --width 1600 --cell 12 --invert --ink '#f2e33a' --paper '#121212' --levels .08,.85`, then `treat.py torn ht.png -o torn.png --edges top,bottom --depth 70 --rim 10 --rim-color '#f2e33a'`.
+- A subject with a strong silhouette; cut out and flattened on black reads as a ghost: `treat.py halftone cut.png -o ht.png --flatten '#000000' --width 1600 --cell 12 --invert --ink '#f2e33a' --paper '#121212' --levels .08,.85` (push the white point down, e.g. `.02,.42`, for a dark subject like the example's eagle), then `treat.py torn ht.png -o torn.png --edges top,bottom --depth 70 --rim 10 --rim-color '#f2e33a'`.
 - Without a cut-out, halftone the whole photo with dark dots on the paper colour.
 
 ## Texture
