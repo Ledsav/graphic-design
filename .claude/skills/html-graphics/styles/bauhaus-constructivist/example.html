@@ -51,10 +51,10 @@
 
   <p class="dates bc-head bc-blue" id="dates">14&ndash;20 May 2027</p>
 
-  <p class="venue bc-black" id="venue">Tram Depot Cinema, Hall 4 / Rail Street 9</p>
+  <p class="venue bc-black" id="venue">Tram Depot Cinema &middot; Hall 4</p>
 
   <div class="info bc-text">
-    <p>40 films / 12 programmes / 3 live cuts<br><b>montage.example</b></p>
+    <p>Rail Street 9<br>40 films / 12 programmes / 3 live cuts<br><b>montage.example</b></p>
   </div>
 
   <div class="grain"></div>
@@ -65,7 +65,7 @@
   // silhouette is a cone with its apex at the lens and the beam fits it exactly.
   const L = { x: 330, y: 880 }, AXIS = -45, K = 0.62;         // K: figure scale
   const LENS_IN_IMG = { x: 1016, y: 280 };                     // lens position in cameraman-bw.png (px)
-  const WORD = 'MONTAGE', S0 = 190, END = 1005, GAP = .12, PAD = 1.4, CUT = .035;   // GAP, CUT: fractions of the local font size
+  const WORD = 'MONTAGE', S0 = 190, END = 960, GAP = .12, PAD = 1.4, CUT = .035;   // GAP, CUT: fractions of the local font size
 
   window.layout = async () => {
     await document.fonts.load('900 100px "League Spartan"');

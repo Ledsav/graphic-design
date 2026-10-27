@@ -54,7 +54,7 @@ node $L "BOTTOM" -o assets/bottom.svg --google "Gajraj One" --tracking -40 --war
 
 ## Imagery
 
-- A single figure or face, flattened into the palette: an animal, a portrait, a hand, an eye, a flower. The shared `chelsea-cut.png` (cat) or `astronaut-cut.png` work; so does no photo at all (pattern plus lettering).
+- A single figure or face, flattened into the palette: an animal, a portrait, a hand, an eye, a flower. The shared `chelsea-cut.png` (cat) works; so does no photo at all (pattern plus lettering). Never a recognisable real person without their consent.
 - Posterize to the palette in two steps. First a grey, contrast-set file at the final display size:
   `python3 .claude/skills/html-graphics/scripts/treat.py duotone in-cut.png -o assets/x-grey.png --width <display px> --colors '#000000,#ffffff' --levels .2,.62`
   Then `class="psy-poster"` (the `#psy-poster` filter, in Build) maps four luminance bands to ink, magenta, orange and cream, smooths them with a 5 px blur and cuts a crisp edge. Pick `--levels` so each band gets 15–35% of the subject (the 10th and 90th luminance percentiles near .2 and .85); with no cream band the face goes muddy.
