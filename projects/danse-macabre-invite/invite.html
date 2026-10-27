@@ -21,6 +21,15 @@
 
   .blobs { position: absolute; inset: 0; filter: url(#wobble); }
   .blob { position: absolute; background: var(--red); }
+  /* Knockout: the red is cut where the title would sit if it were shifted up and right, so paper shows as a sliver
+     along one edge of each letter that crosses the red (a riso trap gone wrong, on purpose). The paper copy of the
+     blobs fills exactly those holes and nothing else, so the blob edges stay clean. */
+  .blobs.red { -webkit-mask: var(--ko), linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+               mask: var(--ko), linear-gradient(#000 0 0); mask-composite: exclude; }
+  .blobs.paper { -webkit-mask: var(--ko); mask: var(--ko); }
+  .blobs.paper .blob { background: var(--paper); }
+  /* --ko is built by the script at the end from every [data-ko] image: same file, shifted 7px right and 6px up. */
+  :root { --ko: url(assets/t-danse-stack.svg) 55px 144px / 984px 563.65px no-repeat; }
   .b1 { left: 90px; top: 740px; width: 920px; height: 840px; border-radius: 62% 38% 55% 45% / 38% 58% 42% 62%; transform: rotate(-8deg); }
   .b2 { right: -230px; top: 60px; width: 520px; height: 560px; border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%; }
   .b3 { left: -200px; top: 330px; width: 420px; height: 420px; border-radius: 50% 50% 45% 55% / 60% 50% 50% 40%; }
@@ -36,7 +45,7 @@
 
   .details { position: absolute; left: 64px; right: 64px; bottom: 62px; }
   .when { display: flex; align-items: flex-end; gap: 28px; padding-bottom: 22px; border-bottom: 5px solid var(--red); }
-  .when .date { font: 900 168px/.8 var(--text); letter-spacing: -.04em; }
+  .when .date { display: block; }
   .when .meta { font: 700 34px/1.25 var(--text); padding-bottom: 4px; }
   .where { margin-top: 22px; font: 800 44px/1 var(--text); letter-spacing: -.01em; }
   .notes { margin-top: 18px; font: 500 30px/1.4 var(--text); }
@@ -148,16 +157,27 @@
   </defs>
 </svg>
 <section class="artboard" data-name="invite">
-  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
-  <img class="title" src="assets/t-danse-stack.svg" alt="Danse Macabre">
+  <div class="blobs paper"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="blobs red"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <img class="title" src="assets/t-danse-stack.svg" alt="Danse Macabre" data-ko>
   <img class="fig" src="assets/figure-ink.png" alt=""><img class="fig" src="assets/figure-blood.png" alt="">
   <p class="kicker">YOU ARE INVITED</p>
   <p class="side l">PRIVATE PARTY</p><p class="side r">INVITATION ONLY</p>
   <div class="details">
-    <div class="when"><span class="date">31.10</span><span class="meta">SATURDAY<br>FROM 20:00</span></div>
+    <div class="when"><img class="date" src="assets/t-date.svg" alt="31.10" data-ko><span class="meta">SATURDAY<br>FROM 20:00</span></div>
     <p class="where">RUE ROBERT STUMPER 16</p>
     <p class="notes">BRING SOMETHING TO DRINK &amp; SHARE<br>COSTUME NOT NEEDED, BUT APPRECIATED</p>
   </div>
 </section>
+<script>
+  window.layout = () => {
+    const art = document.querySelector('.artboard'), a = art.getBoundingClientRect();
+    art.style.setProperty('--ko', [...art.querySelectorAll('[data-ko]')].map(el => {
+      const r = el.getBoundingClientRect();
+      return `url(${el.getAttribute('src')}) ${r.left - a.left + 7}px ${r.top - a.top - 6}px / ${r.width}px ${r.height}px no-repeat`;
+    }).join(', '));
+  };
+  document.fonts.ready.then(window.layout);
+</script>
 </body>
 </html>
