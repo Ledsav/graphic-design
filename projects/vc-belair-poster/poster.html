@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VC Belair: Roar together</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800;1,900&family=Inter:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=block">
+<style>
+  /* Season poster in the club's own system (vcb.lu): Barlow Condensed for display, Inter and JetBrains Mono for text,
+     primary blue #1a5fa8 / dark #0c447c / light #9fd9ec on navy. The shard lion from the logo runs behind the player. */
+  :root { --navy: #081629; --blue: #1a5fa8; --blue-l: #378add; --ice: #9fd9ec; --white: #ffffff;
+          --cond: "Barlow Condensed", sans-serif; --text: "Inter", sans-serif; --mono: "JetBrains Mono", monospace; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1528px; --safe: 48px;
+    color: var(--white); font-family: var(--text); -webkit-font-smoothing: antialiased;
+    background:
+      radial-gradient(46% 34% at 54% 40%, rgb(26 95 168 / .75), transparent 72%),
+      linear-gradient(180deg, #0f2747 0%, #0b1d36 55%, #07111f 100%); }
+
+  /* The lion mark, 1400 wide, in the club blues; its face sits right of the player, the mane fans out behind him. */
+  .lion { position: absolute; left: -250px; top: 250px; width: 1400px; height: 1135px; z-index: 1; opacity: .62;
+    background: linear-gradient(150deg, var(--blue-l) 0%, var(--blue) 55%, #0c447c 100%);
+    -webkit-mask: url(assets/lion-white.png) 0 0 / 100% 100% no-repeat; mask: url(assets/lion-white.png) 0 0 / 100% 100% no-repeat; }
+
+  /* Player: 1024 x 1536 at .95; head top at 213, jersey hem at about 919. */
+  .player { position: absolute; left: 16px; top: 50px; width: 973px; height: 1459px; z-index: 2;
+    filter: drop-shadow(0 30px 50px rgb(0 0 0 / .45)); }
+
+  .logo { position: absolute; left: 52px; top: 48px; height: 176px; z-index: 4; }
+  .head { position: absolute; right: 52px; top: 58px; z-index: 4; text-align: right; }
+  .head .k { font: 700 17px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ice); }
+  .head .l1 { margin-top: 10px; font: italic 900 104px/.84 var(--cond); letter-spacing: -.01em; }
+  .head .l2 { font: italic 800 52px/1 var(--cond); color: var(--ice); letter-spacing: .01em; }
+  .head .s { margin-top: 12px; font: 600 19px/1.35 var(--text); color: rgb(255 255 255 / .82); }
+
+  .scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 640px; z-index: 3;
+    background: linear-gradient(transparent, rgb(7 17 31 / .55) 40%, rgb(7 17 31 / .92) 78%, #07111f); }
+  .roar { position: absolute; left: 98px; top: 872px; width: 884px; z-index: 4; filter: drop-shadow(0 10px 24px rgb(0 0 0 / .35)); }
+  .together { position: absolute; left: 98px; top: 1212px; width: 884px; z-index: 4; }
+
+  .foot { position: absolute; left: 52px; right: 52px; bottom: 48px; z-index: 4; display: flex; justify-content: space-between; align-items: flex-end;
+    padding-top: 16px; border-top: 2px solid rgb(159 217 236 / .5); font: 700 17px/1.45 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .foot .r { text-align: right; color: var(--ice); }
+
+  .grain { position: absolute; inset: 0; z-index: 9; pointer-events: none; mix-blend-mode: overlay; opacity: .2;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="lion"></div>
+  <img class="player" src="assets/player-cut.png" alt="VC Belair player number 33 holding out a ball">
+
+  <img class="logo" src="assets/logo-white.png" alt="VC Belair">
+  <div class="head">
+    <p class="k">Belair Lions · since 1963</p>
+    <p class="l1">MIXVOIP</p>
+    <p class="l2">LEAGUE 2026/27</p>
+    <p class="s">Men 1 &amp; Women 1, promoted to<br>Luxembourg's top flight</p>
+  </div>
+
+  <div class="scrim"></div>
+  <img class="roar" src="assets/t-roar.svg" alt="Roar">
+  <img class="together" src="assets/t-together.svg" alt="together">
+
+  <div class="foot">
+    <p>Home games · Hall sportif de Belair<br>14 Rue d'Ostende, Luxembourg</p>
+    <p class="r">vcb.lu<br>@vc.belair</p>
+  </div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>
