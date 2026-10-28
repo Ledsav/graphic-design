@@ -29,7 +29,7 @@ Every image is something beautiful that could hurt you: nails, claws, fangs, kni
 ## Files
 
 - `NN-<title>.html`: one poster per file, sharing `series.css` (artboard, grain, lockup, chrome helper).
-- `export/NN-<title>-poster.png`: final 1800 × 2400 PNGs. `export/pretty-things-bite-series.jpg`: contact sheet.
+- `export/NN-<title>-poster.png`: final 1800 × 2400 PNGs. `export/pretty-things-bite-series.jpg`: contact sheet. `export/pretty-things-bite-overview.jpg` (from `overview.html`): titled overview of all 12.
 - `assets/src/`: the user's originals. `assets/cut/`, `assets/cut-bf/`: cut-outs (rembg `isnet-general-use` and `birefnet-general-lite`). `assets/pNN/`: lettering, treatments and textures per poster.
 - `tools/pave.py`: generates the pavé stone texture for N°09 (`python3 tools/pave.py assets/p09/pave.png 2220 540 15`).
 
