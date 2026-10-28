@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Danse Macabre: tarot card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=block">
+<style>
+  /* A tarot card: arcana XXXI (the date), the sun-mask figure in an arched window, the title on a ribbon,
+     the details set like the card's inscription. Two inks on parchment. */
+  :root { --paper: #e8dcc2; --ink: #241c15; --blood: #8a2a1f; --shade: #d6c7a6;
+          --caps: "Cinzel", serif; --text: "Cormorant Garamond", serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1920px; --safe: 64px;
+    background: var(--paper); color: var(--ink); font-family: var(--text); -webkit-font-smoothing: antialiased; }
+
+  /* Arched window, in artboard coordinates: centre (540, 644), radius 444. */
+  .window { position: absolute; inset: 0; z-index: 1; clip-path: path('M96 1290 V644 A444 444 0 0 1 984 644 V1290 Z'); }
+  .window img { position: absolute; left: -13px; top: -283px; width: 997px; height: 2160px; }   /* 852 x 1846 at 1.17; mask centred on x 560 */
+  .art { position: absolute; inset: 0; z-index: 2; width: 1080px; height: 1920px; }
+  .title { position: absolute; left: 188px; top: 1263px; width: 704px; z-index: 3; }
+
+  .num { position: absolute; left: 0; right: 0; top: 92px; z-index: 3; text-align: center; font: 600 62px/1 var(--caps); letter-spacing: .12em; padding-left: .12em; }
+
+  .info { position: absolute; left: 96px; right: 96px; top: 1432px; z-index: 3; text-align: center; }
+  .info .when { font: 700 48px/1 var(--caps); letter-spacing: .05em; }
+  .info .where { margin-top: 18px; font: 600 28px/1.2 var(--caps); letter-spacing: .14em; color: var(--blood); }
+  .info .orn { margin: 40px auto 34px; width: 220px; height: 14px; }
+  .info .note { font: 600 italic 40px/1.4 var(--text); }
+  .priv { position: absolute; left: 0; right: 0; bottom: 104px; z-index: 3; text-align: center;
+    font: 600 22px/1 var(--caps); letter-spacing: .32em; padding-left: .32em; color: var(--blood); }
+
+  .paper { position: absolute; inset: 0; z-index: 8; pointer-events: none; background: url(assets/paper.png) 0 0 / 100% 100%; mix-blend-mode: multiply; opacity: .55; }
+  .age { position: absolute; inset: 0; z-index: 9; pointer-events: none; box-shadow: inset 0 0 180px rgb(90 60 20 / .32); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="sun" viewBox="-20 -20 40 40">
+    <circle r="7" fill="none" stroke="#241c15" stroke-width="2.4"/>
+    <g stroke="#241c15" stroke-width="2.4" stroke-linecap="round">
+      <path d="M0-11V-18M0 11V18M-11 0H-18M11 0H18M7.8-7.8L12.7-12.7M-7.8 7.8L-12.7 12.7M7.8 7.8L12.7 12.7M-7.8-7.8L-12.7-12.7"/></g>
+  </symbol>
+  <symbol id="star" viewBox="-20 -20 40 40"><path fill="#241c15" d="M0-18L3 -3 18 0 3 3 0 18-3 3-18 0-3-3Z"/></symbol>
+</defs></svg>
+<section class="artboard" data-name="tarot">
+  <div class="window"><img src="assets/sunmask.png" alt="A robed figure in a spiked sun mask"></div>
+
+  <svg class="art" viewBox="0 0 1080 1920" aria-hidden="true">
+    <!-- Card frame: thick and thin rule, stars in the corners. -->
+    <rect x="32" y="32" width="1016" height="1856" rx="22" fill="none" stroke="#241c15" stroke-width="6"/>
+    <rect x="46" y="46" width="988" height="1828" rx="14" fill="none" stroke="#241c15" stroke-width="1.5"/>
+    <use href="#star" x="58" y="58" width="40" height="40"/><use href="#star" x="982" y="58" width="40" height="40"/>
+    <use href="#star" x="58" y="1822" width="40" height="40"/><use href="#star" x="982" y="1822" width="40" height="40"/>
+    <!-- Numeral suns -->
+    <use href="#sun" x="330" y="102" width="44" height="44"/><use href="#sun" x="706" y="102" width="44" height="44"/>
+    <!-- Window keylines -->
+    <path d="M96 1290 V644 A444 444 0 0 1 984 644 V1290 Z" fill="none" stroke="#241c15" stroke-width="6"/>
+    <path d="M82 1304 V644 A458 458 0 0 1 998 644 V1304 Z" fill="none" stroke="#241c15" stroke-width="1.5"/>
+    <!-- Ribbon: tails behind, folds, then the band (sags 20 px in the middle). -->
+    <path d="M176 1284 H78 L110 1334 L78 1384 H176 Z" fill="#d6c7a6" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M904 1284 H1002 L970 1334 L1002 1384 H904 Z" fill="#d6c7a6" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M150 1354 L176 1384 V1352 Z M930 1354 L904 1384 V1352 Z" fill="#241c15"/>
+    <path d="M150 1252 Q540 1292 930 1252 V1354 Q540 1394 150 1354 Z" fill="#efe5cf" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+  </svg>
+
+  <p class="num">XXXI</p>
+  <img class="title" src="assets/tarot-title.svg" alt="Danse Macabre">
+
+  <div class="info">
+    <p class="when">Saturday 31 October</p>
+    <p class="where">From 20:30 · Rue Robert Stumper 16</p>
+    <svg class="orn" viewBox="0 0 220 14"><path d="M0 7H92M128 7H220" stroke="#241c15" stroke-width="1.5"/><path d="M110 0L118 7 110 14 102 7Z" fill="#8a2a1f"/></svg>
+    <p class="note">Bring something to drink &amp; share</p>
+    <p class="note">Costume not needed, but appreciated</p>
+  </div>
+  <p class="priv">Private party · by invitation only</p>
+
+  <div class="paper"></div><div class="age"></div>
+</section>
+</body>
+</html>

@@ -17,3 +17,16 @@
 ## Rebuild
 node .claude/skills/html-graphics/scripts/render.cjs projects/danse-macabre-invite/invite.html
 python3 .claude/skills/html-graphics/scripts/treat.py riso projects/danse-macabre-invite/export/invite-invite.png -o projects/danse-macabre-invite/danse-macabre-invite.png --inks '#c63a24,#24304f' --paper '#ece6d8' --grain .45 --offset=-3,2 --uneven .06
+
+## Variants
+Five alternative directions in `variants/`, one per image the client supplied later, same copy (start time 20:30):
+
+1. `danse-macabre-jester.png`: Victorian playbill, the Fool in an oval medallion, title arched over and smiling under it (Abril Fatface + IM Fell, black and red on cream)
+2. `danse-macabre-tarot.png`: tarot card, arcana XXXI, the sun-mask figure in an arched window, title on a ribbon (Cinzel + Cormorant, umber and oxblood on parchment)
+3. `danse-macabre-apple.png`: magazine cover, the masthead behind her head, the apple's red as the only colour (Bodoni Moda + Manrope on black)
+4. `danse-macabre-phone.png`: a lock screen, the clock reads 20:30, the invite arrives as notifications, the title rides up the red beam (Inter Tight + Anton lettering)
+5. `danse-macabre-heart.png`: Swiss grid, vertical grotesque title, the heart as the only red (Schibsted Grotesk on off-white)
+
+`danse-macabre-variants.jpg` shows all five. Rebuild one with
+node .claude/skills/html-graphics/scripts/render.cjs projects/danse-macabre-invite/variants/<name>.html
+then copy `variants/export/<name>-<name>.png` to `variants/danse-macabre-<name>.png`.

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Danse Macabre: apple cover</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Manrope:wght@500;700;800&display=block">
+<style>
+  /* Magazine cover: the masthead sits behind her head (depth sandwich), cover lines in the black,
+     the apple's red is the only colour. */
+  :root { --bg: #070707; --ink: #efe6d6; --red: #e0453a; --dim: #b9b0a2;
+          --display: "Bodoni Moda", serif; --text: "Manrope", sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1920px; --safe: 28px 56px 56px;
+    background: var(--bg); color: var(--ink); font-family: var(--text); -webkit-font-smoothing: antialiased; }
+
+  /* Image and its cut-out share one box: 864 x 1821 scaled 1.25 */
+  .img { position: absolute; left: 0; top: 0; width: 1080px; height: 2276px; }
+  .photo { z-index: 1; }
+  .cut { z-index: 3; }
+  .mast { position: absolute; left: 58px; width: 964px; z-index: 2; }
+  .mast.a { top: 64px; }
+  .mast.b { top: 306px; }
+
+  .issue { position: absolute; left: 62px; top: 30px; right: 62px; z-index: 4; display: flex; justify-content: space-between;
+    font: 700 17px/1 var(--text); letter-spacing: .24em; text-transform: uppercase; color: var(--dim); }
+
+  .lines { position: absolute; left: 62px; top: 560px; width: 330px; z-index: 4; }
+  .lines .when { font: 600 italic 58px/1 var(--display); color: var(--red); }
+  .lines .time { margin-top: 12px; font: 800 22px/1.35 var(--text); letter-spacing: .08em; text-transform: uppercase; }
+  .lines hr { border: 0; border-top: 1px solid rgb(239 230 214 / .45); margin: 26px 0 22px; width: 120px; }
+  .lines .cl { margin-top: 18px; }
+  .lines .cl b { display: block; font: 600 italic 34px/1.05 var(--display); color: var(--ink); }
+  .lines .cl span { display: block; margin-top: 6px; font: 500 20px/1.4 var(--text); color: var(--dim); }
+
+  .scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 420px; z-index: 5;
+    background: linear-gradient(transparent, rgb(7 7 7 / .86) 55%, #070707); }
+  .foot { position: absolute; left: 62px; right: 62px; bottom: 64px; z-index: 6; display: flex; align-items: baseline; justify-content: space-between; }
+  .foot .priv { font: 800 22px/1 var(--text); letter-spacing: .24em; text-transform: uppercase; }
+  .foot .priv i { font-style: normal; color: var(--red); }
+  .foot .mark { font: 600 italic 30px/1 var(--display); color: var(--dim); }
+
+  .grain { position: absolute; inset: 0; z-index: 9; pointer-events: none; mix-blend-mode: overlay; opacity: .22;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="apple">
+  <img class="img photo" src="assets/apple.png" alt="">
+  <img class="mast a" src="assets/apple-danse.svg" alt="Danse">
+  <img class="mast b" src="assets/apple-macabre.svg" alt="Macabre">
+  <img class="img cut" src="assets/apple-cut.png" alt="">
+
+  <p class="issue"><span>Nº 31 · October</span><span>The private issue</span></p>
+
+  <div class="lines">
+    <p class="when">Saturday<br>31.10</p>
+    <p class="time">From 20:30<br>Rue Robert Stumper 16</p>
+    <hr>
+    <p class="cl"><b>Forbidden fruit</b><span>Bring something to drink &amp; share</span></p>
+    <p class="cl"><b>Dress code</b><span>Costume not needed,<br>but appreciated</span></p>
+  </div>
+
+  <div class="scrim"></div>
+  <div class="foot"><p class="priv">Private party <i>·</i> Invitation only</p><p class="mark">You are invited</p></div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

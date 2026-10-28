@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Danse Macabre: lock screen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=block">
+<style>
+  /* The poster is a lock screen: the clock reads the start time, the invitation arrives as notifications,
+     the title rides up the red beam from the phone. */
+  :root { --ink: #f6eee4; --dim: rgb(246 238 228 / .72); --red: #e2311f; --text: "Inter Tight", sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1920px; --safe: 40px 56px 40px;
+    background: #120b09; color: var(--ink); font-family: var(--text); -webkit-font-smoothing: antialiased; }
+
+  /* 863 x 1822 scaled 1.2515, raised 150 px. */
+  .photo { position: absolute; left: 0; top: -150px; width: 1080px; height: 2280px; z-index: 1; }
+
+  /* Beam centre line: x = 760 - 0.172 (y + 150), i.e. 9.8 degrees off vertical. Title centred on it at y 330. */
+  .beam-title { position: absolute; left: 377px; top: 242px; width: 600px; z-index: 2; transform: rotate(-80.2deg);
+    filter: drop-shadow(0 0 18px rgb(255 120 40 / .45)); }
+
+  .status { position: absolute; left: 56px; right: 56px; top: 52px; z-index: 3; display: flex; align-items: center; gap: 12px;
+    font: 700 20px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; }
+  .status svg { width: 22px; height: 28px; flex: none; }
+  .date { position: absolute; left: 56px; top: 128px; z-index: 3; font: 600 40px/1 var(--text); color: var(--dim); }
+  .clock { position: absolute; left: 60px; top: 172px; z-index: 3; font: 600 182px/1 var(--text); letter-spacing: -.035em;
+    font-variant-numeric: tabular-nums; text-shadow: 0 4px 30px rgb(0 0 0 / .35); }
+
+  /* Notifications: dark glass over the torso. */
+  .stack { position: absolute; left: 36px; right: 36px; bottom: 80px; z-index: 4; display: grid; gap: 12px; }
+  .note { border-radius: 32px; padding: 22px 28px 24px; background: rgb(28 20 18 / .58);
+    -webkit-backdrop-filter: blur(26px) saturate(1.3); backdrop-filter: blur(26px) saturate(1.3);
+    box-shadow: 0 10px 40px rgb(0 0 0 / .35); }
+  .note header { display: flex; align-items: center; gap: 14px; font: 700 21px/1 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+  .note header time { margin-left: auto; letter-spacing: 0; text-transform: none; font-weight: 500; }
+  .icon { width: 46px; height: 46px; border-radius: 12px; background: var(--red); display: grid; place-items: center; flex: none; }
+  .icon svg { width: 30px; height: 30px; }
+  .note h2 { margin-top: 14px; font: 700 32px/1.15 var(--text); letter-spacing: -.01em; }
+  .note p { margin-top: 6px; font: 500 27px/1.3 var(--text); color: rgb(246 238 228 / .86); }
+  .note.small h2 { display: none; }
+  .note.small p { margin-top: 12px; }
+
+  .bar { position: absolute; left: 50%; bottom: 36px; width: 150px; height: 6px; margin-left: -75px; border-radius: 3px; background: var(--ink); z-index: 4; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="skull" viewBox="0 0 30 30"><path fill="#120b09" d="M15 2C8.4 2 4 6.6 4 12.4c0 3.5 1.6 6.1 4.1 7.6v4.2c0 1 .8 1.8 1.8 1.8h10.2c1 0 1.8-.8 1.8-1.8V20c2.5-1.5 4.1-4.1 4.1-7.6C26 6.6 21.6 2 15 2Z"/>
+    <circle cx="10.6" cy="13.2" r="3" fill="#e2311f"/><circle cx="19.4" cy="13.2" r="3" fill="#e2311f"/><path d="M15 16.4l-1.6 2.8h3.2Z" fill="#e2311f"/>
+    <path d="M12 22.4v3.2M15 22.4v3.2M18 22.4v3.2" stroke="#e2311f" stroke-width="1.4"/></symbol>
+</defs></svg>
+<section class="artboard" data-name="phone">
+  <img class="photo" src="assets/phone.png" alt="">
+  <img class="beam-title" src="assets/phone-title.svg" alt="Danse Macabre">
+
+  <p class="status">
+    <svg viewBox="0 0 22 28"><path d="M5 12V8a6 6 0 0 1 12 0v4" fill="none" stroke="#f6eee4" stroke-width="3"/><rect x="1" y="12" width="20" height="15" rx="3.5" fill="#f6eee4"/></svg>
+    Private party · invitation only
+  </p>
+  <p class="date">Saturday 31 October</p>
+  <p class="clock">20:30</p>
+
+  <div class="stack">
+    <div class="note">
+      <header><span class="icon"><svg><use href="#skull"/></svg></span>Danse Macabre<time>now</time></header>
+      <h2>You're invited. Saturday 31.10, from 20:30</h2>
+      <p>Rue Robert Stumper 16. Bring something to drink &amp; share.</p>
+    </div>
+    <div class="note small">
+      <header><span class="icon"><svg><use href="#skull"/></svg></span>Danse Macabre<time>now</time></header>
+      <p>Costume not needed, but appreciated.</p>
+    </div>
+  </div>
+  <div class="bar"></div>
+</section>
+</body>
+</html>

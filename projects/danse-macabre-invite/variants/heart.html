@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Danse Macabre: Swiss</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;900&display=block">
+<style>
+  /* Swiss: one grotesque, a strict grid, flush left, the engraving as a hard rectangle bleeding right.
+     The heart is the only red in the picture; the same red marks the one line that must not be missed. */
+  :root { --bg: #f1eee8; --ink: #111111; --grey: #6d6a64; --red: #d2261b; --text: "Schibsted Grotesk", sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1920px; --safe: 64px;
+    background: var(--bg); color: var(--ink); font-family: var(--text); -webkit-font-smoothing: antialiased; }
+
+  /* Grid: margin 64; title column 64-218; content from 251 (33 px gutter). */
+  .title { position: absolute; left: -754px; top: 884px; width: 1790px; transform: rotate(-90deg); }   /* visual box x 64-218, y 66-1856 */
+  .img { position: absolute; left: 251px; top: 64px; width: 829px; height: 1087px; }                 /* 735 x 964 at 1.128 */
+
+  .date { position: absolute; left: 244px; top: 1186px; font: 900 236px/.8 var(--text); letter-spacing: -.05em; }
+  .grid { position: absolute; left: 251px; right: 64px; top: 1436px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px 32px; }
+  .grid dt { font: 700 18px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--grey); }
+  .grid dd { margin-top: 10px; font: 600 32px/1.18 var(--text); letter-spacing: -.01em; }
+  .priv { position: absolute; left: 251px; bottom: 70px; display: flex; align-items: center; gap: 16px;
+    font: 700 28px/1 var(--text); letter-spacing: .02em; color: var(--red); }
+  .priv i { width: 26px; height: 26px; border-radius: 50%; background: var(--red); flex: none; }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="heart">
+  <img class="title" src="assets/heart-title.svg" alt="Danse Macabre">
+  <img class="img" src="assets/heart.jpg" alt="A face holding a red heart">
+
+  <p class="date">31.10</p>
+  <dl class="grid">
+    <div><dt>When</dt><dd>Saturday<br>from 20:30</dd></div>
+    <div><dt>Where</dt><dd>Rue Robert<br>Stumper 16</dd></div>
+    <div><dt>Bring</dt><dd>Something to drink<br>&amp; share</dd></div>
+    <div><dt>Wear</dt><dd>Costume not needed,<br>but appreciated</dd></div>
+  </dl>
+  <p class="priv"><i></i>Private party · invitation only</p>
+</section>
+</body>
+</html>

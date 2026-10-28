@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Danse Macabre: playbill</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=block">
+<style>
+  /* A Victorian playbill in black and red: the Fool in an oval medallion, the title arched over and smiling under it,
+     the details set in the bill's mix of sizes. Two families: Abril Fatface and IM Fell (roman, italic, small caps). */
+  :root { --paper: #efe5cf; --ink: #1c1714; --red: #b02a1e;
+          --fat: "Abril Fatface", serif; --fell: "IM Fell English", serif; --sc: "IM Fell English SC", serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1920px; --safe: 56px;
+    background: var(--paper); color: var(--ink); font-family: var(--fell); -webkit-font-smoothing: antialiased; text-align: center; }
+  .artboard > * { position: absolute; left: 72px; right: 72px; }
+
+  .top { top: 64px; font: 30px/1 var(--sc); letter-spacing: .2em; color: var(--red); }
+  .rule2 { height: 9px; border-top: 4px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+  .r1 { top: 112px; } .r2 { top: 1410px; }
+  .req { top: 146px; font: italic 36px/1.25 var(--fell); }
+  .ent { top: 202px; font: 34px/1 var(--sc); letter-spacing: .24em; }
+
+  .danse { top: 252px; left: 98px; right: auto; width: 884px; z-index: 2; filter: url(#press); }
+  .macabre { top: 1184px; left: 70px; right: auto; width: 940px; z-index: 2; filter: url(#press); }
+
+  /* Medallion: oval window, black ring and a red ring outside it. */
+  .oval { top: 472px; left: 270px; right: auto; width: 540px; height: 710px; border-radius: 50%; overflow: hidden; z-index: 1;
+    box-shadow: 0 0 0 10px var(--ink), 0 0 0 20px var(--paper), 0 0 0 24px var(--red); }
+  .oval img { position: absolute; left: -90px; top: -113px; width: 662px; height: 879px; }
+
+  .when { top: 1442px; font: 72px/1 var(--fat); letter-spacing: .01em; }
+  .time { top: 1530px; font: italic 36px/1.2 var(--fell); }
+  .addr { top: 1580px; font: 44px/1 var(--sc); letter-spacing: .08em; }
+  .cols { top: 1654px; display: grid; grid-template-columns: 1fr 2px 1fr; gap: 0 30px; align-items: center; }
+  .cols i { display: block; font: italic 28px/1.2 var(--fell); }
+  .cols b { display: block; margin-top: 6px; font: 30px/1.15 var(--sc); font-weight: 400; letter-spacing: .06em; }
+  .cols hr { border: 0; background: var(--ink); width: 2px; height: 100%; }
+  .bar { top: auto; bottom: 64px; padding: 16px 0 14px; background: var(--red); color: var(--paper);
+    font: 30px/1 var(--sc); letter-spacing: .22em; filter: url(#press); }
+
+  .paper { position: absolute; inset: 0; left: 0; right: 0; z-index: 8; pointer-events: none; background: url(assets/paper.png) 0 0 / 100% 100%; mix-blend-mode: multiply; opacity: .6; }
+  .age { position: absolute; inset: 0; left: 0; right: 0; z-index: 9; pointer-events: none; box-shadow: inset 0 0 160px rgb(110 70 30 / .28); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <!-- Letterpress: a little wobble and pinholes in the ink. -->
+  <filter id="press" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="3" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -30 0 0 0 10.4" result="holes"/>
+    <feComposite in="d" in2="holes" operator="out"/>
+  </filter>
+</defs></svg>
+<section class="artboard" data-name="jester">
+  <p class="top">Admission strictly by invitation</p>
+  <div class="rule2 r1"></div>
+  <p class="req">The Fool requests the pleasure of your company at a</p>
+  <p class="ent">Private Entertainment</p>
+
+  <img class="danse" src="assets/jester-danse.svg" alt="Danse">
+  <div class="oval"><img src="assets/jester.jpg" alt="A laughing jester"></div>
+  <img class="macabre" src="assets/jester-macabre.svg" alt="Macabre">
+
+  <div class="rule2 r2"></div>
+  <p class="when">Saturday 31 October</p>
+  <p class="time">commencing at half past eight in the evening · 20:30</p>
+  <p class="addr">No. 16, Rue Robert Stumper</p>
+  <div class="cols">
+    <p><i>Guests are kindly asked to</i><b>bring something<br>to drink &amp; share</b></p>
+    <hr>
+    <p><i>Costume not needed,</i><b>but appreciated</b></p>
+  </div>
+  <p class="bar">Private party · invitation only</p>
+
+  <div class="paper"></div><div class="age"></div>
+</section>
+</body>
+</html>
