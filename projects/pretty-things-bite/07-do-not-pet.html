@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°07 Do Not Pet</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link rel="stylesheet" href="series.css">
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/styles/brutalist/tokens.css">
+<style>
+  /* Brutalist, with electric blue standing in for the acid so the leopard keeps its colour */
+  :root { --blue: #3a3aff; --grain: .22; --grain-blend: multiply; }
+  .artboard { --safe: 40px; }
+
+  /* slab: the photocopied leopard, bleeding top, right and bottom; it eats the ends of the words */
+  .slab { position: absolute; z-index: 3; left: 620px; top: 0; width: 580px; height: 1600px; background: var(--ink); }
+  .slab img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: 50% 0; }
+
+  .word { position: absolute; z-index: 2; left: 40px; width: 664px; }
+  .word img { display: block; width: 100%; }
+  .w1 { top: 166px; } .w2 { top: 590px; } .w3 { top: 914px; }
+
+  .head { position: absolute; z-index: 4; left: 40px; top: 40px; width: 540px; display: flex; justify-content: space-between; }
+  .rule-top { position: absolute; z-index: 4; left: 0; width: 620px; top: 110px; height: 12px; background: var(--ink); }
+
+  .table { position: absolute; z-index: 4; left: 40px; top: 1252px; width: 540px; }
+  .block { position: absolute; z-index: 5; left: 0; top: 1452px; width: 700px; height: 220px; background: var(--blue); color: var(--bg);
+           padding: 26px 40px; }
+  .block .brut-big { font-size: 40px; line-height: 1.05; }
+
+  .hl { --y: 1216px; z-index: 6; }
+  .slab-label { position: absolute; z-index: 6; left: 660px; top: 40px; color: var(--bg); }
+  .lockup { right: 40px; top: 1528px; color: var(--bg); z-index: 6; }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="head"><span class="brut-label">[FIG. 07]</span><span class="brut-label">Panthera pardus, studded</span></div>
+  <div class="rule-top"></div>
+
+  <div class="word w1"><img src="assets/p07/do.svg" alt="DO"></div>
+  <div class="word w2"><img src="assets/p07/not.svg" alt="NOT"></div>
+  <div class="word w3"><img src="assets/p07/pet.svg" alt="PET"></div>
+
+  <div class="slab"><img src="assets/p07/slab.png" alt=""></div>
+  <div class="slab-label brut-label">Specimen 07 · live</div>
+
+  <ol class="brut-table table">
+    <li><span>01</span><span>Spikes</span><span>23</span></li>
+    <li><span>02</span><span>Studs</span><span>400+</span></li>
+    <li><span>03</span><span>Temper</span><span>Short</span></li>
+    <li><span>04</span><span>Petting</span><span>Never</span></li>
+  </ol>
+
+  <div class="block"><p class="brut-big">Bites.<br>No exceptions.</p></div>
+  <div class="brut-hline hl"></div>
+
+  <div class="lockup">Pretty Things Bite <b>N°07/12</b></div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

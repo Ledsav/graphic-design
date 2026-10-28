@@ -1,0 +1,56 @@
+/* Pretty Things Bite: shared frame for the series. Each poster sets its own palette and type. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #4a4a4a; padding: 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
+
+.artboard {
+  position: relative; flex: none; overflow: hidden; isolation: isolate;
+  width: 1200px; height: 1600px;
+  --safe: 60px;
+  background: var(--bg); color: var(--ink); font-family: var(--text);
+  font-kerning: normal; text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased;
+}
+
+/* Film grain over everything; strength from --grain. */
+.grain {
+  position: absolute; inset: 0; z-index: 90; pointer-events: none;
+  mix-blend-mode: var(--grain-blend, overlay); opacity: var(--grain, .5);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.fill { position: absolute; inset: 0; }
+.fill > img, img.fill { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Series lockup: fang bar + name + number. Colour from currentColor. */
+.lockup {
+  position: absolute; z-index: 60;
+  display: flex; align-items: center; gap: 14px;
+  font: 500 18px/1 "DM Mono", monospace; letter-spacing: .14em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.lockup::before {
+  content: ""; width: 34px; height: 20px; flex: none; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 20'%3E%3Cpath d='M0 0H34V4H28.5L25.5 20L22.5 4H11.5L8.5 20L5.5 4H0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 20'%3E%3Cpath d='M0 0H34V4H28.5L25.5 20L22.5 4H11.5L8.5 20L5.5 4H0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.lockup b { font-weight: 500; opacity: .6; }
+
+.mono { font-family: "DM Mono", monospace; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+
+/* Guides */
+.guides { position: absolute; inset: 0; pointer-events: none; z-index: 2147483647; }
+.guides .safe { position: absolute; inset: var(--safe, 0); outline: 1px dashed rgb(255 0 140 / .7); }
+html.is-rendering:not(.show-guides) .guides { display: none; }
+
+/* Chrome type: lettering SVG as a mask over a metal gradient, a bevel filter (#bevel, pasted per page)
+   and a dark outline copy of the same lettering behind it. Set --m to the mask SVG in the page CSS. */
+.chrome { position: absolute; }
+.chrome > img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.chrome .bevel { position: absolute; inset: 0; filter: url(#bevel); }
+.chrome .metal { position: absolute; inset: 0;
+  -webkit-mask: var(--m) center / 100% 100% no-repeat; mask: var(--m) center / 100% 100% no-repeat;
+  background: var(--streaks, none), var(--metal); }
+:root {
+  --metal: linear-gradient(180deg, #ffffff 0%, #e9ebef 16%, #a3a9b4 40%, #f5f6f8 48.5%, #16171b 50%, #383b43 57%, #868c97 72%, #eef0f3 88%, #a1a7b1 100%);
+  --streaks: linear-gradient(112deg, transparent 0 22%, rgb(255 255 255 / .8) 23%, transparent 25.5%, transparent 61%, rgb(255 255 255 / .65) 62%, transparent 63.5%);
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°06 Two-Faced</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="series.css">
+<style>
+  :root { --bg: #0d0909; --ink: #efe6d8; --red: #d0171d; --text: "Bodoni Moda", serif; --grain: .55; }
+
+  .photo { position: absolute; left: 0; top: 0; width: 900px; height: 1754px; z-index: 1; }
+  .photo img { width: 100%; height: 100%; display: block; filter: contrast(1.05); }
+
+  /* title runs down the column, its letters set on the image edge */
+  .title { position: absolute; z-index: 3; left: 1140px; top: 60px; width: 1300px; height: 156px;
+           transform-origin: 0 0; transform: rotate(90deg); }
+  .title img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .note { position: absolute; z-index: 3; left: 940px; right: 60px; bottom: 60px; color: var(--ink);
+          font: italic 500 32px/1.12 var(--text); }
+  .note span { color: var(--red); }
+  .lockup { left: 60px; top: 60px; color: var(--ink); }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="photo"><img src="assets/src/06.jpg" alt=""></div>
+  <div class="title">
+    <img src="assets/p06/tf-bone.svg" alt="TWO-FACED">
+    <img src="assets/p06/tf-red.svg" alt="">
+  </div>
+  <p class="note">Be nice.<br><span>The other<br>one isn’t.</span></p>
+  <div class="lockup">Pretty Things Bite <b>N°06/12</b></div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

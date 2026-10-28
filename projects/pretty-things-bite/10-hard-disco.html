@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°10 Hard Disco</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link rel="stylesheet" href="series.css">
+<style>
+  :root { --bg: #1d1d1c; --ink: #ffe100; --text: "DM Mono", monospace; --grain: .5; }
+
+  /* concrete: charcoal, pale and dark stains, a pool of light behind the ball */
+  .wall { position: absolute; inset: 0; z-index: 0; background-size: 100% 100%; }
+  .w1 { background-image: url(assets/p10/stain-light.png); opacity: .55; }
+  .w2 { background-image: url(assets/p10/stain-dark.png); opacity: .6; }
+  .light { position: absolute; inset: 0; z-index: 1;
+           background: radial-gradient(48% 34% at 52% 52%, rgb(220 218 210 / .22), transparent 70%),
+                       radial-gradient(90% 70% at 50% 50%, transparent 55%, rgb(0 0 0 / .55)); }
+
+  .word { position: absolute; z-index: 3; left: 60px; width: 1080px; }
+  .word img { display: block; width: 100%; }
+  .hard { top: 96px; } .disco { top: 986px; }
+
+  /* the ball hangs between the words; its shadow falls on the wall and the letters */
+  .chain { position: absolute; z-index: 4; left: 586px; top: 0; width: 10px; height: 520px;
+           background: repeating-linear-gradient(180deg, #8d8c88 0 9px, #2a2a29 9px 11px, #5d5c58 11px 18px, #1c1c1b 18px 20px); }
+  .ball { position: absolute; z-index: 5; left: 172px; top: 454px; width: 860px;
+          filter: drop-shadow(-46px -26px 5px rgb(0 0 0 / .62)) contrast(1.08); }
+  .ball img { display: block; width: 100%; }
+
+  .spots { position: absolute; inset: 0; z-index: 4; mix-blend-mode: screen; pointer-events: none; }
+  .spots i { position: absolute; border-radius: 2px; background: #fffdf2; box-shadow: 0 0 10px 2px rgb(255 253 242 / .6); }
+  .col { position: absolute; z-index: 6; color: var(--ink); font: 500 22px/1.4 var(--text); letter-spacing: .08em; text-transform: uppercase; }
+  .left { left: 60px; top: 742px; }
+  .right { right: 60px; top: 742px; text-align: right; }
+  .lockup { position: absolute; left: 60px; top: 60px; color: var(--ink); }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="wall w1"></div><div class="wall w2"></div><div class="light"></div>
+
+  <div class="word hard"><img src="assets/p10/hard.svg" alt="HARD"></div>
+  <div class="word disco"><img src="assets/p10/disco.svg" alt="DISCO"></div>
+
+  <div class="spots" id="spots"></div>
+  <div class="chain"></div>
+  <div class="ball"><img src="assets/p10/ball.png" alt=""></div>
+
+  <p class="col left">Dance<br>at your<br>own risk</p>
+  <p class="col right">No slow<br>songs.<br>No soft<br>landings.</p>
+  <div class="lockup">Pretty Things Bite <b>N°10/12</b></div>
+  <div class="grain"></div>
+</section>
+<script>
+  // mirror reflections thrown across the wall, seeded so every render matches
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const box = document.getElementById('spots'); let html = '';
+  for (let i = 0; i < 70; i++) {
+    const a = rnd() * Math.PI * 2, d = 470 + rnd() * 520;
+    const x = 602 + Math.cos(a) * d * .9, y = 826 + Math.sin(a) * d * 1.05;
+    if (x < 0 || x > 1200 || y < 0 || y > 1600) continue;
+    const w = 5 + rnd() * 9, h = w * (.5 + rnd() * .5);
+    html += `<i style="left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w.toFixed(1)}px;height:${h.toFixed(1)}px;opacity:${(.35 + rnd() * .55).toFixed(2)};transform:rotate(${(a * 57).toFixed(0)}deg)"></i>`;
+  }
+  box.innerHTML = html;
+</script>
+</body>
+</html>

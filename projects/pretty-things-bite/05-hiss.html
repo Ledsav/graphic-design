@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°05 Hiss</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link rel="stylesheet" href="series.css">
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/styles/y2k-chrome/tokens.css">
+<style>
+  :root { --bg: #04050b; --grain: .16; }
+
+  /* photo and cut-out share one box; the Pinterest header above the photo is masked away */
+  .photo, .cut { position: absolute; left: 0; top: -41px; width: 1200px; height: 2133px; }
+  .photo { z-index: 1; -webkit-mask: linear-gradient(to bottom, transparent 241px, #000 420px); mask: linear-gradient(to bottom, transparent 241px, #000 420px); }
+  .cut { z-index: 5; -webkit-mask: linear-gradient(to bottom, #000 0 560px, transparent 600px); mask: linear-gradient(to bottom, #000 0 560px, transparent 600px); }
+  .photo img, .cut img { width: 100%; height: 100%; display: block; }
+  .glow { position: absolute; inset: 0; z-index: 0;
+          background: radial-gradient(60% 30% at 50% 18%, #1c2466, transparent 75%), var(--bg); }
+
+  .title { left: 40px; top: 108px; width: 1120px; aspect-ratio: 1142 / 397; z-index: 4; }
+  .title > img { filter: drop-shadow(0 0 40px rgb(185 165 255 / .55)); }
+  /* set the mask here: a var(--m) url would resolve against the tokens stylesheet */
+  .title .y2k-chrome { -webkit-mask-image: url(assets/p05/hiss-mask.svg); mask-image: url(assets/p05/hiss-mask.svg); }
+
+  .y2k-sparkle { z-index: 7; }
+  .s1 { left: 880px; top: 96px; width: 74px; height: 74px; }
+  .s2 { left: 318px; top: 900px; width: 46px; height: 46px; }
+  .s3 { left: 90px; top: 430px; width: 38px; height: 38px; }
+
+  .y2k-window { z-index: 8; left: 770px; top: 1236px; width: 370px; }
+  .y2k-window header { font-size: 24px; }
+  .rows { padding: 16px 18px 18px; }
+  .rows p { display: flex; justify-content: space-between; font: 400 24px/1.35 var(--text); }
+  .rows p b { font-weight: 700; }
+  .bar { margin-top: 12px; height: 18px; border: 3px solid var(--navy); border-radius: 6px; overflow: hidden; background: #f5f8ff; }
+  .bar i { display: block; height: 100%; width: 87%; background: repeating-linear-gradient(90deg, var(--lime) 0 18px, #9fd12a 18px 21px); }
+  .pct { margin-top: 10px; font: 400 24px/1 var(--text); }
+  .pill { position: absolute; z-index: 8; left: 770px; top: 1488px; }
+
+  .lockup { left: 64px; top: 64px; color: var(--ink); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="y2k-bevel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="b"/>
+    <feSpecularLighting in="b" surfaceScale="7" specularConstant="1.25" specularExponent="26" lighting-color="#ffffff" result="s"><feDistantLight azimuth="235" elevation="40"/></feSpecularLighting>
+    <feComposite in="s" in2="SourceAlpha" operator="in" result="si"/>
+    <feComposite in="SourceGraphic" in2="si" operator="arithmetic" k1="0" k2="1" k3=".95" k4="0"/>
+  </filter>
+  <path id="spark" d="M50 0C53 38 62 47 100 50C62 53 53 62 50 100C47 62 38 53 0 50C38 47 47 38 50 0Z"/>
+</defs></svg>
+<section class="artboard" data-name="poster">
+  <div class="glow"></div>
+  <div class="photo"><img src="assets/src/05.jpg" alt=""></div>
+
+  <div class="y2k-chrome-type title"><img src="assets/p05/hiss-line.svg" alt="HISS"><div class="y2k-bevel"><div class="y2k-chrome"></div></div></div>
+
+  <div class="cut"><img src="assets/cut-bf/05.png" alt=""></div>
+
+  <svg class="y2k-sparkle s1" viewBox="0 0 100 100"><use href="#spark"/></svg>
+  <svg class="y2k-sparkle s2" viewBox="0 0 100 100"><use href="#spark"/></svg>
+  <svg class="y2k-sparkle s3" viewBox="0 0 100 100"><use href="#spark"/></svg>
+
+  <div class="y2k-window">
+    <header><span>bad_kitty.exe</span><span>×</span></header>
+    <div class="rows">
+      <p><span>Glitter</span><b>ON</b></p>
+      <p><span>Claws</span><b>OUT</b></p>
+      <p><span>Petting</span><b>NO</b></p>
+      <div class="bar"><i></i></div>
+      <p class="pct">hissing... 87%</p>
+    </div>
+  </div>
+  <div class="y2k-pill pill">Scratch to enter</div>
+
+  <div class="lockup">Pretty Things Bite <b>N°05/12</b></div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

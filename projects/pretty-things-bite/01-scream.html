@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°01 Scream Queen</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Crimson+Pro:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="series.css">
+<style>
+  :root { --bg: #0d0909; --ink: #f3e7d6; --red: #ff3324; --text: "Crimson Pro", serif; --grain: .55; }
+
+  .photo { position: absolute; left: -60px; top: -10px; width: 1280px; height: 1598px; z-index: 1; }
+  .photo img { width: 100%; height: 100%; display: block; }
+
+  /* the scream leaves the mouth small and grows off the top-right corner */
+  .scream { position: absolute; z-index: 5; left: 372px; top: 640px; width: 1560px;
+            transform-origin: 0 50%; transform: rotate(-30deg); }
+  .scream img { width: 100%; display: block; }
+
+  .shade { position: absolute; inset: 0; z-index: 2;
+           background: radial-gradient(70% 34% at 0% 100%, rgb(13 9 9 / .96) 30%, rgb(13 9 9 / .7) 60%, transparent 100%); }
+  .queen { position: absolute; z-index: 6; left: 60px; bottom: 140px; font: 400 128px/.84 "Anton"; color: var(--ink);
+           text-transform: uppercase; letter-spacing: -.01em; }
+  .queen span { color: var(--red); }
+  .quote { position: absolute; z-index: 6; left: 64px; bottom: 64px; font: italic 500 34px/1.15 var(--text); color: var(--ink); }
+  .lockup { left: 60px; top: 60px; color: var(--ink); }
+  .side { position: absolute; z-index: 6; right: 64px; bottom: 64px; writing-mode: vertical-rl; transform: rotate(180deg);
+          font: 500 18px/1 "DM Mono"; letter-spacing: .3em; text-transform: uppercase; color: var(--red); }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="photo"><img src="assets/p01/ht.png" alt=""></div>
+  <div class="shade"></div>
+  <div class="scream"><img src="assets/p01/scream.svg" alt="AAAAAAAH"></div>
+
+  <div class="lockup">Pretty Things Bite <b>N°01/12</b></div>
+  <h1 class="queen">Scream<br><span>Queen</span></h1>
+  <p class="quote">Louder, darling. They still can’t hear you.</p>
+  <div class="side">Volume: all the way up</div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°09 Iced Out</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link rel="stylesheet" href="series.css">
+<style>
+  :root { --bg: #020204; --ink: #eef1f6; --text: "DM Mono", monospace; --grain: .5; }
+
+  /* photo shifted right into its own black, the tiger in front of the title */
+  .photo, .cut { position: absolute; left: 130px; top: 0; width: 1200px; height: 1600px; }
+  .photo { z-index: 1; -webkit-mask: linear-gradient(90deg, transparent, #000 60px); mask: linear-gradient(90deg, transparent, #000 60px); }
+  .cut { z-index: 5; }
+  .photo img, .cut img { width: 100%; height: 100%; display: block; }
+
+  /* the title, set in pavé: rows of tiny stones in the letter mask, bevelled, with a dark outline copy behind */
+  .title { position: absolute; z-index: 4; left: 40px; top: 1540px; width: 1480px; height: 360px;
+           transform-origin: 0 0; transform: rotate(-90deg); }
+  .title > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .title .bevel { position: absolute; inset: 0; filter: url(#bevel); }
+  .title .pave { position: absolute; inset: 0;
+    -webkit-mask: url(assets/p09/t-mask.svg) 0 0 / 100% 100% no-repeat; mask: url(assets/p09/t-mask.svg) 0 0 / 100% 100% no-repeat;
+    background:
+      linear-gradient(100deg, transparent 30%, rgb(255 255 255 / .35) 38%, transparent 46%, transparent 68%, rgb(255 255 255 / .25) 72%, transparent 78%),
+      url(assets/p09/pave.png) 0 0 / 100% 100%; }
+
+  .spark { position: absolute; z-index: 6; fill: #fff; filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 16px #b9c8ff); }
+  .s1 { left: 268px; top: 1150px; width: 64px; height: 64px; }
+  .s2 { left: 64px; top: 520px; width: 40px; height: 40px; }
+
+  .tag { position: absolute; z-index: 7; right: 60px; bottom: 60px; width: 400px; padding: 22px 24px 20px;
+         background: #050506; color: var(--ink); border: 2px solid #c9cfda; outline: 1px solid #050506; outline-offset: 6px;
+         font: 500 19px/1.5 var(--text); letter-spacing: .06em; text-transform: uppercase; }
+  .tag hr { border: 0; border-top: 1px solid #5d6370; margin: 12px 0; }
+  .tag .lockup { position: static; font-size: 18px; }
+  .tag dl { display: grid; grid-template-columns: 1fr auto; }
+  .tag dd { text-align: right; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="bevel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+    <feSpecularLighting in="b" surfaceScale="6" specularConstant="1.1" specularExponent="22" lighting-color="#ffffff" result="s"><feDistantLight azimuth="235" elevation="42"/></feSpecularLighting>
+    <feComposite in="s" in2="SourceAlpha" operator="in" result="si"/>
+    <feComposite in="SourceGraphic" in2="si" operator="arithmetic" k1="0" k2="1" k3=".7" k4="0"/>
+  </filter>
+  <path id="spark" d="M50 0C53 38 62 47 100 50C62 53 53 62 50 100C47 62 38 53 0 50C38 47 47 38 50 0Z"/>
+</defs></svg>
+<section class="artboard" data-name="poster">
+  <div class="photo"><img src="assets/src/09.jpg" alt=""></div>
+  <div class="title"><img src="assets/p09/t-line.svg" alt="Iced Out"><div class="bevel"><div class="pave"></div></div></div>
+  <div class="cut"><img src="assets/cut-bf/09.png" alt=""></div>
+
+  <svg class="spark s1" viewBox="0 0 100 100"><use href="#spark"/></svg>
+  <svg class="spark s2" viewBox="0 0 100 100"><use href="#spark"/></svg>
+
+  <div class="tag">
+    <div class="lockup">Pretty Things Bite <b>N°09</b></div>
+    <hr>
+    <dl><dt>Grill</dt><dd>Pavé, platinum</dd><dt>Stones</dt><dd>1,204</dd><dt>Bite</dt><dd>Included</dd></dl>
+    <hr>
+    <p>Fangs by appointment only.</p>
+  </div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

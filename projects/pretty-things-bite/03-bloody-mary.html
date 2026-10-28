@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>N°03 Bloody Mary</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="series.css">
+<style>
+  :root { --bg: #0a0405; --ink: #f4e6c8; --red: #e3182b; --text: "IM Fell English", serif; --grain: .6; }
+
+  /* photo pushed down and faded into black so the chant has the top of the frame */
+  .photo { position: absolute; left: 0; top: 230px; width: 1200px; height: 1469px; z-index: 1;
+           -webkit-mask: linear-gradient(to bottom, transparent 0, #000 22%); mask: linear-gradient(to bottom, transparent 0, #000 22%); }
+  .photo img { width: 100%; height: 100%; display: block; filter: contrast(1.08) saturate(1.1); }
+  .shade { position: absolute; inset: 0; z-index: 2;
+           background: linear-gradient(to top, rgb(10 4 5 / .85) 0, transparent 22%); }
+
+  /* the chant recedes into the mirror: big, smaller, smallest and reversed */
+  .chant { position: absolute; z-index: 4; }
+  .chant img { display: block; width: 100%; }
+  .c1 { left: 60px; top: 70px; width: 1080px; }
+  .c2 { left: 60px; top: 318px; width: 740px; }
+  .c3 { left: 60px; top: 490px; width: 480px; transform: scaleX(-1);
+        filter: drop-shadow(0 0 10px rgb(227 24 43 / .8)) drop-shadow(0 0 30px rgb(227 24 43 / .5)); }
+
+  .rule { position: absolute; z-index: 5; left: 64px; bottom: 64px; right: 64px; display: flex; justify-content: space-between; align-items: end; color: var(--ink); }
+  .note { font: italic 400 34px/1.2 var(--text); }
+  .lockup { position: static; }
+</style>
+</head>
+<body>
+<section class="artboard" data-name="poster">
+  <div class="photo"><img src="assets/src/03.jpg" alt=""></div>
+  <div class="shade"></div>
+
+  <div class="chant c1"><img src="assets/p03/bm-solid.svg" alt="Bloody Mary"></div>
+  <div class="chant c2"><img src="assets/p03/bm-line.svg" alt="Bloody Mary"></div>
+  <div class="chant c3"><img src="assets/p03/bm-red.svg" alt="Bloody Mary"></div>
+
+  <div class="rule">
+    <p class="note">Lights off. Candles lit.<br>Say it three times — don’t blink.</p>
+    <div class="lockup">Pretty Things Bite <b>N°03/12</b></div>
+  </div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>
