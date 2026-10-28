@@ -6,72 +6,32 @@
 <link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
 <link rel="stylesheet" href="series.css">
 <style>
-  :root { --bg: #3c74b1; --ink: #0b0e1a; --ice: #f2f6ff; --text: "DM Mono", monospace; --grain: .45; }
+  :root { --bg: #2b4479; --ink: #f3f6ff; --navy: #0b1530; --text: "DM Mono", monospace; --grain: .4; }
 
-  /* the backdrop continues the photo's own blue, so its feathered edges disappear */
-  .backdrop { position: absolute; inset: 0; z-index: 0;
-              background: linear-gradient(180deg, #2b4479 0, #3c74b1 490px, #5b95ca 1040px, #6aa1d3 1600px); }
-  .photo { position: absolute; z-index: 1; left: 144px; top: -225px; width: 1056px; height: 1320px;
-           -webkit-mask: linear-gradient(90deg, transparent, #000 110px), linear-gradient(180deg, #000 1150px, transparent 1320px);
-           -webkit-mask-composite: source-in; mask: linear-gradient(90deg, transparent, #000 110px) intersect, linear-gradient(180deg, #000 1150px, transparent 1320px); }
+  /* the photo whole and untouched; the title sits in its dark top third (navy sky, black fur), clear of the claws */
+  .photo { position: absolute; z-index: 1; left: -40px; top: 0; width: 1280px; height: 1600px; }
   .photo img { width: 100%; height: 100%; display: block; }
+  .shade { position: absolute; inset: 0; z-index: 2;
+           background: radial-gradient(80% 42% at 0% 0%, rgb(14 24 52 / .55), transparent 70%); }
 
-  /* the title, raked: four gouges continue each claw's line down through both words */
-  .raked { position: absolute; inset: 0; z-index: 3; width: 1200px; height: 1600px; overflow: visible;
-           filter: drop-shadow(7px 11px 0 rgb(12 24 56 / .38)); }
+  .title { position: absolute; z-index: 4; left: 56px; top: 112px; width: 780px; }
+  .title img { display: block; width: 100%; filter: drop-shadow(0 6px 22px rgb(5 10 25 / .45)); }
 
-  .info { position: absolute; z-index: 6; left: 60px; top: 60px; color: var(--ice); }
-  .info p { font: 500 22px/1.45 var(--text); letter-spacing: .06em; text-transform: uppercase; }
-  .info .lockup { position: static; margin-bottom: 26px; }
-  .tag { position: absolute; z-index: 6; left: 60px; top: 760px; color: var(--ice);
-         font: 500 22px/1.45 var(--text); letter-spacing: .06em; text-transform: uppercase; }
+  .lockup { left: 60px; top: 60px; color: var(--ink); }
+  .spec { position: absolute; z-index: 5; left: 60px; bottom: 60px; color: var(--navy);
+          font: 500 22px/1.5 var(--text); letter-spacing: .06em; text-transform: uppercase; }
+  .spec hr { width: 64px; border: 0; border-top: 2px solid currentColor; margin: 0 0 14px; }
 </style>
 </head>
 <body>
 <section class="artboard" data-name="poster">
-  <div class="backdrop"></div>
   <div class="photo"><img src="assets/src/08.jpg" alt=""></div>
+  <div class="shade"></div>
+  <div class="title"><img src="assets/p08/title.svg" alt="Claws out."></div>
 
-  <svg class="raked" viewBox="0 0 1200 1600" data-ignore>
-    <defs>
-      <!-- torn edges on the gouges -->
-      <filter id="scratch" x="-20%" y="-5%" width="140%" height="110%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.09 0.02" numOctaves="3" seed="6" result="n"/>
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-      <mask id="cuts" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="1600">
-        <rect width="1200" height="1600" fill="#fff"/>
-        <g id="gouges" fill="#000" filter="url(#scratch)"></g>
-      </mask>
-    </defs>
-    <image href="assets/p08/title.svg" x="60" y="958" width="1080" height="541" mask="url(#cuts)"/>
-  </svg>
-
-  <div class="info">
-    <div class="lockup">Pretty Things Bite <b>N°08/12</b></div>
-    <p>Four crystal blades,<br>hand-set.</p>
-  </div>
-  <p class="tag">Retractable?<br>Never.</p>
+  <div class="lockup">Pretty Things Bite <b>N°08/12</b></div>
+  <div class="spec"><hr>The crystal set<br>Four blades, hand-set<br>Retractable? Never.</div>
   <div class="grain"></div>
 </section>
-<script>
-  // claw tips in poster px (photo at 1.1x, offset 144, -225) and each claw's lean, continued past the tip
-  const claws = [
-    { x: 265, y: 863, w: 66 },
-    { x: 450, y: 926, w: 72 },
-    { x: 719, y: 940, w: 72 },
-    { x: 967, y: 736, w: 56 },
-  ];
-  const lean = -0.085, end = 1585;
-  const g = document.getElementById('gouges');
-  g.innerHTML = claws.map(({ x, y, w }) => {
-    // a crescent: pointed at the tip and at the far end, widest a third of the way down, bowed like the claw
-    const y0 = y + 14, L = end - y0, x1 = x + lean * L, y1 = end;
-    const at = t => [x + lean * L * t, y0 + L * t];
-    const [mx, my] = at(0.36);
-    const bow = -30;
-    return `<path d="M${x},${y0} Q${mx - w * 1.25 + bow},${my} ${x1},${y1} Q${mx + w * .75 + bow},${my} ${x},${y0} Z"/>`;
-  }).join('');
-</script>
 </body>
 </html>

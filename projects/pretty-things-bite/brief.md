@@ -20,7 +20,7 @@ Every image is something beautiful that could hurt you: nails, claws, fangs, kni
 | 05 | Glitter blue cat, chrome fangs | HISS | Y2K chrome | Depth sandwich, chrome behind the ears |
 | 06 | White face, red devil mask | TWO-FACED | Gothic Didone | Asymmetric split |
 | 07 | Spiked, studded leopard | DO NOT PET | Brutalist (electric blue instead of acid) | Stretched word stack eaten by the slab |
-| 08 | Crystal claws on blue | CLAWS OUT | Cold, graphic | The claws hang above; the title below is raked by four gouges on the claws' lines |
+| 08 | Crystal claws on blue | Claws out. | Quiet luxury | The photo whole; a white italic set in the dark sky and fur, stepping down the paw's edge |
 | 09 | Tiger with diamond grill | ICED OUT | Blackletter streetwear | Giant crop, type in the dark |
 | 10 | Spiked disco ball | HARD DISCO | Industrial techno, stencil | Depth sandwich: the ball hangs between the words |
 | 11 | Crystal basketball net | NOTHING BUT NET | Street-court signage | NET painted on the wall under the net and its shadow |
@@ -43,7 +43,7 @@ Key treatments:
 
 - N°01: `treat.py halftone assets/cut/01.png --flatten '#000000' --width 1920 --cell 13 --angle 22 --invert --ink '#ff3324' --paper '#0d0909' --levels .07,.78 --gamma 1.15`; scream drawn with `lettering.cjs --google Anton --warp perspective --amount -.85 --jitter .45`.
 - N°07: crop `src/07.jpg` to (80, 212, 700, 1920), then `treat.py photocopy --width 870 --levels .12,.62 --grit .7 --specks .8 --ink '#0b0b0b' --paper '#3a3aff'`.
-- N°08: the photo is feathered into a backdrop gradient sampled from its own edges; the gouges are crescents drawn from each claw tip along the claw's lean (script at the end of the file), with a displacement filter for torn edges.
+- N°08: title drawn with `lettering.cjs "Claws|out." --google "DM Serif Display" --italic --leading .78 --tracking -10 --width 780`.
 - N°11: the front layer is the net cut-out with the wall-shadow polygon removed.
 - N°12: the page texture is a mirrored tile of a clean patch of the illustration's own paper, so the plate has no visible edge.
 
