@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VC Belair game day: composition thumbnails</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;1,800;1,900&family=Inter:wght@600&display=block">
+<style>
+  /* Rough composition sketches: image, title, and grey blocks for the fixtures and sponsor band. */
+  :root { --navy: #0a1a30; --blue: #1a5fa8; --blue-l: #378add; --ice: #9fd9ec; --cond: "Barlow Condensed", sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; padding: 48px; display: flex; flex-wrap: wrap; gap: 48px; }
+  .artboard { position: relative; overflow: hidden; isolation: isolate; width: 1080px; height: 1350px; color: #fff;
+    background: linear-gradient(180deg, #10284a, #081629); font-family: "Inter", sans-serif; }
+  .lion { position: absolute; background: linear-gradient(150deg, var(--blue-l), var(--blue) 55%, #0c447c);
+    -webkit-mask: url(assets/lion-white.png) 0 0 / 100% 100% no-repeat; mask: url(assets/lion-white.png) 0 0 / 100% 100% no-repeat; }
+  .player { position: absolute; }
+  .t { position: absolute; font: italic 900 300px/.8 var(--cond); text-transform: uppercase; letter-spacing: -.01em; white-space: nowrap; }
+  .blk { position: absolute; background: rgb(255 255 255 / .16); }
+  .spons { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; background: #fff; }
+  .lbl { position: absolute; left: 20px; top: 16px; font: 600 28px var(--cond); color: #ff0; z-index: 99; }
+</style>
+</head>
+<body>
+
+<!-- A. Depth sandwich: title behind the player, fixtures panel below -->
+<section class="artboard" data-name="a-sandwich">
+  <div class="lion" style="left:-120px; top:120px; width:1320px; height:1070px; opacity:.5"></div>
+  <div class="t" style="left:40px; top:120px; font-size:330px">GAME</div>
+  <div class="t" style="left:40px; top:380px; font-size:330px">DAY</div>
+  <img class="player" src="assets/player-cut.png" style="left:330px; top:90px; width:720px">
+  <div class="blk" style="left:64px; top:780px; width:952px; height:130px"></div>
+  <div class="blk" style="left:64px; top:930px; width:952px; height:130px"></div>
+  <div class="spons"></div><p class="lbl">A sandwich</p>
+</section>
+
+<!-- B. Diagonal: title and fixture bands on the shard angle -->
+<section class="artboard" data-name="b-diagonal">
+  <div class="lion" style="left:380px; top:-60px; width:900px; height:730px; opacity:.55"></div>
+  <div style="position:absolute; inset:0; transform: rotate(-9deg); transform-origin: 30% 40%;">
+    <div class="t" style="left:30px; top:150px; font-size:300px">GAME DAY</div>
+    <div class="blk" style="left:-60px; top:560px; width:1300px; height:150px"></div>
+    <div class="blk" style="left:-60px; top:730px; width:1300px; height:150px"></div>
+  </div>
+  <div class="spons"></div><p class="lbl">B diagonal</p>
+</section>
+
+<!-- C. Asymmetric split: player bleeds left, a narrow column of info on the right, title up the edge -->
+<section class="artboard" data-name="c-split">
+  <div class="lion" style="left:-500px; top:200px; width:1300px; height:1050px; opacity:.5"></div>
+  <img class="player" src="assets/player-cut.png" style="left:-250px; top:60px; width:900px">
+  <div class="t" style="left:560px; top:1110px; font-size:250px; transform: rotate(-90deg); transform-origin: 0 0;">GAME DAY</div>
+  <div class="blk" style="left:780px; top:120px; width:236px; height:420px"></div>
+  <div class="blk" style="left:780px; top:570px; width:236px; height:420px"></div>
+  <div class="spons"></div><p class="lbl">C split</p>
+</section>
+
+<!-- D. Times as the image: the two kick-off times are the giant type -->
+<section class="artboard" data-name="d-times">
+  <div class="lion" style="left:-160px; top:40px; width:1400px; height:1135px; opacity:.35"></div>
+  <div class="t" style="left:64px; top:70px; font-size:120px">GAME DAY</div>
+  <div class="t" style="left:40px; top:300px; font-size:400px">16:30</div>
+  <div class="t" style="left:40px; top:660px; font-size:400px; color: var(--ice)">19:00</div>
+  <div class="blk" style="left:64px; top:250px; width:500px; height:40px"></div>
+  <div class="blk" style="left:64px; top:610px; width:500px; height:40px"></div>
+  <div class="spons"></div><p class="lbl">D times</p>
+</section>
+
+<!-- E. Giant lion crop, no player: the mark fills the frame, the title sits in its negative space -->
+<section class="artboard" data-name="e-lion">
+  <div class="lion" style="left:-640px; top:-80px; width:1900px; height:1540px; opacity:.85"></div>
+  <div class="t" style="left:64px; top:640px; font-size:290px">GAME</div>
+  <div class="t" style="left:64px; top:870px; font-size:290px; color: var(--ice)">DAY</div>
+  <div class="blk" style="left:560px; top:860px; width:456px; height:200px"></div>
+  <div class="spons"></div><p class="lbl">E lion</p>
+</section>
+
+</body>
+</html>
