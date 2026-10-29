@@ -1,8 +1,9 @@
 /* VC Belair game day: the club's own system (vcb.lu). Barlow Condensed for display, Inter for text;
-   primary blue #1a5fa8, dark #0c447c, light #378add, ice #9fd9ec, on a deep navy. */
+   primary blue #1a5fa8, dark #0c447c, light #378add, ice #9fd9ec, on a deep navy. One colour per job:
+   white for what matters, ice for labels, blue only for light. */
 :root {
-  --navy: #081a33; --navy-2: #0f2e57; --blue: #1a5fa8; --blue-d: #0c447c; --blue-l: #378add; --ice: #9fd9ec;
-  --white: #ffffff; --ink: #1a2535; --muted: #6e7e96; --rule: #d5dde8;
+  --navy: #071630; --deep: #030c1c; --blue: #1a5fa8; --blue-d: #0c447c; --blue-l: #378add; --ice: #9fd9ec;
+  --white: #ffffff; --soft: rgb(255 255 255 / .72); --line: rgb(159 217 236 / .22);
   --cond: "Barlow Condensed", sans-serif; --text: "Inter", sans-serif;
 }
 
@@ -10,110 +11,91 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #777; padding: 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
 
-.artboard { position: relative; flex: none; overflow: hidden; isolation: isolate; color: var(--white);
-  font-family: var(--text); -webkit-font-smoothing: antialiased; font-kerning: normal; }
+.artboard { position: relative; flex: none; overflow: hidden; isolation: isolate; width: 1080px; height: 1350px; --safe: 64px;
+  color: var(--white); font-family: var(--text); -webkit-font-smoothing: antialiased; font-kerning: normal; }
 
-/* ---------- Back layers ---------- */
+/* ---------- Light and depth behind the player ---------- */
 .bg { position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(48% 30% at 66% 26%, rgb(55 138 221 / .55), transparent 70%),
-    linear-gradient(172deg, #15407a 0%, var(--navy-2) 38%, var(--navy) 72%); }
-/* The lion from the crest, in the club blues, behind the player. */
-.lion { position: absolute; z-index: 1; opacity: .6;
-  background: linear-gradient(150deg, var(--blue-l) 0%, var(--blue) 55%, var(--blue-d) 100%);
+    radial-gradient(34% 26% at 76% 30%, rgb(120 190 255 / .42), transparent 72%),
+    radial-gradient(70% 46% at 70% 32%, rgb(26 95 168 / .85), transparent 78%),
+    linear-gradient(180deg, #0b2550 0%, var(--navy) 46%, var(--deep) 100%); }
+/* Hall lights: soft beams falling from the top right onto the player. */
+.rays { position: absolute; z-index: 1; left: 180px; top: -420px; width: 1400px; height: 1400px; opacity: .3; mix-blend-mode: screen;
+  background: repeating-conic-gradient(from 200deg at 62% 30%, rgb(159 217 236 / .0) 0deg 7deg, rgb(159 217 236 / .55) 9deg 11deg, rgb(159 217 236 / 0) 13deg 19deg);
+  filter: blur(16px);
+  -webkit-mask: radial-gradient(60% 60% at 62% 30%, #000 20%, transparent 80%); mask: radial-gradient(60% 60% at 62% 30%, #000 20%, transparent 80%); }
+/* The lion from the crest, huge and faint, its shards reaching across the top. */
+.lion { position: absolute; z-index: 1; left: 300px; top: 40px; width: 1050px; height: 851px; opacity: .22;
+  background: linear-gradient(150deg, var(--blue-l), var(--blue) 60%, var(--blue-d));
   -webkit-mask: url(assets/lion-white.png) 0 0 / 100% 100% no-repeat; mask: url(assets/lion-white.png) 0 0 / 100% 100% no-repeat; }
 
-/* ---------- Title: a justified two-word stack, cut along the shard lines (gameday.js) ---------- */
-.title { position: absolute; z-index: 2; --cut-angle: 22; --cut-gap: 12; --cut-slide: 16; --title-lead: .055; }
-.title .slice { position: absolute; inset: 0; }
-.title .tl { position: absolute; left: 0; display: block; white-space: nowrap; line-height: 1;
-  font: italic 900 100px/1 var(--cond); text-transform: uppercase; letter-spacing: -.012em; color: var(--white); }
+/* ---------- Title behind the player ---------- */
+/* Set 10px left of the margin so the letters' ink (not their side bearing) lines up with the logo and the date. */
+.title { position: absolute; z-index: 2; left: 54px; top: 166px; --title-w: 706px;
+  font: 900 100px/.79 var(--cond); text-transform: uppercase; letter-spacing: -.012em; color: var(--white); }
+.title .tl { display: block; white-space: nowrap; width: max-content; }
 
-.player { position: absolute; z-index: 3; filter: drop-shadow(0 28px 44px rgb(0 0 0 / .45));
-  -webkit-mask-image: linear-gradient(180deg, #000 var(--fade-from), transparent var(--fade-to));
-  mask-image: linear-gradient(180deg, #000 var(--fade-from), transparent var(--fade-to)); }
-.scrim { position: absolute; left: 0; right: 0; z-index: 1;
-  background: linear-gradient(180deg, transparent, rgb(8 26 51 / .82) 34%, var(--navy) 62%); }
-.logo { position: absolute; z-index: 5; }
+/* Player: lifted off the background with a cool rim light, fading out at the waist. */
+.player { position: absolute; z-index: 3; left: 356px; top: 104px; width: 724px; height: 1086px;
+  filter: drop-shadow(0 0 1.5px rgb(190 230 255 / .9)) drop-shadow(0 0 26px rgb(55 138 221 / .55)) drop-shadow(0 30px 40px rgb(0 0 0 / .5));
+  -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 62%); mask-image: linear-gradient(180deg, #000 50%, transparent 62%); }
 
-/* ---------- Info: date, hall, fixtures ---------- */
-.info { position: absolute; z-index: 6; }
-.when { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
-.date { font: italic 800 66px/.9 var(--cond); text-transform: uppercase; color: var(--ice); white-space: nowrap; }
-.date .d-dm { color: var(--white); }
-.venue { display: flex; align-items: center; gap: 14px; text-align: right; white-space: nowrap; font: 600 18px/1.35 var(--text); color: rgb(255 255 255 / .82); }
-.venue .home { padding: 5px 10px 4px; background: var(--ice); color: var(--navy); font: italic 800 22px/1 var(--cond);
-  text-transform: uppercase; letter-spacing: .04em; transform: skewX(-10deg); }
+/* ---------- Header ---------- */
+.head { position: absolute; z-index: 5; left: 64px; right: 64px; top: 56px; display: flex; justify-content: space-between; align-items: flex-start; }
+.logo { height: 92px; }
+.league { margin-top: 10px; font: 800 30px/.92 var(--cond); text-transform: uppercase; letter-spacing: .06em; text-align: right; }
 
-.fixtures { margin-top: 22px; border-top: 2px solid rgb(159 217 236 / .45); }
-/* --k scales a row for one game (bigger) or three (smaller); two games is 1. */
-.fixtures.n1 { --k: 1.4; } .fixtures.n3 { --k: .7; } .fixtures.n4 { --k: .56; }
-.fx { --c: calc(var(--crest) * var(--k, 1)); display: grid; grid-template-columns: calc(var(--col-when) * max(var(--k, 1), .9)) 56px var(--c) 1fr;
-  align-items: center; column-gap: 22px; height: calc(var(--row-h) * var(--k, 1)); border-bottom: 2px solid rgb(159 217 236 / .45); }
-.fx-when { display: flex; flex-direction: column; justify-content: center; }
-.fx-team { font: italic 800 calc(30px * max(var(--k, 1), .8))/1 var(--cond); text-transform: uppercase; letter-spacing: .05em; color: var(--ice); }
-.fx-time { font: italic 900 calc(var(--time-size) * var(--k, 1))/.86 var(--cond); letter-spacing: -.01em; margin-top: 4px; font-variant-numeric: tabular-nums; }
-.fx-vs { font: italic 800 34px/1 var(--cond); text-transform: uppercase; color: var(--ice); text-align: center; }
-.crest { width: var(--c); height: var(--c); border-radius: 50%; background: var(--white); display: grid; place-items: center; overflow: hidden;
-  box-shadow: 0 0 0 4px rgb(159 217 236 / .25); }
-.crest img { width: 100%; height: 100%; object-fit: contain; }
-.crest-type { background: var(--blue); box-shadow: inset 0 0 0 4px var(--ice); }
-.crest-type span { font: italic 900 calc(var(--c) * .34)/1 var(--cond); color: var(--white); letter-spacing: .02em; }
-.fx-opp { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-.fx-name { font: italic 800 calc(var(--name-max) * var(--k, 1))/.95 var(--cond); text-transform: uppercase; text-wrap: balance; }
-.fx-sub { margin-top: 6px; font: 600 19px/1.3 var(--text); color: rgb(255 255 255 / .72); }
+/* ---------- Date, hall and the games ---------- */
+.info { position: absolute; z-index: 5; left: 64px; right: 64px; top: 790px; }
+.when { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: 22px; border-bottom: 2px solid var(--line); }
+.date { font: 800 58px/.86 var(--cond); text-transform: uppercase; letter-spacing: .005em; white-space: nowrap; }
+.venue { font: 500 18px/1.4 var(--text); color: var(--soft); text-align: right; white-space: nowrap; }
+.venue b { font-weight: 600; color: var(--white); }
 
-/* ---------- Partners: league + sponsors on white ---------- */
-.partners { position: absolute; left: 0; right: 0; z-index: 7; display: flex; background: var(--white); }
-.league { flex: none; display: grid; place-items: center; background: var(--blue); }
-.league img { max-width: 78%; max-height: 74%; }
-.league span { max-width: 4.4em; font: italic 900 46px/.86 var(--cond); text-transform: uppercase; text-align: center; color: var(--white); }
-.sponsors { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); }
-.sp { --logo-area: 8400; display: grid; place-items: center; min-width: 0; }
-.sp img { display: block; }
+.fixtures { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+.fx { padding: 26px 28px 0; min-width: 0; }
+.fx:first-child { padding-left: 0; }
+.fx:last-child { padding-right: 0; }
+.fx + .fx { border-left: 2px solid var(--line); }
+.fx-team { font: 800 24px/1 var(--cond); text-transform: uppercase; letter-spacing: .14em; color: var(--ice); }
+.fx-time { margin-top: 10px; font: 900 var(--time, 124px)/.8 var(--cond); letter-spacing: -.005em; font-variant-numeric: tabular-nums; }
+.fx-opp { margin-top: 20px; display: flex; align-items: center; gap: 14px; min-width: 0; }
+.fx-vs { font: 700 24px/1 var(--cond); text-transform: uppercase; letter-spacing: .08em; color: var(--ice); }
+.crest { flex: none; width: var(--crest, 62px); height: var(--crest, 62px); border-radius: 50%; overflow: hidden; background: var(--white); }
+.crest img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.crest-type { display: grid; place-items: center; background: var(--blue); box-shadow: inset 0 0 0 3px var(--ice); }
+.crest-type span { font: 900 calc(var(--crest, 62px) * .36)/1 var(--cond); letter-spacing: .02em; }
+.fx-name { font: 800 var(--name, 34px)/.95 var(--cond); text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+.fx-sub { margin-top: 10px; font: 500 17px/1.3 var(--text); color: var(--soft); }
+
+/* One game: everything bigger. Three or four: everything smaller. */
+.n1 .fixtures { --time: 170px; --crest: 80px; --name: 44px; }
+.n3 .fixtures { --time: 96px; --crest: 50px; --name: 26px; }
+.n4 .fixtures { --time: 76px; --crest: 42px; --name: 22px; }
+.n3 .fx, .n4 .fx { padding-left: 20px; padding-right: 20px; }
+.n3 .fx-team, .n4 .fx-team { font-size: 20px; letter-spacing: .1em; }
+
+/* ---------- Partners: one colour on the dark bar ---------- */
+.partners { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; height: 176px; background: var(--deep);
+  border-top: 2px solid var(--line); }
+.sponsors { position: absolute; inset: 14px 64px 14px; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); }
+.sp { --logo-area: 5200; display: grid; place-items: center; min-width: 0; }
+.sp img { display: block; opacity: .94; }
+
+.grain { position: absolute; inset: 0; z-index: 9; pointer-events: none; mix-blend-mode: overlay; opacity: .16;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
 /* ---------- Placeholders: anything still to fill in ---------- */
-.ph { outline: 3px dashed rgb(159 217 236 / .75); outline-offset: 4px; color: rgb(159 217 236 / .9); }
-.crest-ph { background: transparent; border: 3px dashed rgb(159 217 236 / .75); box-shadow: none; }
-.crest-ph span { font: 600 18px/1 var(--text); color: var(--ice); }
-.player-ph { display: grid; place-items: start end; padding: 26% 11% 0 0; border: 4px dashed rgb(159 217 236 / .7); border-radius: 48% 48% 12px 12px;
-  background: rgb(159 217 236 / .08); filter: none; }
-.player-ph span { font: italic 800 44px/1.1 var(--cond); text-transform: uppercase; color: var(--ice); text-align: right; }
-.player-ph small { display: block; margin-top: 8px; font: 600 20px/1.3 var(--text); text-transform: none; color: rgb(255 255 255 / .7); }
-.sp-ph { margin: 12px 10px; border: 2px dashed #b8c4d4; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-.sp-ph span { font: 700 24px/1 var(--cond); text-transform: uppercase; color: var(--muted); text-align: center; }
-.sp-ph small { margin-top: 4px; font: 500 16px/1 var(--text); color: #9aa6b8; }
+.ph { outline: 2px dashed rgb(159 217 236 / .7); outline-offset: 4px; color: var(--ice); }
+.crest-ph { display: grid; place-items: center; background: transparent; border: 2px dashed rgb(159 217 236 / .7); }
+.crest-ph span { font: 600 15px/1 var(--text); color: var(--ice); }
+.player-ph { display: grid; place-items: start end; padding: 37% 16% 0 0; border: 3px dashed rgb(159 217 236 / .6);
+  border-radius: 48% 48% 12px 12px; background: rgb(159 217 236 / .06); filter: none; }
+.player-ph span { font: 800 40px/1.1 var(--cond); text-transform: uppercase; color: var(--ice); text-align: right; }
+.player-ph small { display: block; margin-top: 8px; font: 500 18px/1.3 var(--text); text-transform: none; color: var(--soft); }
+.sp-ph { margin: 10px 18px; border: 1.5px dashed rgb(255 255 255 / .3); }
+.sp-ph span { font: 600 15px/1 var(--text); color: rgb(255 255 255 / .6); }
 
-/* =========================== Feed post 1080 x 1350 =========================== */
-.feed { width: 1080px; height: 1350px; --safe: 64px; }
-.feed .lion { left: 150px; top: 60px; width: 1120px; height: 908px; }
-.feed .logo { left: 64px; top: 58px; height: 124px; }
-.feed .title { left: 66px; top: 210px; --title-w: 520px; }
-.feed .player { left: 318px; top: 64px; width: 760px; height: 1140px; --fade-from: 50%; --fade-to: 63%; }
-.feed .scrim { top: 520px; height: 620px; }
-.feed .info { left: 64px; right: 64px; top: 726px; --row-h: 136px; --col-when: 236px; --crest: 104px; --time-size: 96px; }
-.feed .fx-name { --name-max: 60px; }
-.feed .partners { top: 1126px; height: 224px; }
-.feed .league { width: 214px; }
-.feed .sponsors { padding: 14px 30px; }
-
-/* =========================== Story 1080 x 1920 =========================== */
-.story { width: 1080px; height: 1920px; --safe: 250px 72px 340px; }
-.story .lion { left: 90px; top: 150px; width: 1360px; height: 1102px; }
-.story .logo { left: 72px; top: 250px; height: 132px; }
-.story .title { left: 76px; top: 430px; --title-w: 590px; }
-.story .player { left: 300px; top: 300px; width: 880px; height: 1320px; --fade-from: 52%; --fade-to: 63%; }
-.story .scrim { top: 820px; height: 700px; }
-.story .info { left: 72px; right: 72px; top: 1040px; --row-h: 146px; --col-when: 250px; --crest: 112px; --time-size: 104px; }
-.story .fx-name { --name-max: 62px; }
-.story .player-ph { padding-right: 22%; }
-.story .partners { top: 1452px; left: 72px; right: 72px; height: 250px; }
-.story .league { width: 180px; }
-.story .league span { font-size: 42px; }
-.story .sponsors { padding: 14px 16px; }
-.story .sp { --logo-area: 7600; }
-
-/* =========================== No player photo: the lion carries the hero =========================== */
-.no-player .lion { opacity: .9; }
-.feed.no-player .lion { left: 330px; top: 30px; width: 980px; height: 794px; }
-.story.no-player .lion { left: 300px; top: 330px; width: 1080px; height: 875px; }
+/* ---------- No player photo: the lion carries the hero ---------- */
+.no-player .lion { left: 430px; top: 120px; width: 760px; height: 616px; opacity: .9; }
