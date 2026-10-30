@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glass effect test</title>
+<link rel="stylesheet" href="../../.claude/skills/html-graphics/assets/fonts.css">
+<style>
+  :root {
+    --cream: #f6e2cb;
+    --ember: #2a0806;
+    --text: "Instrument Sans", sans-serif;
+    /* Where the title sits; the window mask and the glass edges both read these. */
+    --title-x: 46px;
+    --title-y: 260px;
+    --title-w: 988px;
+    --title-h: 644px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #cfcfcf; padding: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+
+  .artboard {
+    position: relative;
+    flex: none;
+    overflow: hidden;
+    isolation: isolate;
+    width: 1080px;
+    height: 1350px;
+    --safe: 56px;
+    background: var(--ember);
+    color: var(--cream);
+    font-family: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .guides { position: absolute; inset: 0; pointer-events: none; z-index: 2147483647; }
+  .guides .safe { position: absolute; inset: var(--safe, 0); outline: 1px dashed rgb(255 0 140 / .7); }
+  html.is-rendering:not(.show-guides) .guides { display: none; }
+
+  /* ---- 1. Frosted glass: field blur (soft centre, heavy edges) through a hammered-glass distortion ---- */
+  .frost {
+    position: absolute;
+    inset: -60px;                       /* oversize so blur doesn't fade the artboard edges */
+    width: calc(100% + 120px);
+    height: calc(100% + 120px);
+    object-fit: cover;
+  }
+  .frost.far  { filter: blur(26px) url(#frost); }
+  .frost.near {
+    filter: blur(8px) url(#frost);
+    -webkit-mask-image: radial-gradient(ellipse 40% 30% at 60% 34%, #000 20%, transparent 100%);
+            mask-image: radial-gradient(ellipse 40% 30% at 60% 34%, #000 20%, transparent 100%);
+  }
+
+  /* Milky haze over the frosted part only (the "white fill" in soft light) */
+  .haze { position: absolute; inset: 0; background: #fff; mix-blend-mode: soft-light; opacity: .34; }
+  .milk { position: absolute; inset: 0; background: #ffe7d6; opacity: .07; }
+
+  /* ---- 2. Clear windows: the sharp photo, masked by the drawn title ---- */
+  .sharp {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.08) saturate(1.1);
+    -webkit-mask: url(assets/title.svg) no-repeat var(--title-x) var(--title-y) / var(--title-w) var(--title-h);
+            mask: url(assets/title.svg) no-repeat var(--title-x) var(--title-y) / var(--title-w) var(--title-h);
+  }
+
+  /* ---- 3. Glass thickness: rim, bevel light and inner shadow around each letter ---- */
+  .edge {
+    position: absolute;
+    left: var(--title-x);
+    top: var(--title-y);
+    width: var(--title-w);
+    height: var(--title-h);
+    filter: url(#glass-edge);
+  }
+
+  /* ---- 4. Finish ---- */
+  .grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: overlay; opacity: .5; }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 42%, transparent 55%, rgb(20 3 2 / .55) 100%); }
+
+  /* ---- Small type ---- */
+  .meta {
+    position: absolute;
+    left: var(--safe);
+    right: var(--safe);
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .meta.top { top: 56px; color: var(--ember); }
+  .meta.bottom { bottom: 56px; font-weight: 400; letter-spacing: .06em; text-transform: none; font-size: 19px; }
+  .meta .num { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Hammered / frosted glass. baseFrequency = bump size (lower = bigger bumps);
+         displacement scale = how far the image is pushed; k3 = strength of the bump sheen. -->
+    <filter id="frost" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="32" xChannelSelector="R" yChannelSelector="G" result="warp"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="height"/>
+      <feGaussianBlur in="height" stdDeviation="2.5" result="heightSoft"/>
+      <feSpecularLighting in="heightSoft" surfaceScale="5" specularConstant=".8" specularExponent="16" lighting-color="#ffeedd" result="sheen">
+        <feDistantLight azimuth="235" elevation="50"/>
+      </feSpecularLighting>
+      <feComposite in="sheen" in2="SourceAlpha" operator="in" result="sheenIn"/>
+      <feComposite in="warp" in2="sheenIn" operator="arithmetic" k1="0" k2="1" k3=".2" k4="0"/>
+    </filter>
+
+    <!-- Clear-glass letter edges, applied to the title shapes; outputs only light and shadow, never the fill. -->
+    <filter id="glass-edge" x="-6%" y="-12%" width="112%" height="124%" color-interpolation-filters="sRGB">
+      <feComponentTransfer in="SourceAlpha" result="outside"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+
+      <!-- outer bevel: a soft milky band hugging each letter -->
+      <feMorphology in="SourceAlpha" operator="dilate" radius="14" result="fat"/>
+      <feGaussianBlur in="fat" stdDeviation="8" result="fatSoft"/>
+      <feComposite in="fatSoft" in2="SourceAlpha" operator="out" result="rimA"/>
+      <feFlood flood-color="#ffe6d4" flood-opacity=".26"/>
+      <feComposite in2="rimA" operator="in" result="rim"/>
+
+      <!-- bevel light: the far (bottom-right) wall of each window catches the light; dx/dy = wall thickness -->
+      <feOffset in="SourceAlpha" dx="-3" dy="-4" result="shifted"/>
+      <feComposite in="SourceAlpha" in2="shifted" operator="out" result="wallA"/>
+      <feGaussianBlur in="wallA" stdDeviation="1.2" result="wallSoft"/>
+      <feFlood flood-color="#fff4ea" flood-opacity=".55"/>
+      <feComposite in2="wallSoft" operator="in" result="wall"/>
+
+      <!-- inner shadow: glass edge darkens the top of each window -->
+      <feOffset in="outside" dx="0" dy="6" result="o"/>
+      <feGaussianBlur in="o" stdDeviation="5" result="ob"/>
+      <feComposite in="ob" in2="SourceAlpha" operator="in" result="innerA"/>
+      <feFlood flood-color="#140302" flood-opacity=".6"/>
+      <feComposite in2="innerA" operator="in" result="inner"/>
+
+      <!-- hairline where clear meets frosted -->
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1.4" result="d1"/>
+      <feComposite in="d1" in2="SourceAlpha" operator="out" result="lineA"/>
+      <feFlood flood-color="#fff1e4" flood-opacity=".45"/>
+      <feComposite in2="lineA" operator="in" result="line"/>
+
+      <feMerge>
+        <feMergeNode in="rim"/>
+        <feMergeNode in="wall"/>
+        <feMergeNode in="inner"/>
+        <feMergeNode in="line"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<section class="artboard" data-name="main">
+  <div class="guides"><div class="safe"></div></div>
+
+  <img class="frost far"  src="assets/eagle-warm.png" alt="">
+  <img class="frost near" src="assets/eagle-warm.png" alt="">
+  <div class="haze"></div>
+  <div class="milk"></div>
+
+  <img class="sharp" src="assets/eagle-warm.png" alt="Golden eagle on a perch, seen through the letters">
+  <img class="edge" src="assets/title.svg" alt="Stay sharp">
+
+  <div class="vignette"></div>
+  <img class="grain" src="assets/grain.png" alt="">
+
+  <div class="meta top"><span>Glass study</span><span class="num">Nº 01</span></div>
+  <div class="meta bottom"><span>Only the letters are in focus.</span><span>Golden eagle</span></div>
+</section>
+
+</body>
+</html>
