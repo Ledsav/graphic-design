@@ -2,93 +2,147 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Chroma lessons</title>
+<title>Chroma covers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&family=Outfit:wght@400;500;600&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=block">
 <style>
   :root {
     --mast: "Bodoni Moda", serif;
-    --text: "Outfit", sans-serif;
+    --sans: "Archivo", sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #cfcfcf; padding: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
 
+  /* magazine cover proportions (230 x 300 mm) */
   .artboard {
     position: relative; flex: none; overflow: hidden; isolation: isolate;
-    width: 1200px; height: 1800px; --safe: 52px;
-    color: #fff; font-family: var(--text);
+    width: 1200px; height: 1560px; --safe: 40px;
+    color: #fff; font-family: var(--sans);
     font-kerning: normal; text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased;
   }
   .guides { position: absolute; inset: 0; pointer-events: none; z-index: 2147483647; }
   .guides .safe { position: absolute; inset: var(--safe, 0); outline: 1px dashed rgb(255 0 140 / .7); }
   html.is-rendering:not(.show-guides) .guides { display: none; }
 
-  /* photo and cut-out share one box so the subject lines up exactly */
-  .photo, .cut { position: absolute; top: 0; height: 1800px; display: block; }
-  .photo { z-index: 1; }
-  .cut   { z-index: 3; }
+  /* photo and cut-out share one box */
+  .photo, .cut { position: absolute; display: block; }
+  .photo { z-index: 1; } .cut { z-index: 3; }
 
-  /* masthead: drawn in Bodoni at full width, tinted with the wall colour */
-  .mast { position: absolute; z-index: 2; font-family: var(--mast); font-weight: 500; font-variation-settings: "opsz" 96;
-          line-height: .74; white-space: nowrap; letter-spacing: -.012em; }
-  .mast.front { z-index: 4; }
-  .mast.front span { color: transparent; }
-  .mast.front span.show { color: inherit; }
+  /* ---- masthead: Bodoni at its heaviest, edge to edge ---- */
+  .mast { position: absolute; z-index: 2; font-family: var(--mast); font-weight: 900; font-variation-settings: "opsz" 96;
+          line-height: .72; white-space: nowrap; letter-spacing: -.035em; color: #fff; }
 
-  /* lesson cluster: series tag, headline, body */
-  .lesson { position: absolute; z-index: 6; text-align: center; text-shadow: 0 1px 14px rgb(0 0 0 / .18); }
-  .lesson .tag { font-size: 18px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; opacity: .9; }
-  .lesson h2 { font-size: 54px; font-weight: 500; letter-spacing: -.01em; line-height: 1; margin: 14px 0 24px; }
-  .lesson p { font-size: 30px; font-weight: 400; line-height: 1.28; }
+  /* ---- strap above the masthead ---- */
+  .strap { position: absolute; left: 40px; right: 40px; top: 40px; z-index: 6; display: flex; justify-content: space-between;
+           font-size: 17px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; font-stretch: 100%; }
 
-  .grain { position: absolute; inset: 0; z-index: 90; pointer-events: none; mix-blend-mode: overlay; opacity: .35;
+  /* ---- cover lines ---- */
+  .cl { position: absolute; z-index: 6; text-shadow: 0 2px 18px rgb(0 0 0 / .22); }
+  .kicker { display: inline-block; font-size: 17px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; padding: 8px 12px 7px; margin-bottom: 18px; text-shadow: none; }
+  .big { font-weight: 900; font-stretch: 62%; text-transform: uppercase; line-height: .84; letter-spacing: -.005em; }
+  .mid { font-weight: 900; font-stretch: 62%; text-transform: uppercase; line-height: .88; font-size: 58px; }
+  .dek { font-family: var(--mast); font-style: italic; font-weight: 500; font-variation-settings: "opsz" 24; line-height: 1.12; }
+  .sub { font-size: 20px; font-weight: 500; line-height: 1.25; margin-top: 8px; }
+  .rule { width: 56px; height: 4px; background: currentColor; margin: 26px 0 22px; }
+  .right { text-align: right; } .right .rule { margin-left: auto; }
+
+  /* ---- barcode block ---- */
+  .bc { position: absolute; z-index: 6; background: #fff; color: #111; padding: 10px 12px 6px; font-size: 17px; font-weight: 700; letter-spacing: .06em; }
+  .bc svg { display: block; width: 128px; height: 48px; }
+  .bc div { display: flex; justify-content: space-between; margin-top: 4px; }
+
+  .grain { position: absolute; inset: 0; z-index: 90; pointer-events: none; mix-blend-mode: overlay; opacity: .3;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-  /* ---- lesson 01: green wall ---- */
-  .g { background: #00866f; }
-  .g .mast { color: rgb(226 248 240 / .9); }
-  .g .lesson { right: 52px; top: 296px; width: 384px; }
+  /* ======== N° 01 green ======== */
+  .g { background: #00866f; --accent: #e3232b; }
+  .g .photo, .g .cut { left: -92px; top: -416px; width: 1323px; height: 1980px; }
+  .g .kicker { background: var(--accent); color: #fff; }
+  /* bright teal fails with white: cover lines in deep green ink (7-8:1) */
+  .g .cl { color: #062520; text-shadow: none; }
+  .g .sub { font-weight: 600; }
 
-  /* ---- lesson 02: red wall ---- */
-  .r { background: #a8320d; }
-  .r .mast { color: rgb(250 224 212 / .9); }
-  .r .lesson { left: 40px; top: 1080px; width: 330px; }
-  .r .lesson p { font-size: 28px; }
+  /* ======== N° 02 red ======== */
+  .r { background: #a8320d; --accent: #111; }
+  .r .photo, .r .cut { left: -28px; top: 0; width: 1228px; height: 1800px; }
+  .r .kicker { background: #111; color: #fff; }
+  .sticker { position: absolute; z-index: 6; width: 196px; height: 196px; border-radius: 50%; background: #fff; color: #b3340e;
+             display: grid; place-content: center; text-align: center; transform: rotate(-10deg); }
+  .sticker b { display: block; font-family: var(--mast); font-weight: 900; font-size: 74px; line-height: .8; letter-spacing: -.03em; }
+  .sticker span { display: block; font-size: 17px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-top: 8px; line-height: 1.25; }
 </style>
 </head>
 <body>
 
-<section class="artboard g" data-name="lesson-01-complementary">
+<!-- ======================= N° 01 ======================= -->
+<section class="artboard g" data-name="chroma-01-cover">
   <div class="guides"><div class="safe"></div></div>
-  <img class="photo" src="assets/green-photo-2x.jpg" style="left:-1px" alt="">
-  <div class="mast back" data-ignore data-fit data-l="22" data-r="22" style="top:1392px"><span>C</span><span>H</span><span>R</span><span>O</span><span>M</span><span>A</span></div>
-  <img class="cut" src="assets/green-cut-2x.png" style="left:-1px" alt="">
-  <div class="mast front" data-ignore data-fit data-l="22" data-r="22" style="top:1392px" aria-hidden="true"><span>C</span><span>H</span><span>R</span><span>O</span><span class="show">M</span><span>A</span></div>
+  <img class="photo" src="assets/green-photo-cover.jpg" alt="">
+  <div class="mast" data-ignore data-fit data-l="22" data-r="22" style="top:116px">CHROMA</div>
+  <img class="cut" src="assets/green-cut-cover.png" alt="">
 
-  <div class="lesson">
-    <div class="tag">Chroma lessons · No. 01</div>
-    <h2>complementary</h2>
-    <p>red sits opposite<br>green on the wheel.<br>side by side, both<br>look louder than<br>they do alone.<br>a little red goes<br>a long way.</p>
+  <div class="strap"><span>The colour issue</span><span>N° 01 · Autumn 2026</span></div>
+
+  <div class="cl" style="left:40px; top:452px; width:470px;">
+    <span class="kicker">Lesson 01 · Complementary</span>
+    <div class="big" style="font-size:104px">Opposites<br>attract</div>
+    <div class="rule"></div>
+    <div class="dek" style="font-size:31px">Red on green, and why<br>a little goes a long way</div>
   </div>
+
+  <div class="cl right" style="right:40px; top:560px; width:280px;">
+    <div class="mid">Pattern<br>interrupt</div>
+    <div class="sub">The detail that makes<br>you look twice</div>
+    <div class="rule"></div>
+    <div class="mid">Wide-leg<br>forever</div>
+    <div class="sub">Trousers that<br>take up space</div>
+  </div>
+
+  <div class="cl" style="left:40px; top:1020px; width:300px;">
+    <div class="mid" style="font-size:46px">+40 pages</div>
+    <div class="sub">of colour theory<br>you can wear</div>
+  </div>
+
+  <div class="bc" style="left:536px; bottom:40px;"><svg viewBox="0 0 128 48" class="bars" data-seed="7"></svg><div><span>£8</span><span>01</span></div></div>
   <div class="grain"></div>
 </section>
 
-<section class="artboard r" data-name="lesson-02-overlap">
+<!-- ======================= N° 02 ======================= -->
+<section class="artboard r" data-name="chroma-02-cover">
   <div class="guides"><div class="safe"></div></div>
-  <img class="photo" src="assets/red-photo-2x.jpg" style="left:-28px" alt="">
-  <div class="mast back" data-ignore data-fit data-l="30" data-r="30" style="top:150px">CHROMA</div>
-  <img class="cut" src="assets/red-cut-2x.png" style="left:-28px" alt="">
+  <img class="photo" src="assets/red-photo-2x.jpg" alt="">
+  <div class="mast" data-ignore data-fit data-l="22" data-r="22" style="top:112px">CHROMA</div>
+  <img class="cut" src="assets/red-cut-2x.png" alt="">
 
-  <div class="lesson">
-    <div class="tag">Chroma lessons · No. 02</div>
-    <h2>overlap</h2>
-    <p>the head steps in<br>front of the title.<br>one small overlap<br>and a flat page<br>turns into a space<br>you could walk into.</p>
+  <div class="strap"><span>The depth issue</span><span>N° 02 · Winter 2026</span></div>
+
+  <div class="sticker" style="left:946px; top:400px;"><b>02</b><span>Lesson<br>overlap</span></div>
+
+  <div class="cl" style="left:40px; top:560px; width:330px;">
+    <span class="kicker">Lesson 02 · Overlap</span>
+    <div class="big" style="font-size:118px">Step<br>forward</div>
+    <div class="rule"></div>
+    <div class="dek" style="font-size:29px">One overlap turns<br>a flat page into<br>a room you could<br>walk into</div>
   </div>
+
+  <div class="cl" style="left:40px; top:1130px; width:320px;">
+    <div class="mid">Black<br>on red</div>
+    <div class="sub">The suit, the shadow<br>and the wall</div>
+  </div>
+
+  <div class="bc" style="right:40px; bottom:40px;"><svg viewBox="0 0 128 48" class="bars" data-seed="19"></svg><div><span>£8</span><span>02</span></div></div>
   <div class="grain"></div>
 </section>
 
 <script>
-// fit each masthead to its box (data-l / data-r insets); the renderer reruns this after fonts load
+// decorative barcodes, seeded so renders repeat
+for (const svg of document.querySelectorAll('svg.bars')) {
+  let s = +svg.dataset.seed, x = 0, bars = '';
+  const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  while (x < 128) { const w = 1 + Math.floor(rnd() * 3); if (rnd() > .42) bars += `<rect x="${x}" width="${w}" height="48" fill="#111"/>`; x += w + 1; }
+  svg.innerHTML = bars;
+}
+// fit each masthead to the artboard width (data-l / data-r insets); the renderer reruns this after fonts load
 window.layout = async () => {
   for (const el of document.querySelectorAll('[data-fit]')) {
     const box = el.parentElement.clientWidth - (+el.dataset.l) - (+el.dataset.r);

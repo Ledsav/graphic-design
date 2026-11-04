@@ -6,4 +6,4 @@
 | `src/green-wall.jpg` (green wall portrait) | Supplied by the client | Client's asset. Confirm a model release before commercial use |
 | `src/red-wall.jpg` (red wall portrait) | Supplied by the client | Client's asset. Confirm a model release before commercial use |
 
-Cut-outs: rembg `isnet-general-use` (Apache-2.0). Fonts: Imperial Script, GFS Didot, Bodoni Moda, Outfit (Ballet and Mea Culpa in the sketches) (all SIL OFL, Google Fonts).
+Cut-outs: rembg `isnet-general-use` (Apache-2.0). Fonts: Imperial Script, GFS Didot, Bodoni Moda, Archivo (Ballet and Mea Culpa in the sketches) (all SIL OFL, Google Fonts).

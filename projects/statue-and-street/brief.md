@@ -11,15 +11,17 @@ Photos supplied by the client: Winged Victory of Samothrace (used for style 1) a
 | File | Size | Use |
 |---|---|---|
 | `victory-poster.png` | 2480 × 3508 px (A4 ratio, 300 dpi at A4) | Poster / screen |
-| `chroma-01-complementary.png` | 2400 × 3600 px (2:3) | Poster / social |
-| `chroma-02-overlap.png` | 2400 × 3600 px (2:3) | Poster / social |
+| `chroma-01-cover.png` | 2400 × 3120 px (230 × 300 mm cover ratio) | Magazine cover |
+| `chroma-02-cover.png` | 2400 × 3120 px (230 × 300 mm cover ratio) | Magazine cover |
 
 ## Direction
 **Victory.** Giant crop: the wings bleed off both edges. Solemn, not playful: a thin eight-point gold-foil star sits top right, its lower ray catching the wingtip like a point of light. Title: a calligraphic V (Imperial Script) with Didot capitals (GFS Didot). It is red on the marble and turns paper white where the V's loop leaves the statue. Gold ΣΑΜΟΘΡΑΚΗ (Samothrace) runs down the top-left corner beside a museum-style caption. The line beside the title, "the moment of landing, held in marble for twenty-two centuries", refers to what the statue depicts: Nike alighting on a ship's prow. Palette: red `#cf1b20`, paper `#f0ede6`, ink `#141414`, gold foil (`tools/make_gold.py`).
 
 Revision 2: removed the star-as-head, the "lost / kept" quip and ΝΙΚΗ (reads as a sports brand). Those made the first version feel like a joke.
 
-**Chroma lessons.** An original masthead, CHROMA (the reference used a real magazine's trademark, so it was not reused). Each poster's copy explains the visual idea it shows, the way the reference explains "pattern interrupt". No. 01 sets the masthead low so the stride cuts through it, with the M stepping in front of the trouser leg. No. 02 is the classic cover, with the head in front of the O. Bodoni Moda (masthead) + Outfit (copy).
+**Chroma covers.** An original masthead, CHROMA (the reference used a real magazine's trademark, so it was not reused). It is set in Bodoni Moda Black across the full width at the top, and each subject's head steps in front of the O. Each cover is built like a real magazine: strap line with issue name and number, a lesson kicker box, a condensed black headline (Archivo 62% width, 900), an italic Bodoni dek, secondary cover lines, a barcode, and a sticker on No. 02. No. 01 (The colour issue): "Opposites attract". Cover lines are in deep green ink because white fails contrast on the bright teal; the red kicker is the complementary accent. No. 02 (The depth issue): "Step forward". White cover lines sit over the shadow.
+
+Revision 2: the 2:3 lesson posters became bolder covers at magazine proportions. Cut-out edges are defringed (`tools/defringe.py`) so no wall colour halos against the white masthead.
 
 ## Rebuild
 ```bash
