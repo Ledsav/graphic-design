@@ -15,7 +15,9 @@ Photos supplied by the client: Winged Victory of Samothrace (used for style 1) a
 | `chroma-02-overlap.png` | 2400 × 3600 px (2:3) | Poster / social |
 
 ## Direction
-**Victory.** Giant crop: the wings bleed off both edges. The gold star sits exactly where the head is missing. The script title changes ink as it crosses the statue's silhouette: red on the marble, paper white on the red ground. Greek ΝΙΚΗ ("Nike", the statue's own name) in gold runs down the corner. Ballet (title, drawn to outlines) + GFS Didot (everything else). Palette: red `#cf1b20`, paper `#f0ede6`, ink `#141414`, gold foil `#7d5a14 → #fff0b8`.
+**Victory.** Giant crop: the wings bleed off both edges. Solemn, not playful: a thin eight-point gold-foil star sits top right, its lower ray catching the wingtip like a point of light. Title: a calligraphic V (Imperial Script) with Didot capitals (GFS Didot). It is red on the marble and turns paper white where the V's loop leaves the statue. Gold ΣΑΜΟΘΡΑΚΗ (Samothrace) runs down the top-left corner beside a museum-style caption. The line beside the title, "the moment of landing, held in marble for twenty-two centuries", refers to what the statue depicts: Nike alighting on a ship's prow. Palette: red `#cf1b20`, paper `#f0ede6`, ink `#141414`, gold foil (`tools/make_gold.py`).
+
+Revision 2: removed the star-as-head, the "lost / kept" quip and ΝΙΚΗ (reads as a sports brand). Those made the first version feel like a joke.
 
 **Chroma lessons.** An original masthead, CHROMA (the reference used a real magazine's trademark, so it was not reused). Each poster's copy explains the visual idea it shows, the way the reference explains "pattern interrupt". No. 01 sets the masthead low so the stride cuts through it, with the M stepping in front of the trouser leg. No. 02 is the classic cover, with the head in front of the O. Bodoni Moda (masthead) + Outfit (copy).
 
@@ -27,6 +29,7 @@ python3 ../../.claude/skills/html-graphics/scripts/treat.py halftone <tmp>/victo
 #   then put <tmp>/victory-alpha.png on it as alpha -> assets/victory-halftone.png, and a 1900 px copy of the alpha -> assets/victory-mask.png
 # fashion cut-outs
 python3 .claude/skills/html-graphics/scripts/treat.py cutout projects/statue-and-street/src/green-wall.jpg -o <tmp>/green-cut.png   # then resize to 3600 px tall
+python3 tools/make_gold.py                                                     # foil texture + star mask
 # render (from the repo root)
 node .claude/skills/html-graphics/scripts/render.cjs projects/statue-and-street/victory.html projects/statue-and-street/chroma.html --scale 2
 ```
