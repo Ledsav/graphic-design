@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Victory: thumbnails</title>
+<style>
+  :root { --red: #d0181d; --paper: #f0ede6; --ink: #141414; --gold: #d9b24c; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #cfcfcf; padding: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+  .artboard { position: relative; flex: none; overflow: hidden; isolation: isolate; width: 1240px; height: 1754px; background: var(--red); --safe: 60px; }
+  .ht { position: absolute; display: block; }
+  .t { position: absolute; display: block; }
+  .star { position: absolute; display: block; }
+  .lbl { position: absolute; left: 20px; top: 20px; font: 700 28px sans-serif; color: #fff; z-index: 50; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="sparkle" viewBox="-100 -100 200 200">
+      <path d="M0,-100 L7,-7 L100,0 L7,7 L0,100 L-7,7 L-100,0 L-7,-7Z M0,-55 L4,-4 L55,0 L4,4 L0,55 L-4,4 L-55,0 L-4,-4Z" fill="#d9b24c" transform="rotate(0)"/>
+      <path d="M0,-62 L4,-4 L62,0 L4,4 L0,62 L-4,4 L-62,0 L-4,-4Z" fill="#d9b24c" transform="rotate(45)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 1 giant crop, title across the drapery -->
+<section class="artboard" data-name="t1">
+  <div class="lbl" data-ignore>1 giant crop</div>
+  <img class="ht" src="assets/victory-halftone.png" style="left:-337px; top:44px; width:1900px">
+  <svg class="star" style="left:389px; top:150px; width:240px; height:240px"><use href="#sparkle"/></svg>
+  <img class="t" src="assets/victory-ballet.svg" style="left:40px; top:1180px; width:1160px; transform: rotate(-8deg)">
+</section>
+
+<!-- 2 tighter crop, title bleeding off the left -->
+<section class="artboard" data-name="t2">
+  <div class="lbl" data-ignore>2 tighter crop</div>
+  <img class="ht" src="assets/victory-halftone.png" style="left:-497px; top:10px; width:2375px">
+  <svg class="star" style="left:440px; top:180px; width:240px; height:240px"><use href="#sparkle"/></svg>
+  <img class="t" src="assets/victory-meaculpa.svg" style="left:-140px; top:1240px; width:1360px">
+</section>
+
+<!-- 3 asymmetric, statue to the right -->
+<section class="artboard" data-name="t3">
+  <div class="lbl" data-ignore>3 asymmetric</div>
+  <img class="ht" src="assets/victory-halftone.png" style="left:60px; top:330px; width:1600px">
+  <svg class="star" style="left:652px; top:430px; width:240px; height:240px"><use href="#sparkle"/></svg>
+  <img class="t" src="assets/victory-ballet.svg" style="left:-30px; top:1250px; width:1050px; transform: rotate(-14deg)">
+</section>
+
+<!-- 4 depth sandwich: cream title behind the wings -->
+<section class="artboard" data-name="t4">
+  <div class="lbl" data-ignore>4 title behind</div>
+  <img class="t" src="assets/victory-ballet.svg" style="left:20px; top:210px; width:1200px; filter: brightness(0) invert(.94) sepia(.1); z-index:1">
+  <img class="ht" src="assets/victory-halftone.png" style="left:-337px; top:290px; width:1900px; z-index:2">
+  <svg class="star" style="left:389px; top:396px; width:240px; height:240px; z-index:3"><use href="#sparkle"/></svg>
+</section>
+
+<!-- 5 diagonal: statue tilted, title on the same axis -->
+<section class="artboard" data-name="t5">
+  <div class="lbl" data-ignore>5 diagonal</div>
+  <img class="ht" src="assets/victory-halftone.png" style="left:-300px; top:120px; width:1900px; transform: rotate(-9deg); transform-origin: 50% 30%">
+  <svg class="star" style="left:400px; top:180px; width:260px; height:260px"><use href="#sparkle"/></svg>
+  <img class="t" src="assets/victory-meaculpa.svg" style="left:60px; top:1300px; width:1140px; transform: rotate(-9deg)">
+</section>
+</body>
+</html>

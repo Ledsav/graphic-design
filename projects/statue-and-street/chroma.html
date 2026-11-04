@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chroma lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&family=Outfit:wght@400;500;600&display=block">
+<style>
+  :root {
+    --mast: "Bodoni Moda", serif;
+    --text: "Outfit", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #cfcfcf; padding: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+
+  .artboard {
+    position: relative; flex: none; overflow: hidden; isolation: isolate;
+    width: 1200px; height: 1800px; --safe: 52px;
+    color: #fff; font-family: var(--text);
+    font-kerning: normal; text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased;
+  }
+  .guides { position: absolute; inset: 0; pointer-events: none; z-index: 2147483647; }
+  .guides .safe { position: absolute; inset: var(--safe, 0); outline: 1px dashed rgb(255 0 140 / .7); }
+  html.is-rendering:not(.show-guides) .guides { display: none; }
+
+  /* photo and cut-out share one box so the subject lines up exactly */
+  .photo, .cut { position: absolute; top: 0; height: 1800px; display: block; }
+  .photo { z-index: 1; }
+  .cut   { z-index: 3; }
+
+  /* masthead: drawn in Bodoni at full width, tinted with the wall colour */
+  .mast { position: absolute; z-index: 2; font-family: var(--mast); font-weight: 500; font-variation-settings: "opsz" 96;
+          line-height: .74; white-space: nowrap; letter-spacing: -.012em; }
+  .mast.front { z-index: 4; }
+  .mast.front span { color: transparent; }
+  .mast.front span.show { color: inherit; }
+
+  /* lesson cluster: series tag, headline, body */
+  .lesson { position: absolute; z-index: 6; text-align: center; text-shadow: 0 1px 14px rgb(0 0 0 / .18); }
+  .lesson .tag { font-size: 18px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; opacity: .9; }
+  .lesson h2 { font-size: 54px; font-weight: 500; letter-spacing: -.01em; line-height: 1; margin: 14px 0 24px; }
+  .lesson p { font-size: 30px; font-weight: 400; line-height: 1.28; }
+
+  .grain { position: absolute; inset: 0; z-index: 90; pointer-events: none; mix-blend-mode: overlay; opacity: .35;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ---- lesson 01: green wall ---- */
+  .g { background: #00866f; }
+  .g .mast { color: rgb(226 248 240 / .9); }
+  .g .lesson { right: 52px; top: 296px; width: 384px; }
+
+  /* ---- lesson 02: red wall ---- */
+  .r { background: #a8320d; }
+  .r .mast { color: rgb(250 224 212 / .9); }
+  .r .lesson { left: 40px; top: 1080px; width: 330px; }
+  .r .lesson p { font-size: 28px; }
+</style>
+</head>
+<body>
+
+<section class="artboard g" data-name="lesson-01-complementary">
+  <div class="guides"><div class="safe"></div></div>
+  <img class="photo" src="assets/green-photo-2x.jpg" style="left:-1px" alt="">
+  <div class="mast back" data-ignore data-fit data-l="22" data-r="22" style="top:1392px"><span>C</span><span>H</span><span>R</span><span>O</span><span>M</span><span>A</span></div>
+  <img class="cut" src="assets/green-cut-2x.png" style="left:-1px" alt="">
+  <div class="mast front" data-ignore data-fit data-l="22" data-r="22" style="top:1392px" aria-hidden="true"><span>C</span><span>H</span><span>R</span><span>O</span><span class="show">M</span><span>A</span></div>
+
+  <div class="lesson">
+    <div class="tag">Chroma lessons · No. 01</div>
+    <h2>complementary</h2>
+    <p>red sits opposite<br>green on the wheel.<br>side by side, both<br>look louder than<br>they do alone.<br>a little red goes<br>a long way.</p>
+  </div>
+  <div class="grain"></div>
+</section>
+
+<section class="artboard r" data-name="lesson-02-overlap">
+  <div class="guides"><div class="safe"></div></div>
+  <img class="photo" src="assets/red-photo-2x.jpg" style="left:-28px" alt="">
+  <div class="mast back" data-ignore data-fit data-l="30" data-r="30" style="top:150px">CHROMA</div>
+  <img class="cut" src="assets/red-cut-2x.png" style="left:-28px" alt="">
+
+  <div class="lesson">
+    <div class="tag">Chroma lessons · No. 02</div>
+    <h2>overlap</h2>
+    <p>the head steps in<br>front of the title.<br>one small overlap<br>and a flat page<br>turns into a space<br>you could walk into.</p>
+  </div>
+  <div class="grain"></div>
+</section>
+
+<script>
+// fit each masthead to its box (data-l / data-r insets); the renderer reruns this after fonts load
+window.layout = async () => {
+  for (const el of document.querySelectorAll('[data-fit]')) {
+    const box = el.parentElement.clientWidth - (+el.dataset.l) - (+el.dataset.r);
+    el.style.left = el.dataset.l + 'px';
+    el.style.fontSize = '100px';
+    el.style.fontSize = (100 * box / el.scrollWidth) + 'px';
+  }
+};
+window.addEventListener('load', () => window.layout());
+</script>
+</body>
+</html>

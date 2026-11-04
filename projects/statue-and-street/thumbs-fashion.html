@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chroma: thumbnails</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&display=block">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #cfcfcf; padding: 64px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; }
+  .artboard { position: relative; flex: none; overflow: hidden; isolation: isolate; width: 1200px; height: 1800px; background: #333; }
+  .photo, .cut { position: absolute; top: 0; height: 1800px; display: block; }
+  .photo { z-index: 1; } .cut { z-index: 3; }
+  .mast { position: absolute; z-index: 2; font-family: "Bodoni Moda", serif; font-weight: 500; font-variation-settings: "opsz" 96;
+          line-height: .8; white-space: nowrap; letter-spacing: -.01em; }
+  .g .mast { color: rgb(228 248 240 / .88); }
+  .r .mast { color: rgb(248 222 212 / .86); }
+  .lbl { position: absolute; left: 20px; top: 20px; font: 700 28px sans-serif; color: #fff; z-index: 50; }
+</style>
+</head>
+<body>
+<!-- green: masthead low, behind the stride -->
+<section class="artboard g" data-name="g1">
+  <div class="lbl" data-ignore>g1 low, behind stride</div>
+  <img class="photo" src="assets/green-photo-2x.jpg" style="left:-1px">
+  <div class="mast" data-fit style="left:20px; right:20px; top:1370px; font-size:360px">CHROMA</div>
+  <img class="cut" src="assets/green-cut-2x.png" style="left:-1px">
+</section>
+<!-- green: masthead mid, behind torso -->
+<section class="artboard g" data-name="g2">
+  <div class="lbl" data-ignore>g2 mid, behind torso</div>
+  <img class="photo" src="assets/green-photo-2x.jpg" style="left:-1px">
+  <div class="mast" data-fit style="left:20px; right:20px; top:760px; font-size:360px">CHROMA</div>
+  <img class="cut" src="assets/green-cut-2x.png" style="left:-1px">
+</section>
+<!-- green: vertical down the left edge -->
+<section class="artboard g" data-name="g3">
+  <div class="lbl" data-ignore>g3 vertical left</div>
+  <img class="photo" src="assets/green-photo-2x.jpg" style="left:-1px">
+  <div class="mast" style="left:40px; top:1760px; font-size:400px; transform: rotate(-90deg); transform-origin: left top;">CHROMA</div>
+  <img class="cut" src="assets/green-cut-2x.png" style="left:-1px">
+</section>
+<!-- red: masthead top, head in front -->
+<section class="artboard r" data-name="r1">
+  <div class="lbl" data-ignore>r1 top, head in front</div>
+  <img class="photo" src="assets/red-photo-2x.jpg" style="left:-28px">
+  <div class="mast" data-fit style="left:30px; right:30px; top:90px; font-size:360px">CHROMA</div>
+  <img class="cut" src="assets/red-cut-2x.png" style="left:-28px">
+</section>
+<!-- red: masthead mid, behind the chest -->
+<section class="artboard r" data-name="r2">
+  <div class="lbl" data-ignore>r2 mid, behind chest</div>
+  <img class="photo" src="assets/red-photo-2x.jpg" style="left:-28px">
+  <div class="mast" data-fit style="left:20px; right:20px; top:900px; font-size:360px">CHROMA</div>
+  <img class="cut" src="assets/red-cut-2x.png" style="left:-28px">
+</section>
+<!-- red: vertical in the shadow -->
+<section class="artboard r" data-name="r3">
+  <div class="lbl" data-ignore>r3 vertical in shadow</div>
+  <img class="photo" src="assets/red-photo-2x.jpg" style="left:-28px">
+  <div class="mast" style="left:40px; top:1760px; font-size:330px; transform: rotate(-90deg); transform-origin: left top;">CHROMA</div>
+  <img class="cut" src="assets/red-cut-2x.png" style="left:-28px">
+</section>
+<script>
+window.layout = async () => {
+  for (const el of document.querySelectorAll('[data-fit]')) {
+    if (!el.dataset.box) { el.dataset.box = el.parentElement.clientWidth - parseFloat(el.style.left) - parseFloat(el.style.right); el.style.right = 'auto'; }
+    const box = +el.dataset.box;
+    el.style.fontSize = '100px';
+    el.style.fontSize = (100 * box / el.scrollWidth) + 'px';
+  }
+};
+window.addEventListener('load', () => window.layout());
+</script>
+</body>
+</html>
