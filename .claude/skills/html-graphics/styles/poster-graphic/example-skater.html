@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gravity</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=block">
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Newsprint, black + one red. The headline sits in the gap between his feet and his board: the kickflip, opened up. */
+  .artboard { width: 1080px; height: 1350px; --safe: 28px; --bg: #f0e6cb; --ink: #141210; --spot: #d52a1e; }
+  .artboard > * { position: absolute; }
+  .jp { font-family: "Noto Sans JP", sans-serif; font-weight: 900; }
+
+  .paper  { inset: 0; background: url(assets/news-paper.png) 0 0 / 100% 100%; mix-blend-mode: multiply; opacity: .12; }
+  .folds  { inset: 0; background: url(assets/news-folds.png) 0 0 / 100% 100%; mix-blend-mode: multiply; opacity: .2; z-index: 60; }
+  .toner  { inset: 0; background: url(assets/news-toner.png) 0 0 / 100% 100%; opacity: .8; z-index: 61; }
+  .drop   { inset: 0; background: url(assets/news-dropout.png) 0 0 / 100% 100%; opacity: .55; z-index: 61; }
+  .dust   { inset: 0; background: url(assets/news-dust.png) 0 0 / 100% 100%; opacity: .7; z-index: 62; }
+
+  /* Trajectory of the board: dashed red parabola behind everything printed in black. */
+  .arc { left: 0; top: 0; width: 1080px; height: 1350px; }
+
+  /* Article fragment printed under the skater's arm, and the rules that hold the headline. */
+  .article { left: 704px; top: 292px; width: 314px; font: 800 25px/1.02 var(--text); font-stretch: 66%; text-transform: uppercase; text-align: justify; text-align-last: justify; opacity: .92; }
+  .rule2 { left: 28px; right: 28px; top: 1090px; height: 9px; border-top: 4px solid currentColor; border-bottom: 1px solid currentColor; }
+
+  /* Masthead */
+  .mast { left: 28px; right: 28px; top: 30px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; padding-bottom: 10px; border-bottom: 3px solid currentColor; }
+  .mast::after { content: ""; position: absolute; left: 0; right: 0; bottom: -9px; border-bottom: 1px solid currentColor; }
+  .mast .name { font: 900 40px/.9 var(--text); font-stretch: 62%; letter-spacing: -.01em; text-transform: uppercase; }
+  .mast .name small { display: block; font-size: 15px; font-weight: 700; font-stretch: 75%; letter-spacing: .14em; margin-top: 6px; }
+  .mast .mid { font-size: 30px; line-height: 1; padding: 0 20px; }
+  .mast .r { text-align: right; }
+
+  /* Skater: photocopy black over a red halftone printed out of register. Body box = src (891,970)-(2400,2287) at .5. */
+  .ht   { left: 176px; top: 125px; width: 754.5px; mix-blend-mode: multiply; opacity: .9; }
+  .body { left: 170px; top: 120px; width: 754.5px; }
+  .board { left: 196px; top: 1012px; width: 559.5px; transform: rotate(-3deg); }
+  .title { left: 26px; top: 740px; width: 1028px; }
+  .arrow { left: 520px; top: 745px; width: 153px; height: 334px; }
+
+  .gloss { left: 28px; top: 158px; width: 236px; font: 700 15px/1.2 var(--text); font-stretch: 75%; }
+  .gloss li { list-style: none; display: grid; grid-template-columns: 74px 1fr; padding: 5px 0; border-bottom: 1px solid currentColor; align-items: baseline; }
+  .gloss li:first-child { border-top: 1px solid currentColor; }
+  .gloss .jp { font-size: 17px; font-weight: 700; }
+
+  .spec { left: 28px; top: 418px; width: 226px; border: 2px solid currentColor; font: 700 15px/1 var(--text); font-stretch: 75%; text-transform: uppercase; }
+  .spec h3 { font: 900 15px/1 var(--text); font-stretch: 75%; letter-spacing: .12em; background: var(--ink); color: var(--bg); padding: 6px 8px; }
+  .spec div { display: flex; justify-content: space-between; padding: 6px 8px; border-top: 1px solid currentColor; }
+  .spec div b { font-weight: 900; }
+  .spec .red { color: var(--spot); }
+
+  .plus { left: 700px; width: 330px; font: 900 47px/.86 var(--text); font-stretch: 62%; text-transform: uppercase; letter-spacing: -.01em; word-spacing: .1em; display: grid; grid-template-columns: 40px 1fr; }
+  .plus i { width: 30px; height: 30px; margin-top: 6px; background: var(--spot);
+    clip-path: polygon(36% 0, 64% 0, 64% 36%, 100% 36%, 100% 64%, 64% 64%, 64% 100%, 36% 100%, 36% 64%, 0 64%, 0 36%, 36% 36%); }
+
+  .fig { right: 28px; top: 156px; width: 300px; }
+  .fig .img { height: 86px; border: 2px solid currentColor; background: url(assets/park-lines.png) center / cover; }
+  .fig p { margin-top: 5px; font: 700 15px/1.15 var(--text); font-stretch: 75%; text-transform: uppercase; display: flex; justify-content: space-between; }
+
+  .vert { left: 34px; top: 1098px; writing-mode: vertical-rl; font-size: 27px; letter-spacing: .06em; color: var(--spot); }
+  .side { left: 1030px; top: 330px; writing-mode: vertical-rl; font: 700 15px/1 var(--text); font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; }
+
+  .issue { right: 28px; top: 1124px; width: 300px; border: 2px solid currentColor; border-radius: 40px; text-align: center; padding: 10px 0 8px; font: 900 52px/1 var(--text); font-stretch: 62%; text-transform: uppercase; }
+  .issue small { display: block; font-size: 15px; font-weight: 700; font-stretch: 75%; letter-spacing: .14em; margin-top: 4px; }
+  .bc { right: 28px; top: 1238px; width: 300px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px; }
+  .bc svg { width: 168px; height: 62px; }
+  .bc p { font: 700 15px/1.15 var(--text); font-stretch: 75%; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<!-- Photo: skater by Ilya Yarmosh (Unsplash License). prep/skater.py splits the cut-out into body and board and knocks back
+     the shoe stripes and logos; treat.py photocopy (black) + halftone (red), the board as a flat red deck; the bowl inset is
+     treat.py halftone --shape line from the same photo. Headline: lettering.cjs Anton without its V; the V is a red arrow. -->
+<section class="artboard" data-name="poster">
+  <div class="paper"></div>
+
+  <svg class="arc" viewBox="0 0 1080 1350" aria-hidden="true">
+    <clipPath id="above"><rect width="1080" height="1064"/></clipPath>
+    <path clip-path="url(#above)" d="M 70 1150 Q 560 -870 1050 1150" fill="none" stroke="#d52a1e" stroke-width="3" stroke-dasharray="14 10"/>
+    <circle cx="560" cy="140" r="8" fill="#d52a1e"/>
+    <text x="578" y="128" font-family="Archivo" font-weight="800" font-size="15" fill="#d52a1e" style="font-stretch:75%">APEX &#183; t = 0.3 s</text>
+  </svg>
+
+  <div class="mast">
+    <div class="name">Low Orbit<small>A skate quarterly</small></div>
+    <div class="mid jp">&#37325;&#21147;</div>
+    <div class="name r">Winter 2027<small>&yen;800 / &euro;6.00</small></div>
+  </div>
+
+  <ul class="gloss">
+    <li><span class="jp">&#37325;&#21147;</span><span>GRAVITY &mdash; mandatory</span></li>
+    <li><span class="jp">&#28382;&#31354;&#26178;&#38291;</span><span>HANG TIME &mdash; 0.6 s</span></li>
+    <li><span class="jp">&#30528;&#22320;</span><span>LANDING &mdash; see p. 12</span></li>
+  </ul>
+
+  <div class="spec">
+    <h3>Spec sheet / Fig. 1</h3>
+    <div><span>Air time</span><b>0.6 s</b></div>
+    <div><span>Peak height</span><b>1.1 m</b></div>
+    <div><span>Board rotation</span><b>360&deg;</b></div>
+    <div><span>Witnesses</span><b>4</b></div>
+    <div class="red"><span>Landing</span><b>Pending</b></div>
+  </div>
+
+  <div class="fig"><div class="img"></div><p><span>Fig. 2 &mdash; the bowl</span><span>06:40</span></p></div>
+
+  <p class="article">The first skater to land it did not, strictly, land it. He came down somewhere near the board and walked off.</p>
+  <div class="rule2"></div>
+  <img class="board" src="assets/board-red.png" alt="">
+  <img class="title" src="assets/gravity.svg" alt="">
+  <svg class="arrow" viewBox="0 0 153 334" aria-hidden="true"><path d="M48 0 H105 V150 H153 L76.5 334 L0 150 H48 Z" fill="#d52a1e"/></svg>
+  <img class="ht" src="assets/skater-ht-red.png" alt="">
+  <img class="body" src="assets/skater-pc.png" alt="">
+
+  <div class="plus" style="top:470px"><i></i><span>Up is optional</span></div>
+  <div class="plus" style="top:586px"><i></i><span>Down is not</span></div>
+
+  <p class="vert jp">&#12473;&#12465;&#12540;&#12488;&#12508;&#12540;&#12489;</p>
+  <p class="side">Printed between take-off and landing</p>
+
+  <div class="issue">Issue 07<small>The gravity issue</small></div>
+  <div class="bc"><p>Air mail<br>Do not fold<br>mid-air</p><svg viewBox="0 0 168 62" data-barcode="23"></svg></div>
+
+  <div class="folds"></div>
+  <div class="toner"></div>
+  <div class="drop"></div>
+  <div class="dust"></div>
+  <div class="grain"></div>
+</section>
+<script src="pg.js"></script>
+</body>
+</html>

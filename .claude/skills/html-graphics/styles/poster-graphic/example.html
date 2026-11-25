@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Last Round</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=block">
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Two inks (red, mustard) + the boxer. The title sits behind him; he is the only thing in front of it. */
+  .artboard { width: 1080px; height: 1350px; --safe: 36px; --bg: var(--red); --ink: var(--mustard);
+    font-family: "IM Fell English SC", serif; }
+  .artboard > * { position: absolute; }
+
+  .light { inset: 0; background: radial-gradient(60% 46% at 54% 40%, #c3342a 0, rgb(195 52 42 / 0) 100%); }
+  /* Title in two blocks with a wide word space: his hood drops into the gap and only clips T and R.
+     He is mirrored so his body falls across ROUND and LAST stays readable. */
+  .t-last  { left: 34px;  top: 138px; width: 362px; }
+  .t-round { left: 542px; top: 138px; width: 504px; }
+  .boxer { left: 239px; top: 360px; width: 744px; transform: scaleX(-1); filter: drop-shadow(16px 6px 26px rgb(40 4 2 / .5));
+    -webkit-mask-image: linear-gradient(#000 72%, transparent 85%); mask-image: linear-gradient(#000 72%, transparent 85%); }  /* shins fade out before his (cleaned) shoes */
+  .t-shade { left: 0; right: 0; top: 138px; height: 804px; background: linear-gradient(rgb(120 30 14 / 0) 40%, rgb(120 30 14 / .28)); mix-blend-mode: multiply; }
+  /* Floor: the red falls off to near-black at the bottom, swallowing his shins. */
+  .floor { left: 0; right: 0; bottom: 0; height: 440px; background: linear-gradient(rgb(36 6 4 / 0), rgb(36 6 4 / .62) 55%, rgb(24 4 3 / .9)); }
+  .vignette { inset: 0; background: radial-gradient(75% 70% at 50% 45%, transparent 58%, rgb(52 6 4 / .42)); }
+
+  .head { left: 36px; right: 36px; top: 78px; display: flex; justify-content: space-between; align-items: baseline; line-height: 1; }
+  .eyebrow { font-size: 25px; letter-spacing: .3em; margin-right: -.3em; }
+  .corner { font-size: 17px; letter-spacing: .18em; width: 150px; }
+  .corner.r { text-align: right; }
+
+  /* Bottom: the dry blurb left, the facts right, both on the dark floor either side of his legs. */
+  .col { left: 36px; width: 356px; top: 1150px; }
+  .col2 { left: 688px; width: 356px; top: 1196px; }
+  .col h2 { font-weight: 400; font-size: 19px; letter-spacing: .26em; margin-bottom: 12px; }
+  .blurb { font-size: 19px; line-height: 1.22; text-align: justify; }
+  .rule { height: 2px; background: currentColor; margin: 0 0 12px; opacity: .85; }
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; font-size: 17px; letter-spacing: .12em; line-height: 1.15; }
+  .facts dt { opacity: .75; }
+</style>
+</head>
+<body>
+<!-- Photo: hooded boxer by Eser GOAT (Unsplash License). Cut-out (src/boxer-clean.png, brand marks removed), prep/boxer.py
+     knocks back the hoodie print, treat.py duotone gives the bronze figure. Title: assets/title-last.svg + title-round.svg (lettering.cjs,
+     Big Shoulders Display 900 stretched to about 1:8). Commands in style.md. -->
+<section class="artboard" data-name="poster">
+  <div class="light"></div>
+  <img class="t-last" src="assets/title-last.svg" alt="">
+  <img class="t-round" src="assets/title-round.svg" alt="">
+  <div class="t-shade"></div>
+  <img class="boxer" src="assets/boxer-duo.png" alt="">
+  <div class="floor"></div>
+  <div class="vignette"></div>
+
+  <div class="head"><span class="corner">N&ordm; 12</span><p class="eyebrow">A fight night in twelve rounds</p><span class="corner r">MMXXVII</span></div>
+
+  <div class="col">
+    <h2>Round 12 of 12</h2>
+    <p class="blurb">Twelve rounds, one ring, no undercard worth mentioning. The bell goes at nine and one of the two walks home early. Cash only. Leave your opinions at the door: the referee has heard them all.</p>
+  </div>
+  <div class="col2">
+    <div class="rule"></div>
+    <dl class="facts"><dt>Date</dt><dd>Sat 06.03.2027</dd><dt>Doors</dt><dd>19:30, bell 21:00</dd><dt>Where</dt><dd>The Copper Hall, Dock Rd</dd></dl>
+  </div>
+
+  <div class="pg-tex" style="background-image:url(assets/canvas.png); mix-blend-mode: overlay; opacity: .75"></div>
+  <div class="grain"></div>
+</section>
+</body>
+</html>

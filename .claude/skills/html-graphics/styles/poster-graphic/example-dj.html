@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nocturne</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Black ground, one hot yellow, and the DJ's own red smoke. The blackletter sits on the booth like a sign. */
+  .artboard { width: 1080px; height: 1350px; --safe: 40px; --bg: var(--black); --ink: var(--yellow); }
+  .artboard > * { position: absolute; }
+
+  /* dj-red.png = src crop (805,173)-(2245,1973) at .75 canvas px per source px; full bleed. */
+  .photo { inset: 0; background: url(assets/dj-red.png) 0 0 / 1080px 1350px no-repeat; }
+  .dark  { inset: 0; background:
+            linear-gradient(rgb(13 11 10 / .92), rgb(13 11 10 / 0) 26%),
+            linear-gradient(rgb(13 11 10 / 0) 64%, rgb(13 11 10 / .7) 76%, #0d0b0a 92%),
+            radial-gradient(62% 56% at 52% 40%, transparent 38%, rgb(13 11 10 / .9)); }
+
+  .title { left: 45px; top: 1012px; width: 990px; filter: drop-shadow(0 0 22px rgb(244 180 26 / .22)); }
+
+  .blk  { width: 300px; text-shadow: 0 0 10px rgb(13 11 10 / .85); }
+  .counter { left: 44px; top: 862px; font: 900 76px/1 var(--text); font-stretch: 78%; letter-spacing: -.02em; }
+  .counter small { font-size: .42em; letter-spacing: .02em; vertical-align: .9em; margin-left: 6px; }
+  /* The night as a ruler: 23:00 to 07:00, a marker where the set is now. */
+  .ruler { left: 44px; right: 44px; top: 958px; height: 34px; border-bottom: 2px solid currentColor; }
+  .ruler i { position: absolute; bottom: 0; width: 2px; background: currentColor; }
+  .ruler span { position: absolute; top: 0; transform: translateX(-50%); font: 800 15px/1 var(--text); font-stretch: 80%; }
+  .marker { top: 1000px; font: 800 15px/1 var(--text); font-stretch: 80%; white-space: nowrap; }
+  .marker::before { content: ""; display: inline-block; border: 7px solid transparent; border-bottom: 10px solid currentColor; border-top: 0; margin-right: 6px; vertical-align: 1px; }
+  .date { right: 44px; top: 1250px; text-align: right; font: 800 24px/1.05 var(--text); font-stretch: 80%; }
+  .cred { left: 44px; top: 1262px; }
+
+  /* Sticker: a round stamp with text on a circle and a crescent, slapped across the photo's edge. */
+  .stamp { right: 52px; top: 70px; width: 156px; height: 156px; transform: rotate(-12deg); }
+</style>
+</head>
+<body>
+<!-- Photo: DJ in red smoke by A J. (Unsplash License), cropped clear of the laptop and graded with treat.py duotone
+     (black, oxblood, red, coral, blush). Title: lettering.cjs UnifrakturMaguntia. -->
+<section class="artboard" data-name="poster">
+  <div class="photo"></div>
+  <div class="dark"></div>
+
+  <p class="blk pg-caps pg-just" style="left:44px; top:64px; width:290px">One DJ, one room, eight hours. No guests, no encore, no requests taken since 2019.</p>
+  <p class="blk pg-caps pg-just" style="left:44px; top:430px; width:196px">The lights go down at eleven and come back up when the bakery across the street opens.</p>
+  <p class="blk pg-caps pg-just" style="right:44px; top:600px; width:196px">Phones stay in the coat. The coat stays in the cloakroom. Nobody asks twice.</p>
+
+  <p class="counter pg-num">06/52<small>NIGHTS</small></p>
+  <p class="blk pg-caps pg-just" style="right:44px; top:872px; width:300px">Six Saturdays down, forty-six to go. Same room, same man, same hour.</p>
+  <div class="ruler" id="ruler"></div>
+  <p class="marker" style="left:600px">04:12 &mdash; still going</p>
+
+  <img class="title" src="assets/nocturne.svg" alt="">
+
+  <p class="cred pg-micro">Room B, under the railway arches<br>23:00 &rarr; 07:00 &middot; &euro;15 on the door</p>
+  <p class="date">NIGHT 06<br>13 February 2027</p>
+
+  <svg class="stamp" viewBox="0 0 160 160" aria-hidden="true">
+    <defs><path id="ring" d="M80,80 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs>
+    <circle cx="80" cy="80" r="78" fill="#f4b41a"/>
+    <circle cx="80" cy="80" r="44" fill="none" stroke="#0d0b0a" stroke-width="2"/>
+    <text font-family="Archivo" font-weight="900" font-size="15.5" letter-spacing="2.4" fill="#0d0b0a" style="font-stretch: 80%"><textPath href="#ring" textLength="356" lengthAdjust="spacing">ALL NIGHT &#183; 23:00&#8211;07:00 &#183; NO ENCORE &#183;</textPath></text>
+    <path d="M92 56 a26 26 0 1 0 0 48 a20 20 0 1 1 0 -48z" fill="#0d0b0a"/>
+  </svg>
+
+  <div class="grain"></div>
+</section>
+<script src="pg.js"></script>
+<script>
+  // Ruler: nine hours, a tall tick per hour and short ones per quarter.
+  const r = document.getElementById('ruler'), W = 992; let h = '';
+  for (let q = 0; q <= 32; q++) {
+    const x = q / 32 * W, hour = q % 4 === 0;
+    h += `<i style="left:${(x - 1).toFixed(1)}px; height:${hour ? 14 : 7}px"></i>`;
+    if (hour && q > 0 && q < 32) h += `<span style="left:${x.toFixed(1)}px">${String((23 + q / 4) % 24).padStart(2, '0')}</span>`;
+  }
+  r.innerHTML = h;
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hold Still</title>
+<link rel="stylesheet" href="../_base.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Two inks (red, yellow) + the statue tinted into the red. Loupe panels re-show the face sharper and warmer. */
+  .artboard { width: 1080px; height: 1350px; --safe: 36px; --bg: #a91f1a; --ink: #f2ab25; }
+  .artboard > * { position: absolute; }
+
+  .glow   { inset: 0; background: radial-gradient(55% 45% at 50% 50%, #c22d22, rgb(194 45 34 / 0)); }
+  /* statue-red.png = src crop (800,0)-(2050,1400) at .9 canvas px per source px; he looks up at his own title. */
+  .statue { left: -20px; top: 106px; width: 1125px; filter: blur(.8px); }
+  .low    { left: 0; right: 0; bottom: 0; height: 520px; background: linear-gradient(rgb(70 6 4 / 0), rgb(70 6 4 / .42) 55%, rgb(50 4 3 / .72)); mix-blend-mode: multiply; }
+  .vignette { inset: 0; background: radial-gradient(80% 70% at 50% 48%, transparent 58%, rgb(60 4 3 / .42)); }
+
+  .title  { right: 40px; top: 62px; width: 564px; }
+  .script { left: 556px; top: 330px; width: 400px; transform: rotate(-8deg); filter: drop-shadow(0 3px 0 rgb(80 8 5 / .5)); }
+  .sub    { left: 44px; top: 68px; width: 330px; font-size: 20px; }
+
+  /* Loupes: the same photo, sharper and warmer at 1.25x , each aligned so the feature sits where it is on the face.
+     statue-loupe.png = src (850,250)-(2000,1000). */
+  .loupe { background: url(assets/statue-loupe.png) no-repeat; background-size: 1293.75px 843.75px; box-shadow: 0 12px 34px rgb(40 3 2 / .5); }
+  .p-eyes { left: 290px; top: 612px; width: 540px; height: 160px; background-position: -361.75px -371px; }
+  .p-lips { left: 466px; top: 800px; width: 290px; height: 128px; background-position: -580.5px -605.6px; }
+  .tab { width: 26px; height: 26px; background: var(--ink); color: var(--bg); font: 900 17px/26px var(--text); text-align: center; }
+
+  .m { width: 200px; text-shadow: 0 0 8px rgb(60 4 3 / .9), 0 0 2px rgb(60 4 3 / .9); }
+  .m.r { text-align: right; }
+  .legend { right: 44px; top: 820px; width: 236px; border-top: 2px solid currentColor; }
+  .legend li { list-style: none; display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 8px 0; border-bottom: 2px solid currentColor; }
+  .legend b { font: 900 17px/1 var(--text); }
+  .reg { width: 22px; height: 22px; }
+  .reg::before, .reg::after { content: ""; position: absolute; background: currentColor; }
+  .reg::before { left: 10px; top: 0; width: 2px; height: 22px; } .reg::after { top: 10px; left: 0; height: 2px; width: 22px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; background: currentColor; }
+
+  .rating { left: 44px; top: 1206px; width: 300px; display: grid; grid-template-columns: 64px 1fr; border: 2px solid currentColor; }
+  .rating .big { font: 900 52px/1 var(--text); display: grid; place-items: center; border-right: 2px solid currentColor; }
+  .rating .txt { padding: 6px 8px; }
+  .rating .txt b { display: block; font: 900 16px/1 var(--text); font-stretch: 80%; letter-spacing: .1em; padding-bottom: 5px; margin-bottom: 5px; border-bottom: 2px solid currentColor; }
+  .bc { left: 446px; top: 1212px; text-align: center; }
+  .bc svg { width: 188px; height: 52px; display: block; margin-bottom: 4px; }
+  .foot { right: 44px; top: 1210px; width: 300px; text-align: right; }
+  .foot .big { font: 800 26px/1 var(--text); font-stretch: 75%; display: block; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<!-- Photo: marble head by Nayani Teixeira (Unsplash License). src/statue-cut.png -> treat.py duotone (red), and the
+     original crop -> treat.py duotone (warmer, sharper) for the loupes. Title: lettering.cjs League Spartan 800 + Mr Dafoe. -->
+<section class="artboard" data-name="poster">
+  <div class="glow"></div>
+  <img class="statue" src="assets/statue-red.png" alt="">
+  <div class="low"></div>
+  <div class="vignette"></div>
+
+  <img class="title" src="assets/hold-still.svg" alt="">
+  <img class="script" src="assets/forever.svg" alt="">
+  <p class="sub pg-caps">A long-exposure portrait.<br>Exposure time: 2,000 years.</p>
+  <p class="m pg-micro" style="left:44px; top:136px; width:250px">A sitting that began before the calendar had a zero, and has not been called off.</p>
+
+  <div class="pg-frame loupe p-eyes"></div>
+  <div class="pg-frame loupe p-lips"></div>
+  <div class="tab" style="left:290px; top:612px">A</div>
+  <div class="tab" style="left:466px; top:800px">B</div>
+
+  <p class="m r pg-micro" style="right:44px; top:520px">The pose was meant to take an afternoon.</p>
+  <p class="m pg-micro" style="left:44px; top:640px; width:220px">Has outlasted the sculptor, the empire and four museum directors.</p>
+  <p class="m pg-micro" style="left:44px; top:1000px">Eyes up, chin up. Do not look at the camera; there was no camera.</p>
+  <ul class="legend pg-micro">
+    <li><b>A</b><span>Eyes. Unblinking, so far.</span></li>
+    <li><b>B</b><span>Mouth. No comment.</span></li>
+  </ul>
+  <p class="m r pg-micro" style="right:44px; top:1040px">Please do not touch the exhibit. The exhibit has been touched enough.</p>
+  <div class="dot" style="left:44px; top:560px"></div>
+  <div class="dot" style="right:44px; top:600px"></div>
+
+  <div class="rating">
+    <div class="big">S</div>
+    <div class="txt pg-micro"><b>Stationary</b>Contains prolonged eye contact, classical nudity and no moving parts.</div>
+  </div>
+  <div class="bc pg-caps"><svg viewBox="0 0 188 52" data-barcode="11"></svg>N&ordm; 0001 &nbsp;/&nbsp; HS-27</div>
+  <p class="foot pg-micro"><span class="big">Hall IV &middot; 02.04&ndash;30.09.27</span>Museum of Long Exposures. Open daily except when he moves.</p>
+
+  <div class="grain"></div>
+</section>
+<script src="pg.js"></script>
+</body>
+</html>

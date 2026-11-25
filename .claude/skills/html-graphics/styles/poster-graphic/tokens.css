@@ -1,0 +1,33 @@
+/* Poster graphic: tokens and helpers. Link after styles/_base.css.
+   Each poster links its own display fonts; Archivo (width axis) is the family's shared micro-type voice. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=block");
+
+:root {
+  /* Inks: every poster uses two of these plus the photo, never more. */
+  --red: #a8231b;         /* poster red: background or spot */
+  --red-deep: #5c0f0b;    /* vignette, floor shadow */
+  --mustard: #e2a94b;     /* type on red or black */
+  --yellow: #f4b41a;      /* hotter mustard for type on black */
+  --black: #0d0b0a;       /* ground, ink */
+  --cream: #ece3cf;       /* newsprint paper */
+
+  --text: "Archivo", sans-serif;
+  --grain: .55;
+  --grain-blend: overlay;
+}
+
+/* Micro-type: the dense small print that makes these read as designed objects. Sizes stay >= 15px on 1080 wide. */
+.pg-micro  { font: 600 15px/1.25 var(--text); font-stretch: 75%; letter-spacing: .01em; }
+.pg-caps   { font: 800 16px/1.12 var(--text); font-stretch: 80%; text-transform: uppercase; letter-spacing: .02em; }
+.pg-just   { text-align: justify; text-align-last: justify; hyphens: none; }
+.pg-num    { font-variant-numeric: tabular-nums lining-nums; }
+
+/* Thin keyline boxes: crop frames, label boxes, rating boxes. */
+.pg-frame  { position: absolute; border: 2px solid currentColor; overflow: hidden; }
+.pg-label  { border: 2px solid currentColor; padding: 6px 8px; }
+
+/* Barcode drawn by pgBarcode(svg, seed, colour) in the page script. */
+.pg-barcode { display: block; }
+
+/* Full-bleed texture layers (set background-image inline). */
+.pg-tex { position: absolute; inset: 0; pointer-events: none; background-size: 100% 100%; }
